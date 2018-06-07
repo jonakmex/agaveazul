@@ -114,7 +114,7 @@ class Translator implements TranslatorInterface
         return ($prefix ?: '').$this->nodeToXPath($selector);
     }
 
-    public function registerExtension(Extension\ExtensionInterface $extension): self
+    public function registerExtension(Extension\ExtensionInterface $extension): Translator
     {
         $this->extensions[$extension->getName()] = $extension;
 
@@ -139,7 +139,7 @@ class Translator implements TranslatorInterface
         return $this->extensions[$name];
     }
 
-    public function registerParserShortcut(ParserInterface $shortcut): self
+    public function registerParserShortcut(ParserInterface $shortcut): Translator
     {
         $this->shortcutParsers[] = $shortcut;
 
