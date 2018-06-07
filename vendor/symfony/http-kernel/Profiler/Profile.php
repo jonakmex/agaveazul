@@ -43,7 +43,10 @@ class Profile
      */
     private $children = array();
 
-    public function __construct(string $token)
+    /**
+     * @param string $token The token
+     */
+    public function __construct($token)
     {
         $this->token = $token;
     }

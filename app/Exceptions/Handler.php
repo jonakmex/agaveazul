@@ -29,6 +29,8 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      *
+     * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
+     *
      * @param  \Exception  $exception
      * @return void
      */
@@ -48,6 +50,4 @@ class Handler extends ExceptionHandler
     {
         return parent::render($request, $exception);
     }
-    
-    
 }

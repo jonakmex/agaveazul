@@ -34,9 +34,8 @@ class None extends Preset
     protected static function updatePackageArray(array $packages)
     {
         unset(
-            $packages['bootstrap'],
+            $packages['bootstrap-sass'],
             $packages['jquery'],
-            $packages['popper.js'],
             $packages['vue'],
             $packages['babel-preset-react'],
             $packages['react'],

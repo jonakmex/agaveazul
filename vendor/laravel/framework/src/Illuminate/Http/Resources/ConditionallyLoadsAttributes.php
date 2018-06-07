@@ -16,8 +16,6 @@ trait ConditionallyLoadsAttributes
     {
         $index = -1;
 
-        $numericKeys = array_values($data) === $data;
-
         foreach ($data as $key => $value) {
             $index++;
 
@@ -28,7 +26,16 @@ trait ConditionallyLoadsAttributes
             }
 
             if (is_numeric($key) && $value instanceof MergeValue) {
-                return $this->merge($data, $index, $this->filter($value->data), $numericKeys);
+                return $this->merge($data, $index, $this->filter($value->data));
+            }
+
+            if (($value instanceof PotentiallyMissing && $value->isMissing()) ||
+                ($value instanceof self &&
+                $value->resource instanceof PotentiallyMissing &&
+                $value->isMissing())) {
+                unset($data[$key]);
+
+                $index--;
             }
 
             if ($value instanceof self && is_null($value->resource)) {
@@ -36,7 +43,7 @@ trait ConditionallyLoadsAttributes
             }
         }
 
-        return $this->removeMissingValues($data, $numericKeys);
+        return $data;
     }
 
     /**
@@ -45,43 +52,20 @@ trait ConditionallyLoadsAttributes
      * @param  array  $data
      * @param  int  $index
      * @param  array  $merge
-     * @param  bool  $numericKeys
      * @return array
      */
-    protected function merge($data, $index, $merge, $numericKeys)
+    protected function merge($data, $index, $merge)
     {
-        if ($numericKeys) {
-            return $this->removeMissingValues(array_merge(
+        if (array_values($data) === $data) {
+            return array_merge(
                 array_merge(array_slice($data, 0, $index, true), $merge),
-                $this->filter(array_values(array_slice($data, $index + 1, null, true)))
-            ), $numericKeys);
+                $this->filter(array_slice($data, $index + 1, null, true))
+            );
         }
 
-        return $this->removeMissingValues(array_slice($data, 0, $index, true) +
+        return array_slice($data, 0, $index, true) +
                 $merge +
-                $this->filter(array_slice($data, $index + 1, null, true)));
-    }
-
-    /**
-     * Remove the missing values from the filtered data.
-     *
-     * @param  array  $data
-     * @param  bool  $numericKeys
-     * @return array
-     */
-    protected function removeMissingValues($data, $numericKeys = false)
-    {
-        foreach ($data as $key => $value) {
-            if (($value instanceof PotentiallyMissing && $value->isMissing()) ||
-                ($value instanceof self &&
-                $value->resource instanceof PotentiallyMissing &&
-                $value->isMissing())) {
-                unset($data[$key]);
-            }
-        }
-
-        return ! empty($data) && is_numeric(array_keys($data)[0])
-                        ? array_values($data) : $data;
+                $this->filter(array_slice($data, $index + 1, null, true));
     }
 
     /**

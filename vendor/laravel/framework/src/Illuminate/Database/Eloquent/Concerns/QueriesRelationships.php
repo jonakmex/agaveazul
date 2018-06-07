@@ -210,18 +210,14 @@ trait QueriesRelationships
 
             $query->callScope($constraints);
 
-            $query = $query->mergeConstraintsFrom($relation->getQuery())->toBase();
-
-            if (count($query->columns) > 1) {
-                $query->columns = [$query->columns[0]];
-            }
+            $query->mergeConstraintsFrom($relation->getQuery());
 
             // Finally we will add the proper result column alias to the query and run the subselect
             // statement against the query builder. Then we will return the builder instance back
             // to the developer for further constraint chaining that needs to take place on it.
             $column = $alias ?? Str::snake($name.'_count');
 
-            $this->selectSub($query, $column);
+            $this->selectSub($query->toBase(), $column);
         }
 
         return $this;

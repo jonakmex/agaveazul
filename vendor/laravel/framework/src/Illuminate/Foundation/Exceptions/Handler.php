@@ -11,9 +11,9 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Router;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\ViewErrorBag;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\RedirectResponse;
+use Whoops\Handler\PrettyPageHandler;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Support\Responsable;
@@ -105,7 +105,7 @@ class Handler implements ExceptionHandlerContract
         try {
             $logger = $this->container->make(LoggerInterface::class);
         } catch (Exception $ex) {
-            throw $e;
+            throw $e; // throw the original exception
         }
 
         $logger->error(
@@ -247,9 +247,14 @@ class Handler implements ExceptionHandlerContract
      */
     protected function invalid($request, ValidationException $exception)
     {
-        return redirect($exception->redirectTo ?? url()->previous())
-                    ->withInput($request->except($this->dontFlash))
-                    ->withErrors($exception->errors(), $exception->errorBag);
+        $url = $exception->redirectTo ?? url()->previous();
+
+        return redirect($url)
+                ->withInput($request->except($this->dontFlash))
+                ->withErrors(
+                    $exception->errors(),
+                    $exception->errorBag
+                );
     }
 
     /**
@@ -277,7 +282,9 @@ class Handler implements ExceptionHandlerContract
     protected function prepareResponse($request, Exception $e)
     {
         if (! $this->isHttpException($e) && config('app.debug')) {
-            return $this->toIlluminateResponse($this->convertExceptionToResponse($e), $e);
+            return $this->toIlluminateResponse(
+                $this->convertExceptionToResponse($e), $e
+            );
         }
 
         if (! $this->isHttpException($e)) {
@@ -297,28 +304,21 @@ class Handler implements ExceptionHandlerContract
      */
     protected function convertExceptionToResponse(Exception $e)
     {
-        return SymfonyResponse::create(
-            $this->renderExceptionContent($e),
-            $this->isHttpException($e) ? $e->getStatusCode() : 500,
-            $this->isHttpException($e) ? $e->getHeaders() : []
-        );
-    }
+        $headers = $this->isHttpException($e) ? $e->getHeaders() : [];
 
-    /**
-     * Get the response content for the given exception.
-     *
-     * @param  \Exception  $e
-     * @return string
-     */
-    protected function renderExceptionContent(Exception $e)
-    {
+        $statusCode = $this->isHttpException($e) ? $e->getStatusCode() : 500;
+
         try {
-            return config('app.debug') && class_exists(Whoops::class)
-                        ? $this->renderExceptionWithWhoops($e)
-                        : $this->renderExceptionWithSymfony($e, config('app.debug'));
+            $content = config('app.debug') && class_exists(Whoops::class)
+                    ? $this->renderExceptionWithWhoops($e)
+                    : $this->renderExceptionWithSymfony($e, config('app.debug'));
         } catch (Exception $e) {
-            return $this->renderExceptionWithSymfony($e, config('app.debug'));
+            $content = $content ?? $this->renderExceptionWithSymfony($e, config('app.debug'));
         }
+
+        return SymfonyResponse::create(
+            $content, $statusCode, $headers
+        );
     }
 
     /**
@@ -335,17 +335,8 @@ class Handler implements ExceptionHandlerContract
             $whoops->writeToOutput(false);
 
             $whoops->allowQuit(false);
-        })->handleException($e);
-    }
-
-    /**
-     * Get the Whoops handler for the application.
-     *
-     * @return \Whoops\Handler\Handler
-     */
-    protected function whoopsHandler()
-    {
-        return (new WhoopsHandler)->forDebug();
+        }
+        )->handleException($e);
     }
 
     /**
@@ -363,6 +354,36 @@ class Handler implements ExceptionHandlerContract
     }
 
     /**
+     * Get the Whoops handler for the application.
+     *
+     * @return \Whoops\Handler\Handler
+     */
+    protected function whoopsHandler()
+    {
+        return tap(new PrettyPageHandler, function ($handler) {
+            $files = new Filesystem;
+
+            $handler->handleUnconditionally(true);
+
+            foreach (config('app.debug_blacklist', []) as $key => $secrets) {
+                foreach ($secrets as $secret) {
+                    $handler->blacklist($key, $secret);
+                }
+            }
+
+            if (config('app.editor', false)) {
+                $handler->setEditor(config('app.editor'));
+            }
+
+            $handler->setApplicationPaths(
+                array_flip(Arr::except(
+                    array_flip($files->directories(base_path())), [base_path('vendor')]
+                ))
+            );
+        });
+    }
+
+    /**
      * Render the given HttpException.
      *
      * @param  \Symfony\Component\HttpKernel\Exception\HttpException  $e
@@ -370,30 +391,19 @@ class Handler implements ExceptionHandlerContract
      */
     protected function renderHttpException(HttpException $e)
     {
-        $this->registerErrorViewPaths();
+        $status = $e->getStatusCode();
 
-        if (view()->exists($view = "errors::{$e->getStatusCode()}")) {
-            return response()->view($view, [
-                'errors' => new ViewErrorBag,
-                'exception' => $e,
-            ], $e->getStatusCode(), $e->getHeaders());
+        $paths = collect(config('view.paths'));
+
+        view()->replaceNamespace('errors', $paths->map(function ($path) {
+            return "{$path}/errors";
+        })->push(__DIR__.'/views')->all());
+
+        if (view()->exists($view = "errors::{$status}")) {
+            return response()->view($view, ['exception' => $e], $status, $e->getHeaders());
         }
 
         return $this->convertExceptionToResponse($e);
-    }
-
-    /**
-     * Register the error template hint paths.
-     *
-     * @return void
-     */
-    protected function registerErrorViewPaths()
-    {
-        $paths = collect(config('view.paths'));
-
-        View::replaceNamespace('errors', $paths->map(function ($path) {
-            return "{$path}/errors";
-        })->push(__DIR__.'/views')->all());
     }
 
     /**
@@ -427,10 +437,12 @@ class Handler implements ExceptionHandlerContract
      */
     protected function prepareJsonResponse($request, Exception $e)
     {
+        $status = $this->isHttpException($e) ? $e->getStatusCode() : 500;
+
+        $headers = $this->isHttpException($e) ? $e->getHeaders() : [];
+
         return new JsonResponse(
-            $this->convertExceptionToArray($e),
-            $this->isHttpException($e) ? $e->getStatusCode() : 500,
-            $this->isHttpException($e) ? $e->getHeaders() : [],
+            $this->convertExceptionToArray($e), $status, $headers,
             JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES
         );
     }

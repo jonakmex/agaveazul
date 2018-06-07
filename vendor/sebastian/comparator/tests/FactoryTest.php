@@ -72,10 +72,6 @@ class FactoryTest extends TestCase
      * @dataProvider instanceProvider
      * @covers       ::getComparatorFor
      * @covers       ::__construct
-     *
-     * @param mixed $a
-     * @param mixed $b
-     * @param mixed $expected
      */
     public function testGetComparatorFor($a, $b, $expected)
     {

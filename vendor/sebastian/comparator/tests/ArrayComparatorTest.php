@@ -130,9 +130,6 @@ class ArrayComparatorTest extends TestCase
     /**
      * @covers       ::accepts
      * @dataProvider acceptsFailsProvider
-     *
-     * @param mixed $expected
-     * @param mixed $actual
      */
     public function testAcceptsFails($expected, $actual)
     {
@@ -144,11 +141,6 @@ class ArrayComparatorTest extends TestCase
     /**
      * @covers       ::assertEquals
      * @dataProvider assertEqualsSucceedsProvider
-     *
-     * @param mixed $expected
-     * @param mixed $actual
-     * @param mixed $delta
-     * @param mixed $canonicalize
      */
     public function testAssertEqualsSucceeds($expected, $actual, $delta = 0.0, $canonicalize = false)
     {
@@ -165,11 +157,6 @@ class ArrayComparatorTest extends TestCase
     /**
      * @covers       ::assertEquals
      * @dataProvider assertEqualsFailsProvider
-     *
-     * @param mixed $expected
-     * @param mixed $actual
-     * @param mixed $delta
-     * @param mixed $canonicalize
      */
     public function testAssertEqualsFails($expected, $actual, $delta = 0.0, $canonicalize = false)
     {

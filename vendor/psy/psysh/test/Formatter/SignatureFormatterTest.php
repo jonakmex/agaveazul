@@ -12,7 +12,7 @@
 namespace Psy\Test\Formatter;
 
 use Psy\Formatter\SignatureFormatter;
-use Psy\Reflection\ReflectionConstant;
+use Psy\Reflection\ReflectionClassConstant;
 
 class SignatureFormatterTest extends \PHPUnit\Framework\TestCase
 {
@@ -39,7 +39,7 @@ class SignatureFormatterTest extends \PHPUnit\Framework\TestCase
                 defined('HHVM_VERSION') ? 'function implode($arg1, $arg2 = null)' : 'function implode($glue, $pieces)',
             ],
             [
-                new ReflectionConstant($this, 'FOO'),
+                ReflectionClassConstant::create($this, 'FOO'),
                 'const FOO = "foo value"',
             ],
             [
@@ -55,6 +55,18 @@ class SignatureFormatterTest extends \PHPUnit\Framework\TestCase
                 'abstract class Psy\CodeCleaner\CodeCleanerPass '
                 . 'extends PhpParser\NodeVisitorAbstract '
                 . 'implements PhpParser\NodeVisitor',
+            ],
+            [
+                new \ReflectionFunction('array_chunk'),
+                'function array_chunk($arg, $size, $preserve_keys = unknown)',
+            ],
+            [
+                new \ReflectionClass('Psy\Test\Formatter\Fixtures\BoringTrait'),
+                'trait Psy\Test\Formatter\Fixtures\BoringTrait',
+            ],
+            [
+                new \ReflectionMethod('Psy\Test\Formatter\Fixtures\BoringTrait', 'boringMethod'),
+                'public function boringMethod($one = 1)',
             ],
         ];
     }

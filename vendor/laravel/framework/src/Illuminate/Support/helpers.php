@@ -390,7 +390,7 @@ if (! function_exists('class_basename')) {
 
 if (! function_exists('class_uses_recursive')) {
     /**
-     * Returns all traits used by a class, its parent classes and trait of their traits.
+     * Returns all traits used by a class, its subclasses and trait of their traits.
      *
      * @param  object|string  $class
      * @return array
@@ -403,7 +403,7 @@ if (! function_exists('class_uses_recursive')) {
 
         $results = [];
 
-        foreach (array_reverse(class_parents($class)) + [$class => $class] as $class) {
+        foreach (array_merge([$class => $class], class_parents($class)) as $class) {
             $results += trait_uses_recursive($class);
         }
 
@@ -553,6 +553,8 @@ if (! function_exists('dd')) {
      */
     function dd(...$args)
     {
+        http_response_code(500);
+
         foreach ($args as $x) {
             (new Dumper)->dump($x);
         }
@@ -569,7 +571,7 @@ if (! function_exists('e')) {
      * @param  bool  $doubleEncode
      * @return string
      */
-    function e($value, $doubleEncode = true)
+    function e($value, $doubleEncode = false)
     {
         if ($value instanceof Htmlable) {
             return $value->toHtml();
@@ -624,7 +626,7 @@ if (! function_exists('env')) {
                 return;
         }
 
-        if (($valueLength = strlen($value)) > 1 && $value[0] === '"' && $value[$valueLength - 1] === '"') {
+        if (strlen($value) > 1 && Str::startsWith($value, '"') && Str::endsWith($value, '"')) {
             return substr($value, 1, -1);
         }
 
@@ -716,16 +718,11 @@ if (! function_exists('optional')) {
      * Provide access to optional objects.
      *
      * @param  mixed  $value
-     * @param  callable|null  $callback
      * @return mixed
      */
-    function optional($value = null, callable $callback = null)
+    function optional($value = null)
     {
-        if (is_null($callback)) {
-            return new Optional($value);
-        } elseif (! is_null($value)) {
-            return $callback($value);
-        }
+        return new Optional($value);
     }
 }
 

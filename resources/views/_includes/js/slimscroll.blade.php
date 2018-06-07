@@ -1,1 +1,0 @@
-<script src="{{asset('dashboard/plugins/slimScroll/jquery.slimscroll.min.js')}}"></script>

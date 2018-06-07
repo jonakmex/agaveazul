@@ -12,22 +12,13 @@ class MessageSending
     public $message;
 
     /**
-     * The message data.
-     *
-     * @var array
-     */
-    public $data;
-
-    /**
      * Create a new event instance.
      *
-     * @param  \Swift_Message $message
-     * @param  array  $data
+     * @param  \Swift_Message  $message
      * @return void
      */
-    public function __construct($message, $data = [])
+    public function __construct($message)
     {
-        $this->data = $data;
         $this->message = $message;
     }
 }

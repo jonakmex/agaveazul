@@ -49,7 +49,7 @@ class MailChannel
     {
         $message = $notification->toMail($notifiable);
 
-        if (! $notifiable->routeNotificationFor('mail', $notification) &&
+        if (! $notifiable->routeNotificationFor('mail') &&
             ! $message instanceof Mailable) {
             return;
         }
@@ -109,7 +109,7 @@ class MailChannel
      */
     protected function buildMessage($mailMessage, $notifiable, $notification, $message)
     {
-        $this->addressMessage($mailMessage, $notifiable, $notification, $message);
+        $this->addressMessage($mailMessage, $notifiable, $message);
 
         $mailMessage->subject($message->subject ?: Str::title(
             Str::snake(class_basename($notification), ' ')
@@ -127,26 +127,21 @@ class MailChannel
      *
      * @param  \Illuminate\Mail\Message  $mailMessage
      * @param  mixed  $notifiable
-     * @param  \Illuminate\Notifications\Notification  $notification
      * @param  \Illuminate\Notifications\Messages\MailMessage  $message
      * @return void
      */
-    protected function addressMessage($mailMessage, $notifiable, $notification, $message)
+    protected function addressMessage($mailMessage, $notifiable, $message)
     {
         $this->addSender($mailMessage, $message);
 
-        $mailMessage->to($this->getRecipients($notifiable, $notification, $message));
+        $mailMessage->to($this->getRecipients($notifiable, $message));
 
-        if (! empty($message->cc)) {
-            foreach ($message->cc as $cc) {
-                $mailMessage->cc($cc[0], Arr::get($cc, 1));
-            }
+        if ($message->cc) {
+            $mailMessage->cc($message->cc[0], Arr::get($message->cc, 1));
         }
 
-        if (! empty($message->bcc)) {
-            foreach ($message->bcc as $bcc) {
-                $mailMessage->bcc($bcc[0], Arr::get($bcc, 1));
-            }
+        if ($message->bcc) {
+            $mailMessage->bcc($message->bcc[0], Arr::get($message->bcc, 1));
         }
     }
 
@@ -164,9 +159,7 @@ class MailChannel
         }
 
         if (! empty($message->replyTo)) {
-            foreach ($message->replyTo as $replyTo) {
-                $mailMessage->replyTo($replyTo[0], Arr::get($replyTo, 1));
-            }
+            $mailMessage->replyTo($message->replyTo[0], Arr::get($message->replyTo, 1));
         }
     }
 
@@ -174,13 +167,12 @@ class MailChannel
      * Get the recipients of the given message.
      *
      * @param  mixed  $notifiable
-     * @param  \Illuminate\Notifications\Notification  $notification
      * @param  \Illuminate\Notifications\Messages\MailMessage  $message
      * @return mixed
      */
-    protected function getRecipients($notifiable, $notification, $message)
+    protected function getRecipients($notifiable, $message)
     {
-        if (is_string($recipients = $notifiable->routeNotificationFor('mail', $notification))) {
+        if (is_string($recipients = $notifiable->routeNotificationFor('mail'))) {
             $recipients = [$recipients];
         }
 
