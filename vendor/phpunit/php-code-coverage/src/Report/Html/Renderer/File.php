@@ -131,23 +131,19 @@ class File extends Renderer
      */
     protected function renderTraitOrClassItems(array $items, \Text_Template $template, \Text_Template $methodItemTemplate)
     {
-        $buffer = '';
-
         if (empty($items)) {
-            return $buffer;
+            return '';
         }
 
+        $buffer = '';
+
         foreach ($items as $name => $item) {
-            $numMethods       = 0;
+            $numMethods       = \count($item['methods']);
             $numTestedMethods = 0;
 
             foreach ($item['methods'] as $method) {
-                if ($method['executableLines'] > 0) {
-                    $numMethods++;
-
-                    if ($method['executedLines'] === $method['executableLines']) {
-                        $numTestedMethods++;
-                    }
+                if ($method['executedLines'] == $method['executableLines']) {
+                    $numTestedMethods++;
                 }
             }
 
@@ -248,16 +244,7 @@ class File extends Renderer
      */
     protected function renderFunctionOrMethodItem(\Text_Template $template, array $item, $indent = '')
     {
-        $numMethods       = 0;
-        $numTestedMethods = 0;
-
-        if ($item['executableLines'] > 0) {
-            $numMethods = 1;
-
-            if ($item['executedLines'] === $item['executableLines']) {
-                $numTestedMethods = 1;
-            }
-        }
+        $numTestedItems = $item['executedLines'] == $item['executableLines'] ? 1 : 0;
 
         return $this->renderItemTemplate(
             $template,
@@ -269,8 +256,8 @@ class File extends Renderer
                     \htmlspecialchars($item['signature']),
                     isset($item['functionName']) ? $item['functionName'] : $item['methodName']
                 ),
-                'numMethods'                   => $numMethods,
-                'numTestedMethods'             => $numTestedMethods,
+                'numMethods'                   => 1,
+                'numTestedMethods'             => $numTestedItems,
                 'linesExecutedPercent'         => Util::percent(
                     $item['executedLines'],
                     $item['executableLines'],
@@ -284,12 +271,12 @@ class File extends Renderer
                 'numExecutedLines'             => $item['executedLines'],
                 'numExecutableLines'           => $item['executableLines'],
                 'testedMethodsPercent'         => Util::percent(
-                    $numTestedMethods,
+                    $numTestedItems,
                     1,
                     false
                 ),
                 'testedMethodsPercentAsString' => Util::percent(
-                    $numTestedMethods,
+                    $numTestedItems,
                     1,
                     true
                 ),

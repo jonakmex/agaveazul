@@ -13,7 +13,6 @@ namespace SebastianBergmann\CodeCoverage\Report;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
 use SebastianBergmann\CodeCoverage\InvalidArgumentException;
 use SebastianBergmann\CodeCoverage\Node\File;
-use SebastianBergmann\CodeCoverage\RuntimeException;
 
 class Crap4j
 {
@@ -43,8 +42,6 @@ class Crap4j
      * @param string       $name
      *
      * @return string
-     *
-     * @throws \SebastianBergmann\CodeCoverage\RuntimeException
      */
     public function process(CodeCoverage $coverage, $target = null, $name = null)
     {
@@ -138,14 +135,7 @@ class Crap4j
                 \mkdir(\dirname($target), 0777, true);
             }
 
-            if (@\file_put_contents($target, $buffer) === false) {
-                throw new RuntimeException(
-                    \sprintf(
-                        'Could not write to "%s',
-                        $target
-                    )
-                );
-            }
+            \file_put_contents($target, $buffer);
         }
 
         return $buffer;

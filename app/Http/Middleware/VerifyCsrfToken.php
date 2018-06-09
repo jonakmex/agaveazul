@@ -12,6 +12,7 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        //
+        '456999184:AAFrZCS6-Wgq-TCtQ6HsHS6qggtqq6-9G1s/bot',
+        '546189168:AAG7TO51hvqgzNzURRDKm8Q2rqGgTSw_Mfk/bot'
     ];
 }

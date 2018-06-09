@@ -11,7 +11,6 @@
 namespace SebastianBergmann\CodeCoverage\Report;
 
 use SebastianBergmann\CodeCoverage\CodeCoverage;
-use SebastianBergmann\CodeCoverage\RuntimeException;
 
 /**
  * Uses var_export() to write a SebastianBergmann\CodeCoverage\CodeCoverage object to a file.
@@ -28,7 +27,7 @@ class PHP
     {
         $filter = $coverage->filter();
 
-        $buffer = \sprintf(
+        $output = \sprintf(
             '<?php
 $coverage = new SebastianBergmann\CodeCoverage\CodeCoverage;
 $coverage->setData(%s);
@@ -44,16 +43,9 @@ return $coverage;',
         );
 
         if ($target !== null) {
-            if (@\file_put_contents($target, $buffer) === false) {
-                throw new RuntimeException(
-                    \sprintf(
-                        'Could not write to "%s',
-                        $target
-                    )
-                );
-            }
+            return \file_put_contents($target, $output);
+        } else {
+            return $output;
         }
-
-        return $buffer;
     }
 }
