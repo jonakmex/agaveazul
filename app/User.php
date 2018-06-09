@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email','phone', 'password','dob','height','gender','coach_id',
+        'name', 'email', 'password',
     ];
 
     /**
@@ -26,17 +26,4 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-    
-    public function getAge(){
-       //return  $this->dob->diffInYears(Carbon::now());
-        return 35;
-    }
-
-    public function measures(){
-        return $this->hasMany('App\Measure')->orderBy('id','desc')->limit(10);
-    }
-
-    public function coach(){
-        return $this->belongsTo('App\Coach');
-    }
 }

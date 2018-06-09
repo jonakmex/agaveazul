@@ -176,8 +176,6 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-	    Telegram\Bot\Laravel\TelegramServiceProvider::class,
-        LArtie\LaravelBotan\LaravelBotanServiceProvider::class,
 
     ],
 
@@ -227,8 +225,6 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-	    'Telegram'  => Telegram\Bot\Laravel\Facades\Telegram::class,
-        'Botan' => LArtie\LaravelBotan\Facades\Botan::class,  
 
     ],
 
