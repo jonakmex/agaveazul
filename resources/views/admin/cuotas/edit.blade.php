@@ -5,9 +5,10 @@
 @endsection
 @section('content')
 
-<div class="container">
-		<div class="modal-dialog">
-			<div class="modal-content">
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
 				<form action="{{route('cuotas.update',['id'=>$cuota->id])}}" method="POST">
                     {{ csrf_field () }}
                     {{ method_field('PUT') }}
@@ -49,8 +50,7 @@
                   <option {{$cuota->periodoGracia == 15 ? "selected" : ""}} value="15">15 Dias</option>
                 </select>
               </div>
-            </div>
-            <div class="col-md-6">
+
               <!-- /.form group -->
               <div class="form-group">
                 <label for="chkRpt">
@@ -71,6 +71,34 @@
                 <label>Repeticiones</label>
                 <input id="nPeriodos" name="nPeriodos"  value="{{$cuota->nPeriodos}}" type="text" class="form-control">
               </div>
+            </div>
+            <div class="col-md-6">
+              <table class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th width="10%">
+        							<span class="custom-checkbox">
+        								<input type="checkbox" id="selectAll">
+        								<label for="selectAll"></label>
+        							</span>
+        						</th>
+                    <th>Vivienda</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @foreach($items as $vivienda)
+                  <tr>
+                    <td>
+                      <span class="custom-checkbox">
+        								<input type="checkbox" id="checkbox1" name="selected[]" {{$vivienda['checked']}}  value="{{$vivienda['vivienda']->id}}">
+        								<label for="checkbox1"></label>
+        							</span>
+                    </td>
+                    <td>{{$vivienda['vivienda']->descripcion}}</td>
+                  </tr>
+                  @endforeach
+                </tbody>
+              </table>
 
             </div>
 					</div>
@@ -80,9 +108,13 @@
 						<input type="submit" class="btn btn-success" value="Guardar">
 					</div>
 				</form>
-			</div>
-		</div>
-    </div>
+      </div>
+      </div>
+      <!-- /.row -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
 
 @endsection
 @section('scripts')
@@ -131,6 +163,28 @@ $(function () {
 
     $("#importe").inputmask({ alias : "pesos", prefix: '$' });
     $("#nPeriodos").inputmask({ alias : "integer" });
+
+    // Activate tooltip
+	$('[data-toggle="tooltip"]').tooltip();
+
+	// Select/Deselect checkboxes
+	var checkbox = $('table tbody input[type="checkbox"]');
+	$("#selectAll").click(function(){
+		if(this.checked){
+			checkbox.each(function(){
+				this.checked = true;
+			});
+		} else{
+			checkbox.each(function(){
+				this.checked = false;
+			});
+		}
+	});
+	checkbox.click(function(){
+		if(!this.checked){
+			$("#selectAll").prop("checked", false);
+		}
+	});
 
 });
 </script>

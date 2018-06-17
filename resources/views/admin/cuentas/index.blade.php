@@ -126,7 +126,7 @@
       "dom": '<"toolbar">frtip'
     });
 
-    $("div.toolbar").html('<a href="{{route('vivienda.create')}}" class="edit"><i class="icon ion-md-add material-icons" title="Add"></i></a>');
+    $("div.toolbar").html('<a href="{{route('cuentas.create')}}" class="edit"><i class="icon ion-md-add material-icons" title="Add"></i></a>');
   });
 </script>
 @endsection

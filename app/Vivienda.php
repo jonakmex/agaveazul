@@ -11,4 +11,8 @@ class Vivienda extends Model
     public function residentes(){
       return $this->hasMany('App\Residente');
     }
+
+    public function cuotas(){
+      return $this->hasMany('App\CuotaVivienda');
+    }
 }

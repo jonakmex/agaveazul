@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Recibos;
-use App\Cuenta;
-class RecibosController extends Controller
+use App\Reciboheader;
+class RecibosHeaderController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -46,8 +45,10 @@ class RecibosController extends Controller
      */
     public function show($id)
     {
-
-        return view('admin.recibos.show');
+      // Use the model to get one record from DB
+      $reciboHeader = Reciboheader::findOrFail($id);
+      //Show the view and pass the record
+      return view('admin.recibosheader.show')->with('reciboHeader',$reciboHeader);
     }
 
     /**
@@ -58,7 +59,7 @@ class RecibosController extends Controller
      */
     public function edit($id)
     {
-        return view('admin.recibos.edit');
+        //
     }
 
     /**
@@ -82,16 +83,5 @@ class RecibosController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function pagar($id)
-    {
-      $recibo = Recibos::findOrFail($id);
-      $cuentas = Cuenta::where('estado',1)->paginate(10);
-      $form = [
-        'recibo'=>$recibo,
-        'cuentas'=>$cuentas
-      ];
-      return view('admin.pagos.create')->with('form',$form);
     }
 }

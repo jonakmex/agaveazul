@@ -141,24 +141,29 @@
       									</tr>
       								</thead>
       								<tbody>
+                        @foreach($recibos as $recibo)
       									<tr>
-      										<td><a href="#">Anualidad</a></td>
-                          <td><a href="#">2018</a></td>
-      										<td>01/06/2018</td>
-      										<td>01/06/2018</td>
-      										<td>$1,000.00</td>
-      										<td><i class="icon ion-md-checkmark material-icons" title="Pagado"></i></td>
-                          <td><a href="#" class="edit"></a></td>
+      										<td><a href="#">{{$recibo->reciboheader->cuota->descripcion}}</a></td>
+                          <td><a href="#">{{$recibo->descripcion}}</a></td>
+      										<td>{{$recibo->fecLimite}}</td>
+      										<td>{{$recibo->fecPago}}</td>
+      										<td>{{$recibo->importe}}</td>
+      										<td>
+                              @if($recibo->estado == 1)
+                                <i class="icon ion-md-calendar material-icons" title="Pendiente">
+                              @else
+                                <i class="icon ion-md-checkmark material-icons" title="Pagado">
+                              @endif
+                          </td>
+                          <td>
+                              @if($recibo->estado == 1)
+                                <a href="{{route('recibos.pagar',['rec_id'=>$recibo->id])}}" class="edit"><i class="icon ion-md-card material-icons" title="Pagar"></i></a>
+                              @else
+                                <a href="{{asset($recibo->comprobante)}}" target="_blank" class="edit"><i class="icon ion-md-eye material-icons" title="Ver Recibo"></i></a>
+                              @endif
+                          </td>
       									</tr>
-                        <tr>
-      										<td><a href="#">Mensualidad</a></td>
-                          <td><a href="#">ENERO 2018</a></td>
-      										<td>01/06/2018</td>
-      										<td></td>
-      										<td>$550.00</td>
-      										<td><i class="icon ion-md-close material-icons" title="Pagado"></i></td>
-                          <td><a href="#" class="edit"><i class="icon ion-md-card material-icons" title="Pagado"></i></a></td>
-      									</tr>
+                        @endforeach
       								</tbody>
       							</table>
                   </div>

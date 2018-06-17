@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Vivienda;
+use App\Recibos;
 class ViviendaController extends Controller
 {
     /**
@@ -66,8 +67,9 @@ class ViviendaController extends Controller
     {
       // Use the model to get one record from DB
       $vivienda = Vivienda::findOrFail($id);
+      $recibos = Recibos::where('vivienda_id',$id)->orderBy('fecLimite','desc')->get();
       //Show the view and pass the record
-      return view('admin.vivienda.show')->with('vivienda',$vivienda);
+      return view('admin.vivienda.show')->with(['vivienda'=>$vivienda,'recibos'=>$recibos]);
     }
 
     /**

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Cuota;
+use App\Vivienda;
+use App\CuotaVivienda;
 class CuotasController extends Controller
 {
     /**
@@ -24,7 +26,8 @@ class CuotasController extends Controller
      */
     public function create()
     {
-        return view('admin.cuotas.create');
+        $viviendas = Vivienda::where('estado',1)->get();
+        return view('admin.cuotas.create')->with('viviendas',$viviendas);
     }
 
     /**
@@ -65,7 +68,14 @@ class CuotasController extends Controller
       $cuota->estado = 1;
       //Redirect if successfull
       if($cuota->save()){
-          return redirect()->route('cuotas.show',['id' => $cuota->id]);
+        $viviendas = $request->selected;
+        //dd($viviendas);
+        foreach($viviendas as $vivienda){
+            $cuotavivienda = new CuotaVivienda();
+            $cuotavivienda->vivienda_id = $vivienda;
+            $cuota->viviendas()->save($cuotavivienda);
+        }
+        return redirect()->route('cuotas.show',['id' => $cuota->id]);
       }
       else{
           return redirect()->route('cuotas.create');
@@ -94,7 +104,20 @@ class CuotasController extends Controller
     public function edit($id)
     {
       $cuota = Cuota::findOrFail($id);
-      return view('admin.cuotas.edit')->with(['cuota'=>$cuota] );
+      $viviendas = Vivienda::where('estado',1)->get();
+
+      $selected = array();
+      foreach($viviendas as $vivienda){
+        $checked = '';
+        foreach($cuota->viviendas as $current){
+            if($vivienda->id == $current->vivienda->id){
+              $checked = 'checked';
+              break;
+            }
+        }
+        array_push($selected,['checked'=>$checked,'vivienda'=>$vivienda]);
+      }
+      return view('admin.cuotas.edit')->with(['cuota'=>$cuota,'items'=>$selected] );
     }
 
     /**
@@ -134,7 +157,21 @@ class CuotasController extends Controller
         }
         //Redirect if successfull
         if($cuota->save()){
-            return redirect()->route('cuotas.show',['id' => $cuota->id]);
+          $itemsSelected = $request->selected;
+          $viviendas = Vivienda::where('estado',1)->get();
+          foreach($viviendas as $vivienda){
+              $cuotavivienda = CuotaVivienda::where('cuota_id',$cuota->id)->where('vivienda_id',$vivienda->id)->first();
+              if($cuotavivienda === null && in_array($vivienda->id,$itemsSelected)){
+                $cuotavivienda = new CuotaVivienda();
+                $cuotavivienda->vivienda_id = $vivienda->id;
+                $cuota->viviendas()->save($cuotavivienda);
+              }
+              if($cuotavivienda != null && !in_array($vivienda->id,$itemsSelected)){
+                $cuotavivienda->delete();
+              }
+
+          }
+          return redirect()->route('cuotas.show',['id' => $cuota->id]);
         }
         else{
             return redirect()->route('cuotas.edit')->with('id',$cuota->id);

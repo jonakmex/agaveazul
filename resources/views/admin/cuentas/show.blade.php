@@ -4,6 +4,9 @@
 .toolbar {
     float: right;
 }
+.toolbar_mov {
+    float: right;
+}
 .table-title .btn-group {
 		float: right;
 	}
@@ -110,69 +113,40 @@
               <h3 class="box-title">Estado de Cuenta <b>{{$selected->descripcion}}</b></h3>
             </div>
             <div class="box-body">
-              <table class="table table-bordered table-hover">
+              <table id="tblMovimientos" class="table table-bordered table-hover">
                 <thead>
                   <tr>
                     <th>Nombre</th>
                     <th>Ingreso</th>
                     <th>Egreso</th>
                     <th>Saldo</th>
-                    <th colspan="2">Accion</th>
+                    <th>Comprobante</th>
                   </tr>
                 </thead>
                 <tbody>
+                  @foreach($movimientos as $movimiento)
                   <tr>
-                    <td><a href="{{route('recibos.show','id=1')}}">Jardinería</a></td>
-                    <td></td>
-                    <td>$30,000.00</td>
-                    <td>$30,000.00</td>
-                    <td><a href="#" class="edit"><i class="icon ion-md-create material-icons" title="Editar"></i></a></td>
-                    <td><a href="#" class="edit"><i class="icon ion-md-trash material-icons" title="Eliminar"></i></a></td>
+                    <td><a href="{{route('recibos.show','id=1')}}">{{$movimiento->descripcion}}</a></td>
+                    <td>
+                      @if($movimiento->ingreso != null)
+                        {{$movimiento->ingreso}}
+                      @endif
+                    </td>
+                    <td>
+                      @if($movimiento->egreso != null)
+                        {{$movimiento->egreso}}
+                      @endif
+                    </td>
+                    <td>{{$movimiento->saldo}}</td>
+                    <td><a href="{{asset($movimiento->comprobante)}}" class="edit" target="_blank"><i class="icon ion-md-eye material-icons" title="Ver"></i></a></td>
                   </tr>
-                  <tr>
-                    <td><a href="{{route('recibos.show','id=1')}}">Mensualidad/Casa 10</a></td>
-                    <td>$500.00</td>
-                    <td></td>
-                    <td>$30,000.00</td>
-                    <td><a href="#" class="edit"><i class="icon ion-md-create material-icons" title="Editar"></i></a></td>
-                    <td><a href="#" class="edit"><i class="icon ion-md-trash material-icons" title="Eliminar"></i></a></td>
-                  </tr>
-                  <tr>
-                    <td><a href="{{route('recibos.show','id=1')}}">Mensualidad/Casa 10</a></td>
-                    <td>$500.00</td>
-                    <td>$30,000.00</td>
-                    <td>$30,000.00</td>
-                    <td><a href="#" class="edit"><i class="icon ion-md-create material-icons" title="Editar"></i></a></td>
-                    <td><a href="#" class="edit"><i class="icon ion-md-trash material-icons" title="Eliminar"></i></a></td>
-                  </tr>
-                  <tr>
-                    <td><a href="{{route('recibos.show','id=1')}}">Mensualidad/Casa 10</a></td>
-                    <td>$500.00</td>
-                    <td></td>
-                    <td>$30,000.00</td>
-                    <td><a href="#" class="edit"><i class="icon ion-md-create material-icons" title="Editar"></i></a></td>
-                    <td><a href="#" class="edit"><i class="icon ion-md-trash material-icons" title="Eliminar"></i></a></td>
-                  </tr>
-                  <tr>
-                    <td><a href="{{route('recibos.show','id=1')}}">Mensualidad/Casa 10</a></td>
-                    <td>$500.00</td>
-                    <td></td>
-                    <td>$30,000.00</td>
-                    <td><a href="#" class="edit"><i class="icon ion-md-create material-icons" title="Editar"></i></a></td>
-                    <td><a href="#" class="edit"><i class="icon ion-md-trash material-icons" title="Eliminar"></i></a></td>
-                  </tr>
-                  <tr>
-                    <td><a href="{{route('recibos.show','id=1')}}">Mensualidad/Casa 10</a></td>
-                    <td></td>
-                    <td>$30,000.00</td>
-                    <td>$30,000.00</td>
-                    <td><a href="#" class="edit"><i class="icon ion-md-create material-icons" title="Editar"></i></a></td>
-                    <td><a href="#" class="edit"><i class="icon ion-md-trash material-icons" title="Eliminar"></i></a></td>
-                  </tr>
+                  @endforeach
                 </tbody>
               </table>
+
             </div>
             <!-- /.box-body -->
+            {!! $movimientos->appends(request()->input())->links() !!}
           </div>
           <!-- /.box -->
       </div>
@@ -180,6 +154,7 @@
     </section>
     <!-- /.content -->
 @endsection
+
 @section('scripts')
 <script src="{{asset('dashboard/plugins/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('dashboard/plugins/datatables/dataTables.bootstrap.min.js')}}"></script>
@@ -196,6 +171,19 @@
     });
 
     $("div.toolbar").html('<a href="{{route('cuentas.create')}}" class="edit"><i class="icon ion-md-add material-icons" title="Add"></i></a>');
+
+    //Tabla Movimientos
+    $("#tblMovimientos").DataTable({
+      "paging": false,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": false,
+      "info": false,
+      "autoWidth": false,
+      "dom": '<"toolbar_mov">frtip'
+    });
+
+    $("div.toolbar_mov").html('<a href="{{route('movimientos.create',['cuenta_id'=>$selected->id])}}" class="edit"><i class="icon ion-md-add material-icons" title="Add"></i></a>');
   });
 </script>
 @endsection

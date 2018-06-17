@@ -91,36 +91,13 @@
                   </tr>
                 </thead>
                 <tbody>
+                  @foreach($selected->recibosHeader as $header)
                   <tr>
-                    <td><a href="{{route('recibos.show','id=1')}}">ENERO 2018</a></td>
-                    <td>$500.00</td>
-                    <td>$30,000.00</td>
+                    <td><a href="{{route('recibosHeader.show',['id'=>$header->id])}}">{{$header->descripcion}}</a></td>
+                    <td>${{number_format($header->importe+$header->ajuste, 2, '.', ',')}}</td>
+                    <td>${{number_format($header->saldo, 2, '.', ',')}}</td>
                   </tr>
-                  <tr>
-                    <td><a href="{{route('recibos.show','id=1')}}">FEBRERO 2018</a></td>
-                    <td>$500.00</td>
-                    <td>$30,000.00</td>
-                  </tr>
-                  <tr>
-                    <td><a href="{{route('recibos.show','id=1')}}">MARZO 2018</a></td>
-                    <td>$500.00</td>
-                    <td>$30,000.00</td>
-                  </tr>
-                  <tr>
-                    <td><a href="{{route('recibos.show','id=1')}}">ABRIL 2018</a></td>
-                    <td>$500.00</td>
-                    <td>$30,000.00</td>
-                  </tr>
-                  <tr>
-                    <td><a href="{{route('recibos.show','id=1')}}">MAYO 2018</a></td>
-                    <td>$500.00</td>
-                    <td>$30,000.00</td>
-                  </tr>
-                  <tr>
-                    <td><a href="{{route('recibos.show','id=1')}}">JUNIO 2018</a></td>
-                    <td>$500.00</td>
-                    <td>$30,000.00</td>
-                  </tr>
+                  @endforeach
                 </tbody>
               </table>
 

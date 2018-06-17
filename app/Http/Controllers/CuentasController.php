@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Cuenta;
+use App\Cuentamovimiento;
 class CuentasController extends Controller
 {
     /**
@@ -63,8 +64,9 @@ class CuentasController extends Controller
     public function show($id)
     {
         $cuenta = Cuenta::findOrFail($id);
-        $cuentas = Cuenta::where('estado',1)->paginate(10);
-        return view('admin.cuentas.show')->with(['selected'=>$cuenta,'cuentas'=>$cuentas] );
+        $cuentas = Cuenta::where('estado',1)->get();
+        $movimientos = Cuentamovimiento::where('cuenta_id',$cuenta->id)->orderBy('fecMov','desc')->paginate(5);
+        return view('admin.cuentas.show')->with(['selected'=>$cuenta,'cuentas'=>$cuentas,'movimientos'=>$movimientos] );
     }
 
     /**
