@@ -7,8 +7,10 @@
         {{$reciboHeader->cuota->descripcion}} / {{$reciboHeader->descripcion}}
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">Recibos</a></li>
+        <li><a href="{{route('home')}}"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="{{route('cuotas.index')}}">Cuotas</a></li>
+        <li><a href="{{route('cuotas.show',['id'=>$reciboHeader->cuota->id])}}">{{$reciboHeader->cuota->descripcion}}</a></li>
+        <li class="active">{{$reciboHeader->descripcion}}</li>
       </ol>
     </section>
 

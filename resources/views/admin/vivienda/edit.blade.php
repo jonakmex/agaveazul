@@ -2,6 +2,18 @@
 
 @section('content')
 
+<section class="content-header">
+	<h1>
+		{{$vivienda->descripcion}}
+		<small>Editar</small>
+	</h1>
+	<ol class="breadcrumb">
+		<li><a href="{{route('home')}}"><i class="fa fa-dashboard"></i> Home</a></li>
+		<li><a href="{{route('vivienda.index')}}">Viviendas</a></li>
+		<li class="active">{{$vivienda->descripcion}}</li>
+	</ol>
+</section>
+
 <div class="container">
 		<div class="modal-dialog">
 			<div class="modal-content">

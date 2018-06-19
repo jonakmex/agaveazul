@@ -1,6 +1,17 @@
+@php($residencial_targets=array('vivienda','residentes'))
+@php($finanzas_targets=array('cuentas','cuotas'))
+
+@php($residencial = in_array(Request::path(),$residencial_targets) ? "active treeview" : "treeview-active")
+@php($finanzas = in_array(Request::path(),$finanzas_targets) ? "active treeview" : "treeview-active")
+
+@php($viviendas = Request::path()=="vivienda"?"active":"")
+@php($residentes = Request::path()=="residentes"?"active":"")
+@php($cuotas = Request::path()=="cuotas"?"active":"")
+@php($cuentas = Request::path()=="cuentas"?"active":"")
+
 <ul class="sidebar-menu">
-<li class="header">ADMINISTRACION</li>
-<li class="treeview-active">
+<li class="header">{{Request::path()}}</li>
+<li class="{{$residencial}}">
   <a href="#">
     <i class="fa fa-dashboard"></i> <span>Residencial</span>
     <span class="pull-right-container">
@@ -8,14 +19,11 @@
     </span>
   </a>
   <ul class="treeview-menu">
-    <li><a href="{{route('vivienda.index')}}"><i class="fa fa-circle-o"></i>Viviendas</a></li>
-    <li><a href="{{route('residentes.index')}}"><i class="fa fa-circle-o"></i>Residentes</a></li>
-      <li><a href="../../index2.html"><i class="fa fa-circle-o"></i>Proveedores</a></li>
-      <li><a href="../../index2.html"><i class="fa fa-circle-o"></i>Amenidades</a></li>
-      <li><a href="../../index2.html"><i class="fa fa-circle-o"></i>Reglamento</a></li>
+    <li class="{{$viviendas}}"><a href="{{route('vivienda.index')}}"><i class="fa fa-circle-o"></i>Viviendas</a></li>
+    <li class="{{$residentes}}"><a href="{{route('residentes.index')}}"><i class="fa fa-circle-o"></i>Residentes</a></li>
   </ul>
 </li>
-<li class="treeview-active">
+<li class="{{$finanzas}}">
   <a href="#">
     <i class="fa fa-dashboard"></i> <span>Finanzas</span>
     <span class="pull-right-container">
@@ -23,8 +31,8 @@
     </span>
   </a>
   <ul class="treeview-menu">
-    <li><a href="{{route('cuentas.index')}}"><i class="fa fa-circle-o"></i>Cuentas</a></li>
-    <li><a href="{{route('cuotas.index')}}"><i class="fa fa-circle-o"></i>Cuotas</a></li>
+    <li class="{{$cuentas}}"><a href="{{route('cuentas.index')}}"><i class="fa fa-circle-o"></i>Cuentas</a></li>
+    <li class="{{$cuotas}}"><a href="{{route('cuotas.index')}}"><i class="fa fa-circle-o"></i>Cuotas</a></li>
   </ul>
 </li>
 </ul>
