@@ -1,5 +1,8 @@
 @extends('common.user')
-
+@section('styles')
+<!-- Bootstrap time Picker -->
+<link rel="stylesheet" href="{{asset('dashboard/plugins/timepicker/bootstrap-timepicker.min.css')}}">
+@endsection
 @section('content')
 
 
@@ -26,6 +29,8 @@
 								    <div class="error">{{ $errors->first('ajuste') }}</div>
 								@endif
 						</div>
+						<div class="col-md-6">
+							<div class="bootstrap-timepicker">
             <div class="form-group">
 							<label for="descripcion">Fecha Pago</label>
 
@@ -35,11 +40,26 @@
 								</div>
 								<input type="text"  name="fecPago" id="fecPago" class="form-control"/ required>
 							</div>
-
-
 							 @if ($errors->has('fecPago'))
 									 <div class="error">{{ $errors->first('fecPago') }}</div>
 							 @endif
+						</div>
+						</div>
+						</div>
+						<div class="col-md-6">
+							<div class="bootstrap-timepicker">
+							<div class="form-group">
+								 <label>Time picker:</label>
+								 <div class="input-group">
+									 <input name="timeIngreso" type="text" class="form-control timepicker">
+									 <div class="input-group-addon">
+										 <i class="fa fa-clock-o"></i>
+									 </div>
+								 </div>
+								 <!-- /.input group -->
+							 </div>
+							 <!-- /.form group -->
+						 </div>
 						</div>
 						<div class="form-group">
 							<label for="cuenta_id">Cuenta</label>
@@ -77,6 +97,9 @@
 <!-- InputMask -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.2.6/jquery.inputmask.bundle.min.js"></script>
 
+<!-- bootstrap time picker -->
+<script src="{{asset('dashboard/plugins/timepicker/bootstrap-timepicker.min.js')}}"></script>
+
 <script>
 Inputmask.extendAliases({
   pesos: {
@@ -104,6 +127,12 @@ $(function () {
     //Money Euro
     $("#importe").inputmask({ alias : "pesos", prefix: '$' });
 		$("#ajuste").inputmask({ alias : "pesos", prefix: '$' ,removeMaskOnSubmit: true});
+
+		//Timepicker
+    $(".timepicker").timepicker({
+      showInputs: false
+    });
+		console.log('Ok');
 
 });
 </script>

@@ -65,7 +65,7 @@ class CuentasController extends Controller
     {
         $cuenta = Cuenta::findOrFail($id);
         $cuentas = Cuenta::where('estado',1)->get();
-        $movimientos = Cuentamovimiento::where('cuenta_id',$cuenta->id)->orderBy('fecMov','desc')->paginate(5);
+        $movimientos = Cuentamovimiento::where('cuenta_id',$cuenta->id)->orderBy('fecMov','desc')->orderBy('id','desc')->paginate(5);
         return view('admin.cuentas.show')->with(['selected'=>$cuenta,'cuentas'=>$cuentas,'movimientos'=>$movimientos] );
     }
 

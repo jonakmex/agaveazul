@@ -34,7 +34,7 @@ class ReciboHeader extends Migration
     public function down()
     {
       Schema::table('reciboheader',function(Blueprint $table){
-           $table->dropForeign('reciboheader_cuotas_id_foreign');
+           $table->dropForeign('reciboheader_cuota_id_foreign');
        });
        Schema::dropIfExists('reciboheader');
     }

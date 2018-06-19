@@ -32,25 +32,29 @@ class CuentamovimientoController extends Controller
             'compIngreso' => 'required|Image',
         ]);
         //Process de data and submit it
+        $hrMov = DateTime::createFromFormat( 'Y-m-d H:i A', $request->fecIngreso.' '.$request->timeIngreso);
         $cuenta = Cuenta::findOrFail($request->cuenta_id);
-        $lastMov = $cuenta->movimientos()->orderBy('id','desc')->first();
-        $saldoLast = $lastMov!=null?$lastMov->saldo:0;
-
         $file = $request->file('compIngreso');
         Storage::disk('public')->put('cuenta_'.$cuenta->id.'/ingresos/'.$file->getClientOriginalName(),File::get($file));
-
-        $hrMov = DateTime::createFromFormat( 'Y-m-d H:i A', $request->fecIngreso.' '.$request->timeIngreso);
 
         $movimiento = new Cuentamovimiento();
         $movimiento->descripcion = $request->descripcion;
         $movimiento->ingreso = $request->ingresoImporte;
-        $movimiento->saldo = $saldoLast + $movimiento->ingreso;
+        $movimiento->saldo = 0;
         $movimiento->fecMov = $hrMov->format( 'Y-m-d H:i:s');
         $movimiento->comprobante = '/storage/'.'cuenta_'.$cuenta->id.'/ingresos/'.$file->getClientOriginalName();
         $cuenta->movimientos()->save($movimiento);
-
-        $cuenta->saldo = $movimiento->saldo;
+        $cuenta->saldo = $cuenta->saldo + $movimiento->ingreso;
         $cuenta->save();
+
+        $recalculate = Cuentamovimiento::where('cuenta_id','=',$cuenta->id)->where('fecMov','>=',$hrMov)->orderBy('fecMov','desc')->orderBy('id','desc')->get();
+        $saldo = $cuenta->saldo;
+        foreach($recalculate as $item){
+          $item->saldo = $saldo;
+          $item->save();
+          $saldo += ($item->egreso - $item->ingreso);
+        }
+
         return redirect()->route('cuentas.show',['id' => $cuenta->id]);
       }
       else if($request->tipo == 2) // Egreso
@@ -61,27 +65,33 @@ class CuentamovimientoController extends Controller
             'descripcion' => 'required|min:3|max:30',
             'egresoImporte' => 'required|numeric',
             'fecEgreso' => 'required|date',
+            'timeEgreso' => 'required',
             'compEgreso' => 'required|Image',
         ]);
-        //Process de data and submit it
+
+        $hrMov = DateTime::createFromFormat( 'Y-m-d H:i A', $request->fecEgreso.' '.$request->timeEgreso);
         $cuenta = Cuenta::findOrFail($request->cuenta_id);
-        $lastMov = $cuenta->movimientos()->orderBy('id','desc')->first();
-
-        $saldoLast = $lastMov!=null?$lastMov->saldo:0;
-
         $file = $request->file('compEgreso');
         Storage::disk('public')->put('cuenta_'.$cuenta->id.'/egresos/'.$file->getClientOriginalName(),File::get($file));
 
         $movimiento = new Cuentamovimiento();
         $movimiento->descripcion = $request->descripcion;
         $movimiento->egreso = $request->egresoImporte;
-        $movimiento->saldo = $saldoLast - $movimiento->egreso;
-        $movimiento->fecMov = $request->fecEgreso;
+        $movimiento->saldo = 0;
+        $movimiento->fecMov = $hrMov->format( 'Y-m-d H:i:s');
         $movimiento->comprobante = '/storage/'.'cuenta_'.$cuenta->id.'/egresos/'.$file->getClientOriginalName();
         $cuenta->movimientos()->save($movimiento);
-
-        $cuenta->saldo = $movimiento->saldo;
+        $cuenta->saldo = $cuenta->saldo - $movimiento->egreso;
         $cuenta->save();
+
+        $recalculate = Cuentamovimiento::where('cuenta_id','=',$cuenta->id)->where('fecMov','>=',$hrMov)->orderBy('fecMov','desc')->orderBy('id','desc')->get();
+        $saldo = $cuenta->saldo;
+        foreach($recalculate as $item){
+          $item->saldo = $saldo;
+          $item->save();
+          $saldo += ($item->egreso - $item->ingreso);
+        }
+
         return redirect()->route('cuentas.show',['id' => $cuenta->id]);
       }
       else //Transferencia
@@ -92,33 +102,48 @@ class CuentamovimientoController extends Controller
             'cta_dest' => 'required|numeric',
             'transferImporte' => 'required|numeric',
             'fecTransfer' => 'required|date',
+            'timeTransfer' => 'required',
         ]);
         //Process de data and submit it
+        $hrMov = DateTime::createFromFormat( 'Y-m-d H:i A', $request->fecTransfer.' '.$request->timeTransfer);
+
         $ctaOrigen = Cuenta::findOrFail($request->cuenta_id);
         $ctaDestino = Cuenta::findOrFail($request->cta_dest);
-
-        $lastOrigen = $ctaOrigen->movimientos()->orderBy('id','desc')->first();
-        $lastDestino = $ctaDestino->movimientos()->orderBy('id','desc')->first();
-
-        $saldoOrigen = $lastOrigen!=null?$lastOrigen->saldo:0;
-        $saldoDestino = $lastDestino!=null?$lastDestino->saldo:0;
 
         $movOrigen = new Cuentamovimiento();
         $movOrigen->descripcion = 'TRANSFER a '.$ctaDestino->descripcion;
         $movOrigen->egreso = $request->transferImporte;
-        //$movOrigen->fecMov = $request->fecTransfer;
-        $movOrigen->saldo = $saldoOrigen - $movOrigen->egreso;
-        $ctaOrigen->saldo = $movOrigen->saldo;
+        $movOrigen->fecMov = $hrMov->format( 'Y-m-d H:i:s');
+        $movOrigen->saldo = 0;
+        $ctaOrigen->saldo -= $movOrigen->egreso;
         $ctaOrigen->movimientos()->save($movOrigen);
         $ctaOrigen->save();
+
+        $recalculate = Cuentamovimiento::where('cuenta_id','=',$ctaOrigen->id)->where('fecMov','>=',$hrMov)->orderBy('fecMov','desc')->orderBy('id','desc')->get();
+        $saldo = $ctaOrigen->saldo;
+        foreach($recalculate as $item){
+          $item->saldo = $saldo;
+          $item->save();
+          $saldo += ($item->egreso - $item->ingreso);
+        }
+
         $movDestino = new Cuentamovimiento();
         $movDestino->descripcion = 'TRANSFER de '.$ctaOrigen->descripcion;
         $movDestino->ingreso = $request->transferImporte;
-        //$movOrigen->fecMov = $request->fecTransfer;
-        $movDestino->saldo = $saldoDestino + $movDestino->ingreso;
-        $ctaDestino->saldo = $movDestino->saldo;
+        $movDestino->fecMov = $hrMov->format( 'Y-m-d H:i:s');
+        $movDestino->saldo = 0;
+        $ctaDestino->saldo += $request->transferImporte;
         $ctaDestino->movimientos()->save($movDestino);
         $ctaDestino->save();
+
+        $recalculate = Cuentamovimiento::where('cuenta_id','=',$ctaDestino->id)->where('fecMov','>=',$hrMov)->orderBy('fecMov','desc')->orderBy('id','desc')->get();
+        $saldo = $ctaDestino->saldo;
+        foreach($recalculate as $item){
+          $item->saldo = $saldo;
+          $item->save();
+          $saldo += ($item->egreso - $item->ingreso);
+        }
+
         return redirect()->route('cuentas.show',['id' => $ctaOrigen->id]);
       }
 

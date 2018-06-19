@@ -120,25 +120,33 @@
                     <th>Ingreso</th>
                     <th>Egreso</th>
                     <th>Saldo</th>
-                    <th>Comprobante</th>
+                    <th>Fecha</th>
                   </tr>
                 </thead>
                 <tbody>
                   @foreach($movimientos as $movimiento)
                   <tr>
-                    <td><a href="{{route('recibos.show','id=1')}}">{{$movimiento->descripcion}}</a></td>
+                    <td>
+                      @if($movimiento->comprobante != null)
+                        <a href="{{asset($movimiento->comprobante)}}" class="edit" target="_blank">{{$movimiento->descripcion}}</a>
+                      @else
+                        {{$movimiento->descripcion}}
+                      @endif
+                    </td>
                     <td>
                       @if($movimiento->ingreso != null)
-                        {{$movimiento->ingreso}}
+                        ${{$movimiento->ingreso}}
                       @endif
                     </td>
                     <td>
                       @if($movimiento->egreso != null)
-                        {{$movimiento->egreso}}
+                        ${{$movimiento->egreso}}
                       @endif
                     </td>
-                    <td>{{$movimiento->saldo}}</td>
-                    <td><a href="{{asset($movimiento->comprobante)}}" class="edit" target="_blank"><i class="icon ion-md-eye material-icons" title="Ver"></i></a></td>
+                    <td>${{$movimiento->saldo}}</td>
+                    <td>
+                      {{$movimiento->fecMov}}
+                    </td>
                   </tr>
                   @endforeach
                 </tbody>

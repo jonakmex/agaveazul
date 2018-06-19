@@ -8,7 +8,7 @@ use File;
 use App\Recibos;
 use App\Cuenta;
 use App\Cuentamovimiento;
-
+use \Datetime;
 class PagosController extends Controller
 {
     /**
@@ -43,6 +43,7 @@ class PagosController extends Controller
         //'importe' => 'required|numeric',
         'ajuste' => 'required|numeric',
         'fecPago' => 'required|date',
+        'timeIngreso' => 'required',
         'rec_id' => 'required',
         'cuenta_id' => 'required',
         'comprobante' => 'required|Image',
@@ -51,24 +52,25 @@ class PagosController extends Controller
         $file = $request->file('comprobante');
         $recibo = Recibos::findOrFail($request->rec_id);
 
+        $hrMov = DateTime::createFromFormat( 'Y-m-d H:i A', $request->fecPago.' '.$request->timeIngreso);
+
         /*PAGAR RECIBO*/
         Storage::disk('public')->put('rec_'.$recibo->id.'/'.$file->getClientOriginalName(),File::get($file));
         $recibo->ajuste = $request->ajuste;
         $recibo->saldo = $recibo->importe + $recibo->ajuste;
-        $recibo->fecPago = $request->fecPago;
+        $recibo->fecPago = $hrMov->format( 'Y-m-d H:i:s');
         $recibo->comprobante = '/storage/'.'rec_'.$recibo->id.'/'.$file->getClientOriginalName();
         $recibo->estado = 2; //Pagado
         $recibo->save();
 
         /*Create Movimiento cuenta record*/
         $cuenta = Cuenta::findOrFail($request->cuenta_id);
-        $lastMov = $cuenta->movimientos()->orderBy('id','desc')->first();
-        $lastSaldo = $lastMov != null ? $lastMov->saldo : 0;
+
         $movimiento = new Cuentamovimiento();
         $movimiento->descripcion = $recibo->reciboheader->cuota->descripcion.' > '.$recibo->vivienda->descripcion.' > '.$recibo->descripcion;
         $movimiento->ingreso = $recibo->importe+$recibo->ajuste;
-        $movimiento->saldo = $lastSaldo + $movimiento->ingreso;
-        $movimiento->fecMov = $request->fecPago;
+        $movimiento->saldo = 0;
+        $movimiento->fecMov = $hrMov->format( 'Y-m-d H:i:s');
         $movimiento->comprobante = '/storage/'.'rec_'.$recibo->id.'/'.$file->getClientOriginalName();
         $cuenta->movimientos()->save($movimiento);
 
@@ -76,8 +78,16 @@ class PagosController extends Controller
         $reciboheader->saldo = $reciboheader->saldo + $movimiento->ingreso;
         $reciboheader->save();
 
-        $cuenta->saldo = $movimiento->saldo;
+        $cuenta->saldo += $movimiento->ingreso;
         $cuenta->save();
+
+        $recalculate = Cuentamovimiento::where('cuenta_id','=',$cuenta->id)->where('fecMov','>=',$hrMov)->orderBy('fecMov','desc')->orderBy('id','desc')->get();
+        $saldo = $cuenta->saldo;
+        foreach($recalculate as $item){
+          $item->saldo = $saldo;
+          $item->save();
+          $saldo += ($item->egreso - $item->ingreso);
+        }
 
         return view('admin.recibosheader.show')->with('reciboHeader',$recibo->reciboheader);
     }

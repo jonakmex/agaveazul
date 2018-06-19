@@ -18,7 +18,7 @@ class CuentamovimientoCreateTable extends Migration
         $table->integer('cuenta_id')->unsigned();
         $table->foreign('cuenta_id')->references('id')->on('cuentas')->onDelete('cascade');
         $table->string('descripcion');
-        $table->string('comprobante');
+        $table->string('comprobante')->nullable();
         $table->dateTime('fecMov');
         $table->decimal('ingreso',10,2)->nullable();
         $table->decimal('egreso',10,2)->nullable();

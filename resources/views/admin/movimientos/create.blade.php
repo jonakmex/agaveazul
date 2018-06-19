@@ -86,6 +86,8 @@
                     <label for="descripcion">Importe</label>
                      <input type="text"  name="egresoImporte" id="egresoImporte" value="" class="form-control"/ required>
                   </div>
+									<div class="col-md-6">
+                    <div class="bootstrap-timepicker">
                   <div class="form-group">
                     <label for="fecEgreso">Fecha Egreso</label>
                     <div class="input-group date">
@@ -94,6 +96,23 @@
                       </div>
                       <input type="text"  name="fecEgreso" id="fecEgreso" class="form-control"/ required>
                     </div>
+                  </div>
+								</div>
+							</div>
+									<div class="col-md-6">
+                    <div class="bootstrap-timepicker">
+                    <div class="form-group">
+                       <label>Time picker:</label>
+                       <div class="input-group">
+                         <input name="timeEgreso" type="text" class="form-control timepicker">
+                         <div class="input-group-addon">
+                           <i class="fa fa-clock-o"></i>
+                         </div>
+                       </div>
+                       <!-- /.input group -->
+                     </div>
+                     <!-- /.form group -->
+                   </div>
                   </div>
                   <div class="form-group">
                     <label for="compEgreso">Comprobante</label>
@@ -129,6 +148,8 @@
         								@endforeach
         							</select>
         						</div>
+										<div class="col-md-6">
+	                    <div class="bootstrap-timepicker">
                     <div class="form-group">
                       <label for="descripcion">Fecha Transferencia</label>
                       <div class="input-group date">
@@ -138,6 +159,23 @@
                         <input type="text"  name="fecTransfer" id="fecTransfer" class="form-control"/ required>
                       </div>
                     </div>
+									</div>
+								</div>
+										<div class="col-md-6">
+	                    <div class="bootstrap-timepicker">
+	                    <div class="form-group">
+	                       <label>Time picker:</label>
+	                       <div class="input-group">
+	                         <input name="timeTransfer" type="text" class="form-control timepicker">
+	                         <div class="input-group-addon">
+	                           <i class="fa fa-clock-o"></i>
+	                         </div>
+	                       </div>
+	                       <!-- /.input group -->
+	                     </div>
+	                     <!-- /.form group -->
+	                   </div>
+	                  </div>
                   </div>
                   <div class="modal-footer">
                     <a href="" class="btn btn-default">Cancelar</a>
