@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Cuota;
 use App\Vivienda;
 use App\CuotaVivienda;
+use App\Recibos;
 class CuotasController extends Controller
 {
     /**
@@ -74,6 +75,18 @@ class CuotasController extends Controller
             $cuotavivienda = new CuotaVivienda();
             $cuotavivienda->vivienda_id = $vivienda;
             $cuota->viviendas()->save($cuotavivienda);
+            if($request->chkRpt != "on")
+            {
+              $recibo = new Recibos();
+              $recibo->vivienda_id = $vivienda;
+              $recibo->descripcion = $request->descripcion;
+              $recibo->fecLimite = $cuota->fecPago;
+              $recibo->importe = $cuota->importe;
+              $recibo->estado = 1;
+              $recibo->saldo = 0;
+              $recibo->save();
+            }
+
         }
         return redirect()->route('cuotas.show',['id' => $cuota->id]);
       }

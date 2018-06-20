@@ -37,7 +37,7 @@ class GenerarRecibos implements ShouldQueue
       $today = date('Y-m-d H:i:s');
       $cuotas = Cuota::where('estado',1)->whereNotNull('periodicidad')->where('fecPago','<',$today)->get();
       foreach($cuotas as $cuota){
-        if($cuota->nPeriodos == 0 || count($cuota->recibosHeader) < $cuota->nPeriodos){
+        if($cuota->periodicidad =! null && ($cuota->nPeriodos == 0 || count($cuota->recibosHeader) < $cuota->nPeriodos)){
           $lastRecHead = $cuota->recibosHeader()->orderBy('fecVence','desc')->first();
           $toCreate = $this->getHeaders($cuota);
           foreach($toCreate as $itemToCreate){

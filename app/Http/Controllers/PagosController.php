@@ -67,16 +67,18 @@ class PagosController extends Controller
         $cuenta = Cuenta::findOrFail($request->cuenta_id);
 
         $movimiento = new Cuentamovimiento();
-        $movimiento->descripcion = $recibo->reciboheader->cuota->descripcion.' > '.$recibo->vivienda->descripcion.' > '.$recibo->descripcion;
+        $movimiento->descripcion = $recibo->reciboheader != null?$recibo->reciboheader->cuota->descripcion.' > '.$recibo->vivienda->descripcion.' > '.$recibo->descripcion:$recibo->descripcion;
         $movimiento->ingreso = $recibo->importe+$recibo->ajuste;
         $movimiento->saldo = 0;
         $movimiento->fecMov = $hrMov->format( 'Y-m-d H:i:s');
         $movimiento->comprobante = '/storage/'.'rec_'.$recibo->id.'/'.$file->getClientOriginalName();
         $cuenta->movimientos()->save($movimiento);
 
+        if($recibo->reciboheader != null){
         $reciboheader = $recibo->reciboheader;
         $reciboheader->saldo = $reciboheader->saldo + $movimiento->ingreso;
         $reciboheader->save();
+        }
 
         $cuenta->saldo += $movimiento->ingreso;
         $cuenta->save();

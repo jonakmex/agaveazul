@@ -81,7 +81,7 @@
     											<label for="checkbox1"></label>
     											</span>
     										</td>
-    										<td><a href="{{route('residentes.show',['id'=>$residente->id])}}">{{$residente->nombre}}</a></td>
+    										<td>{{$residente->nombre}}</td>
     										<td>{{$residente->email}}</td>
                         <td>{{$residente->telefono}}</td>
     										<td >
@@ -143,7 +143,11 @@
       								<tbody>
                         @foreach($recibos as $recibo)
       									<tr>
-      										<td><a href="#">{{$recibo->reciboheader->cuota->descripcion}}</a></td>
+      										<td>
+                              @if($recibo->reciboheader != null)
+                                <a href="#">{{$recibo->reciboheader->cuota->descripcion}}</a>
+                              @endif
+                          </td>
                           <td><a href="#">{{$recibo->descripcion}}</a></td>
       										<td>{{$recibo->fecLimite}}</td>
       										<td>{{$recibo->fecPago}}</td>

@@ -51,7 +51,7 @@
                         <label for="checkbox1"></label>
                         </span>
                       </td>
-                      <td><a href="#">Jonathan Gomez</a></td>
+                      <td>Jonathan Gomez</td>
                       <td>Casa 10</td>
                       <td>5511566012</td>
                       <td>jonak@gmail.com</td>

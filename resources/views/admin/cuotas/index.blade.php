@@ -58,37 +58,39 @@
                   </thead>
                   <tbody>
                     @foreach($cuotas as $cuota)
-                    <tr>
-                      <td><a href="{{route('cuotas.show',['id'=>$cuota->id])}}">{{$cuota->descripcion}}</a></td>
-                      <td>
-                        <a href="{{route('cuotas.edit',['id'=>$cuota->id])}}" class="btn btn-success"><i class="icon ion-md-create material-icons" data-toggle="tooltip" title="Editar"></i></a>
-                        <a href="#delete{{$cuota->id}}" class="btn btn-danger" data-toggle="modal"><i class="icon ion-md-trash material-icons" data-toggle="tooltip" title="Eliminar"></i></a>
-                      </td>
-                    </tr>
+                      @if($cuota->periodicidad != null)
+                      <tr>
+                        <td><a href="{{route('cuotas.show',['id'=>$cuota->id])}}">{{$cuota->descripcion}}</a></td>
+                        <td>
+                          <a href="{{route('cuotas.edit',['id'=>$cuota->id])}}" class="btn btn-success"><i class="icon ion-md-create material-icons" data-toggle="tooltip" title="Editar"></i></a>
+                          <a href="#delete{{$cuota->id}}" class="btn btn-danger" data-toggle="modal"><i class="icon ion-md-trash material-icons" data-toggle="tooltip" title="Eliminar"></i></a>
+                        </td>
+                      </tr>
 
-                    <!-- Delete Modal HTML -->
-                  	<div id="delete{{$cuota->id}}" class="modal fade">
-                  		<div class="modal-dialog">
-                  			<div class="modal-content">
-                  				<form action="{{route('cuotas.destroy',['id'=>$cuota->id])}}" method="POST">
-                            {{ csrf_field () }}
-                            {{ method_field('DELETE') }}
-                  					<div class="modal-header">
-                  						<h4 class="modal-title">Eliminar Cuota <b>{{$cuota->descripcion}}</b></h4>
-                  						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                  					</div>
-                  					<div class="modal-body">
-                  						<p>Confirma que desea eliminar la cuenta {{$cuota->descripcion}}?</p>
-                  						<p class="text-warning"><small>Esta accion no puede deshacerse.</small></p>
-                  					</div>
-                  					<div class="modal-footer">
-                  						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  						<input type="submit" class="btn btn-danger" value="Delete">
-                  					</div>
-                  				</form>
-                  			</div>
-                  		</div>
-                  	</div>
+                      <!-- Delete Modal HTML -->
+                    	<div id="delete{{$cuota->id}}" class="modal fade">
+                    		<div class="modal-dialog">
+                    			<div class="modal-content">
+                    				<form action="{{route('cuotas.destroy',['id'=>$cuota->id])}}" method="POST">
+                              {{ csrf_field () }}
+                              {{ method_field('DELETE') }}
+                    					<div class="modal-header">
+                    						<h4 class="modal-title">Eliminar Cuota <b>{{$cuota->descripcion}}</b></h4>
+                    						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    					</div>
+                    					<div class="modal-body">
+                    						<p>Confirma que desea eliminar la cuenta {{$cuota->descripcion}}?</p>
+                    						<p class="text-warning"><small>Esta accion no puede deshacerse.</small></p>
+                    					</div>
+                    					<div class="modal-footer">
+                    						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                    						<input type="submit" class="btn btn-danger" value="Delete">
+                    					</div>
+                    				</form>
+                    			</div>
+                    		</div>
+                    	</div>
+                      @endif
                     @endforeach
                   </tbody>
                 </table>

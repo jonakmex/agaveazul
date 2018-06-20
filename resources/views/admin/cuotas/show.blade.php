@@ -59,13 +59,15 @@
                   </thead>
                   <tbody>
                     @foreach($cuotas as $cuota)
-                    <tr>
-                      <td><a href="{{route('cuotas.show',['id'=>$cuota->id])}}">{{$cuota->descripcion}}</a></td>
-                      <td>
-                        <a href="{{route('cuotas.edit',['id'=>$cuota->id])}}" class="btn btn-success"><i class="icon ion-md-create material-icons" data-toggle="tooltip" title="Editar"></i></a>
-                        <a href="#" class="btn btn-danger" data-toggle="modal"><i class="icon ion-md-trash material-icons" data-toggle="tooltip" title="Eliminar"></i></a>
-                      </td>
-                    </tr>
+                      @if($cuota->periodicidad != null)
+                      <tr>
+                        <td><a href="{{route('cuotas.show',['id'=>$cuota->id])}}">{{$cuota->descripcion}}</a></td>
+                        <td>
+                          <a href="{{route('cuotas.edit',['id'=>$cuota->id])}}" class="btn btn-success"><i class="icon ion-md-create material-icons" data-toggle="tooltip" title="Editar"></i></a>
+                          <a href="#" class="btn btn-danger" data-toggle="modal"><i class="icon ion-md-trash material-icons" data-toggle="tooltip" title="Eliminar"></i></a>
+                        </td>
+                      </tr>
+                      @endif
                     @endforeach
                   </tbody>
                 </table>
