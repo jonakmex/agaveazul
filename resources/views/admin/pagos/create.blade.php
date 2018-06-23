@@ -12,6 +12,7 @@
 				<form action="{{ route('pagos.store') }}" method="POST" enctype="multipart/form-data">
                     {{ csrf_field () }}
 					<input name="rec_id" id="rec_id" value="{{$form['recibo']->id}}" hidden/>
+					<input name="backTo" id="backTo" value="{{$form['backTo']}}" hidden/>
 					<div class="modal-header">
 						<h4 class="modal-title">Pagar Recibo</h4>
 
@@ -125,7 +126,7 @@ $(function () {
 		$('#fecPago').datepicker('setDate', today);
 
     //Money Euro
-    $("#importe").inputmask({ alias : "pesos", prefix: '$' });
+    $("#importe").inputmask({ alias : "pesos", prefix: '$' ,removeMaskOnSubmit: true});
 		$("#ajuste").inputmask({ alias : "pesos", prefix: '$' ,removeMaskOnSubmit: true});
 
 		//Timepicker

@@ -48,7 +48,7 @@
                         <td>{{$rec->fecPago}}</td>
                         <td>
                           @if($rec->estado == 1)
-                            <a href="{{route('recibos.pagar',['rec_id'=>$rec->id])}}" class="edit"><i class="icon ion-md-card material-icons" title="Pagar"></i></a>
+                            <a href="{{route('recibos.payAndBackToRecibos',['rec_id'=>$rec->id])}}" class="edit"><i class="icon ion-md-card material-icons" title="Pagar"></i></a>
                           @elseif($rec->estado == 2)
                             <a href="{{asset($rec->comprobante)}}" target="_blank" class="edit"><i class="icon ion-md-eye material-icons" title="Ver recibo"></i></a>
                           @elseif($rec->estado == 3)

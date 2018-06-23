@@ -84,13 +84,26 @@ class RecibosController extends Controller
         //
     }
 
-    public function pagar($id)
+    public function payAndBackToVivienda($id)
     {
       $recibo = Recibos::findOrFail($id);
       $cuentas = Cuenta::where('estado',1)->paginate(10);
       $form = [
         'recibo'=>$recibo,
-        'cuentas'=>$cuentas
+        'cuentas'=>$cuentas,
+        'backTo'=>'vivienda'
+      ];
+      return view('admin.pagos.create')->with('form',$form);
+    }
+
+    public function payAndBackToRecibos($id)
+    {
+      $recibo = Recibos::findOrFail($id);
+      $cuentas = Cuenta::where('estado',1)->paginate(10);
+      $form = [
+        'recibo'=>$recibo,
+        'cuentas'=>$cuentas,
+        'backTo'=>'recibos'
       ];
       return view('admin.pagos.create')->with('form',$form);
     }

@@ -75,9 +75,9 @@ class PagosController extends Controller
         $cuenta->movimientos()->save($movimiento);
 
         if($recibo->reciboheader != null){
-        $reciboheader = $recibo->reciboheader;
-        $reciboheader->saldo = $reciboheader->saldo + $movimiento->ingreso;
-        $reciboheader->save();
+          $reciboheader = $recibo->reciboheader;
+          $reciboheader->saldo = $reciboheader->saldo + $movimiento->ingreso;
+          $reciboheader->save();
         }
 
         $cuenta->saldo += $movimiento->ingreso;
@@ -91,7 +91,13 @@ class PagosController extends Controller
           $saldo += ($item->egreso - $item->ingreso);
         }
 
-        return view('admin.recibosheader.show')->with('reciboHeader',$recibo->reciboheader);
+        if($request->backTo === 'vivienda'){
+          return redirect()->route('vivienda.show',['id' => $recibo->vivienda->id]);
+        }
+        else{
+          return redirect()->route('recibosHeader.show',['id' => $reciboheader->id]);
+        }
+
     }
 
     /**

@@ -25,7 +25,7 @@ class CuentamovimientoController extends Controller
         // validate form data
         $this->validate($request,[
             'cuenta_id' => 'required|numeric',
-            'descripcion' => 'required|min:3|max:30',
+            'descIngreso' => 'required|min:3|max:30',
             'ingresoImporte' => 'required|numeric',
             'fecIngreso' => 'required|date',
             'timeIngreso' => 'required',
@@ -38,7 +38,7 @@ class CuentamovimientoController extends Controller
         Storage::disk('public')->put('cuenta_'.$cuenta->id.'/ingresos/'.$file->getClientOriginalName(),File::get($file));
 
         $movimiento = new Cuentamovimiento();
-        $movimiento->descripcion = $request->descripcion;
+        $movimiento->descripcion = $request->descIngreso;
         $movimiento->ingreso = $request->ingresoImporte;
         $movimiento->saldo = 0;
         $movimiento->fecMov = $hrMov->format( 'Y-m-d H:i:s');
@@ -62,7 +62,7 @@ class CuentamovimientoController extends Controller
         // validate form data
         $this->validate($request,[
             'cuenta_id' => 'required|numeric',
-            'descripcion' => 'required|min:3|max:30',
+            'descEgreso' => 'required|min:3|max:30',
             'egresoImporte' => 'required|numeric',
             'fecEgreso' => 'required|date',
             'timeEgreso' => 'required',
@@ -75,7 +75,7 @@ class CuentamovimientoController extends Controller
         Storage::disk('public')->put('cuenta_'.$cuenta->id.'/egresos/'.$file->getClientOriginalName(),File::get($file));
 
         $movimiento = new Cuentamovimiento();
-        $movimiento->descripcion = $request->descripcion;
+        $movimiento->descripcion = $request->descEgreso;
         $movimiento->egreso = $request->egresoImporte;
         $movimiento->saldo = 0;
         $movimiento->fecMov = $hrMov->format( 'Y-m-d H:i:s');

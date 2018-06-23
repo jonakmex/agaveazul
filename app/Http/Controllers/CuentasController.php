@@ -44,7 +44,7 @@ class CuentasController extends Controller
       $cuenta = new Cuenta();
 
       $cuenta->descripcion = $request->descripcion;
-      $cuenta->saldo = $request->saldo;
+      $cuenta->saldo = $request->saldo == null ? 0 : $request->saldo;
       $cuenta->estado = 1;
       //Redirect if successfull
       if($cuenta->save()){
@@ -118,7 +118,7 @@ class CuentasController extends Controller
         $cuenta = Cuenta::findOrFail($id);
         $cuenta->estado = 0;
         if($cuenta->save()){
-            return view('admin.cuentas.index');
+            return redirect()->route('cuentas.index');
         }
 
     }
