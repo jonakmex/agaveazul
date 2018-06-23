@@ -10,7 +10,7 @@
 @php($cuentas = Request::path()=="cuentas"?"active":"")
 
 <ul class="sidebar-menu">
-<li class="header">{{Request::path()}}</li>
+<li class="header">MENU</li>
 <li class="{{$residencial}}">
   <a href="#">
     <i class="fa fa-dashboard"></i> <span>Residencial</span>
@@ -20,7 +20,6 @@
   </a>
   <ul class="treeview-menu">
     <li class="{{$viviendas}}"><a href="{{route('vivienda.index')}}"><i class="fa fa-circle-o"></i>Viviendas</a></li>
-    <li class="{{$residentes}}"><a href="{{route('residentes.index')}}"><i class="fa fa-circle-o"></i>Residentes</a></li>
   </ul>
 </li>
 <li class="{{$finanzas}}">
