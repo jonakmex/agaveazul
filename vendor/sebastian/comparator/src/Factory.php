@@ -16,10 +16,6 @@ namespace SebastianBergmann\Comparator;
 class Factory
 {
     /**
-     * @var Factory
-     */
-    private static $instance;
-    /**
      * @var Comparator[]
      */
     private $customComparators = [];
@@ -28,6 +24,11 @@ class Factory
      * @var Comparator[]
      */
     private $defaultComparators = [];
+
+    /**
+     * @var Factory
+     */
+    private static $instance;
 
     /**
      * @return Factory

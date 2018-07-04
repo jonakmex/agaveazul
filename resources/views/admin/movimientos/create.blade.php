@@ -62,7 +62,7 @@
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <a href="" class="btn btn-default">Cancelar</a>
+                  <a href="{{route('cuentas.show',['id'=>$cuenta->id])}}" class="btn btn-default">Cancelar</a>
                   <input type="submit" class="btn btn-success" value="Aceptar">
                 </div>
               </form>
@@ -120,7 +120,7 @@
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <a href="" class="btn btn-default">Cancelar</a>
+                  <a href="{{route('cuentas.show',['id'=>$cuenta->id])}}" class="btn btn-default">Cancelar</a>
                   <input type="submit" class="btn btn-success" value="Aceptar">
                 </div>
               </form>
@@ -178,7 +178,7 @@
 	                  </div>
                   </div>
                   <div class="modal-footer">
-                    <a href="" class="btn btn-default">Cancelar</a>
+                    <a href="{{route('cuentas.show',['id'=>$cuenta->id])}}" class="btn btn-default">Cancelar</a>
                     <input type="submit" class="btn btn-success" value="Aceptar">
                   </div>
                 </form>

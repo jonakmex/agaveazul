@@ -93,11 +93,6 @@ class DateTimeComparatorTest extends TestCase
                 new DateTimeImmutable('2013-03-29 23:01:30', new DateTimeZone('America/Chicago')),
                 100
             ],
-            [
-                new DateTimeImmutable('2013-03-30 12:00:00', new DateTimeZone('UTC')),
-                new DateTimeImmutable('2013-03-30 12:00:00.5', new DateTimeZone('UTC')),
-                0.5
-            ],
         ];
     }
 
@@ -167,9 +162,6 @@ class DateTimeComparatorTest extends TestCase
     /**
      * @covers       ::accepts
      * @dataProvider acceptsFailsProvider
-     *
-     * @param mixed $expected
-     * @param mixed $actual
      */
     public function testAcceptsFails($expected, $actual)
     {
@@ -181,10 +173,6 @@ class DateTimeComparatorTest extends TestCase
     /**
      * @covers       ::assertEquals
      * @dataProvider assertEqualsSucceedsProvider
-     *
-     * @param mixed $expected
-     * @param mixed $actual
-     * @param mixed $delta
      */
     public function testAssertEqualsSucceeds($expected, $actual, $delta = 0.0)
     {
@@ -201,10 +189,6 @@ class DateTimeComparatorTest extends TestCase
     /**
      * @covers       ::assertEquals
      * @dataProvider assertEqualsFailsProvider
-     *
-     * @param mixed $expected
-     * @param mixed $actual
-     * @param mixed $delta
      */
     public function testAssertEqualsFails($expected, $actual, $delta = 0.0)
     {

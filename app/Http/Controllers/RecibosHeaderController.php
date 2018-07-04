@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Reciboheader;
+use App\Exports\RecibosExport;
+
 class RecibosHeaderController extends Controller
 {
     /**
@@ -49,6 +51,13 @@ class RecibosHeaderController extends Controller
       $reciboHeader = Reciboheader::findOrFail($id);
       //Show the view and pass the record
       return view('admin.recibosheader.show')->with('reciboHeader',$reciboHeader);
+    }
+
+    public function exportar($id)
+    {
+      $reciboHeader = Reciboheader::findOrFail($id);
+      $name = $reciboHeader->cuota->descripcion.'_'.$reciboHeader->descripcion;
+      return (new RecibosExport($id))->download("recibos_$name.xlsx");
     }
 
     /**

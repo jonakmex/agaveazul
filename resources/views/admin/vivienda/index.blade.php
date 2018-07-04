@@ -46,9 +46,7 @@
         <div class="row">
         <div class="col-xs-12">
           <div class="box">
-            <div class="col-sm-6">
-                <a href="{{route('vivienda.create')}}" class="btn btn-flat"><span>Nuevo</span></a>
-            </div>
+            
             <!-- /.box-header -->
             <div class="box-body">
 

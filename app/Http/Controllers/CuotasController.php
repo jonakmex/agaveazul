@@ -7,6 +7,9 @@ use App\Cuota;
 use App\Vivienda;
 use App\CuotaVivienda;
 use App\Recibos;
+use Mail;
+use App\AvisoMail;
+
 class CuotasController extends Controller
 {
     /**
@@ -72,6 +75,7 @@ class CuotasController extends Controller
         $viviendas = $request->selected;
         //dd($viviendas);
         foreach($viviendas as $vivienda){
+            $oVivienda = Vivienda::findOrFail($vivienda);
             $cuotavivienda = new CuotaVivienda();
             $cuotavivienda->vivienda_id = $vivienda;
             $cuota->viviendas()->save($cuotavivienda);
@@ -85,6 +89,12 @@ class CuotasController extends Controller
               $recibo->estado = 1;
               $recibo->saldo = 0;
               $recibo->save();
+
+              foreach($oVivienda->residentes as $residente){
+                $data = array('recibo'=>$recibo);
+                Mail::to($residente->email)->queue(new AvisoMail($data));
+              }
+
             }
 
         }

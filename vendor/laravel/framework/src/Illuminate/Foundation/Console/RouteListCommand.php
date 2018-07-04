@@ -110,7 +110,7 @@ class RouteListCommand extends Command
             'method' => implode('|', $route->methods()),
             'uri'    => $route->uri(),
             'name'   => $route->getName(),
-            'action' => ltrim($route->getActionName(), '\\'),
+            'action' => $route->getActionName(),
             'middleware' => $this->getMiddleware($route),
         ]);
     }

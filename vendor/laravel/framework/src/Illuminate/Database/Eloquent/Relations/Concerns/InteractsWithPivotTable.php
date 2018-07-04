@@ -188,7 +188,7 @@ trait InteractsWithPivotTable
             $attributes = $this->addTimestampsToAttachment($attributes, true);
         }
 
-        $updated = $this->newPivotStatementForId($this->parseId($id))->update(
+        $updated = $this->newPivotStatementForId($id)->update(
             $this->castAttributes($attributes)
         );
 
@@ -300,10 +300,6 @@ trait InteractsWithPivotTable
             $record = $this->addTimestampsToAttachment($record);
         }
 
-        foreach ($this->pivotValues as $value) {
-            $record[$value['column']] = $value['value'];
-        }
-
         return $record;
     }
 
@@ -317,12 +313,6 @@ trait InteractsWithPivotTable
     protected function addTimestampsToAttachment(array $record, $exists = false)
     {
         $fresh = $this->parent->freshTimestamp();
-
-        if ($this->using) {
-            $pivotModel = new $this->using;
-
-            $fresh = $fresh->format($pivotModel->getDateFormat());
-        }
 
         if (! $exists && $this->hasPivotColumn($this->createdAt())) {
             $record[$this->createdAt()] = $fresh;
@@ -486,17 +476,6 @@ trait InteractsWithPivotTable
         }
 
         return (array) $value;
-    }
-
-    /**
-     * Get the ID from the given mixed value.
-     *
-     * @param  mixed  $value
-     * @return mixed
-     */
-    protected function parseId($value)
-    {
-        return $value instanceof Model ? $value->getKey() : $value;
     }
 
     /**

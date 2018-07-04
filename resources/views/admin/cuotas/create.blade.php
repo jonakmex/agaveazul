@@ -30,25 +30,34 @@
 					<div class="modal-body">
             <div class="row">
             <div class="col-md-6">
-  						<div class="form-group">
+  						<div class="form-group @php($err_descripcion = $errors->has('descripcion')?'has-error':'') {{$err_descripcion}}">
   							<label for="descripcion">Descripcion</label>
-  							 <input type="text"  name="descripcion" id="descripcion" class="form-control"/ required>
+  							 <input type="text" value="{{old('descripcion')}}"  name="descripcion" id="descripcion" class="form-control"/ required>
+                 @if ($errors->has('descripcion'))
+  							 	<span class="help-block">{{ $errors->first('descripcion') }}</span>
+  							 @endif
   						</div>
               <!-- IP mask -->
-              <div class="form-group">
+              <div class="form-group @php($err_importe = $errors->has('importe')?'has-error':'') {{$err_importe}}">
                 <label>Importe:</label>
-                  <input id="importe" name="importe" type="text" class="form-control">
+                  <input id="importe" value="{{old('importe')}}" name="importe" type="text" class="form-control">
+                  @if ($errors->has('importe'))
+     							 	<span class="help-block">{{ $errors->first('importe') }}</span>
+     							@endif
                 <!-- /.input group -->
               </div>
               <!-- /.form group -->
               <!-- Date -->
-              <div class="form-group">
+              <div class="form-group @php($err_fecPago = $errors->has('fecPago')?'has-error':'') {{$err_fecPago}}">
                 <label>Fecha:</label>
                 <div class="input-group date">
                   <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                   </div>
-                  <input type="text" class="form-control pull-right" id="fecPago" name="fecPago">
+                  <input type="text" value="{{old('fecPago')}}" class="form-control pull-right" id="fecPago" name="fecPago">
+                  @if ($errors->has('fecPago'))
+     							 	<span class="help-block">{{ $errors->first('fecPago') }}</span>
+     							@endif
                 </div>
                 <!-- /.input group -->
               </div>
@@ -64,7 +73,7 @@
               <!-- /.form group -->
               <div class="form-group">
                 <label for="chkRpt">
-                  <input id="chkRpt" type="checkbox" class="flat-red" name="chkRpt"/>
+                  <input id="chkRpt"  type="checkbox" class="flat-red" name="chkRpt"/>
                     Repetir
                 </label>
               </div>
@@ -79,7 +88,10 @@
 
               <div id="dvNPeriodos" class="form-group" style="display: none">
                 <label>Repeticiones</label>
-                <input id="nPeriodos" name="nPeriodos" type="text" class="form-control">
+                <input id="nPeriodos" name="nPeriodos" value="{{old('nPeriodos')}}" type="text" class="form-control">
+                @if ($errors->has('nPeriodos'))
+                  <span class="help-block">{{ $errors->first('nPeriodos') }}</span>
+                @endif
               </div>
             </div>
 

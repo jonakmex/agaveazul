@@ -1,5 +1,32 @@
 @extends('common.user')
+@section('styles')
+<style>
+.toolbar {
+    float: right;
+}
 
+	.table-title .btn {
+		color: #fff;
+		float: right;
+		font-size: 13px;
+		border: none;
+		min-width: 50px;
+		border-radius: 2px;
+		border: none;
+		outline: none !important;
+		margin-left: 10px;
+	}
+	.table-title .btn i {
+		float: left;
+		font-size: 21px;
+		margin-right: 5px;
+	}
+	.table-title .btn span {
+		float: left;
+		margin-top: 2px;
+	}
+</style>
+@endsection
 @section('content')
 
 
@@ -9,15 +36,15 @@
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Recibos</h3>
+              <h3 class="box-title">Recibos {{$reciboHeader != null ? $reciboHeader->cuota->descripcion." | ".$reciboHeader->descripcion : ""}}</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
 
-                <table class="table table-bordered table-hover">
+                <table id="tblHeader" class="table table-bordered table-striped">
                   <thead>
                     <tr>
-                      <th>Nombre</th>
+                      <th>Vivienda</th>
                       <th>Importe</th>
                       <th>Ajuste</th>
                       <th>Total</th>
@@ -29,9 +56,10 @@
                   </thead>
                   <tbody>
                     @if($reciboHeader != null)
-                      @foreach($reciboHeader->recibos as $rec)
+                      @php($recibos = $reciboHeader->recibos()->paginate(10))
+                      @foreach($recibos as $rec)
                       <tr>
-                        <td><a href="#">{{$rec->vivienda->descripcion}}</a></td>
+                        <td>{{$rec->vivienda->descripcion}}</td>
                         <td>${{number_format($rec->importe, 2, '.', ',')}}</td>
                         <td>${{number_format($rec->ajuste, 2, '.', ',')}}</td>
                         <td>${{number_format($rec->importe+$rec->ajuste, 2, '.', ',')}}</td>
@@ -60,6 +88,7 @@
                     @endif
                   </tbody>
                 </table>
+                {{$recibos->links()}}
                  </div>
             <!-- /.box-body -->
           </div>
@@ -72,4 +101,23 @@
       <!-- /.row -->
     </section>
     <!-- /.content -->
+@endsection
+@section('scripts')
+<script src="{{asset('dashboard/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('dashboard/plugins/datatables/dataTables.bootstrap.min.js')}}"></script>
+<script>
+  $(function () {
+    $("#tblHeader").DataTable({
+      "paging": false,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": false,
+      "info": false,
+      "autoWidth": false,
+      "dom": '<"toolbar">frtip'
+    });
+
+    $("div.toolbar").html('<a href="{{route('recibosHeader.exportar',['id'=>$reciboHeader->id])}}" class="edit"><i class="icon ion-md-download material-icons" title="Exportar"></i></a>');
+  });
+</script>
 @endsection

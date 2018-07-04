@@ -94,7 +94,8 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @foreach($selected->recibosHeader as $header)
+                  @php($headers = $selected->recibosHeader()->orderBy('id','desc')->paginate(10))
+                  @foreach($headers as $header)
                   <tr>
                     <td><a href="{{route('recibosHeader.show',['id'=>$header->id])}}">{{$header->descripcion}}</a></td>
                     <td>${{number_format($header->importe+$header->ajuste, 2, '.', ',')}}</td>
@@ -103,7 +104,7 @@
                   @endforeach
                 </tbody>
               </table>
-
+              {{ $headers->links() }}
             </div>
             <!-- /.box-body -->
           </div>

@@ -26,7 +26,7 @@ class ServeCommand extends Command
     /**
      * Execute the console command.
      *
-     * @return int
+     * @return void
      *
      * @throws \Exception
      */
@@ -36,9 +36,7 @@ class ServeCommand extends Command
 
         $this->line("<info>Laravel development server started:</info> <http://{$this->host()}:{$this->port()}>");
 
-        passthru($this->serverCommand(), $status);
-
-        return $status;
+        passthru($this->serverCommand());
     }
 
     /**
@@ -48,11 +46,11 @@ class ServeCommand extends Command
      */
     protected function serverCommand()
     {
-        return sprintf('%s -S %s:%s %s',
+        return sprintf('%s -S %s:%s %s/server.php',
             ProcessUtils::escapeArgument((new PhpExecutableFinder)->find(false)),
             $this->host(),
             $this->port(),
-            ProcessUtils::escapeArgument(base_path('server.php'))
+            ProcessUtils::escapeArgument(base_path())
         );
     }
 

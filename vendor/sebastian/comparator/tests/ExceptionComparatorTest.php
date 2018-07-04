@@ -10,9 +10,9 @@
 
 namespace SebastianBergmann\Comparator;
 
-use Exception;
+use \Exception;
+use \RuntimeException;
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
 
 /**
  * @coversDefaultClass SebastianBergmann\Comparator\ExceptionComparator
@@ -89,9 +89,6 @@ class ExceptionComparatorTest extends TestCase
     /**
      * @covers       ::accepts
      * @dataProvider acceptsSucceedsProvider
-     *
-     * @param mixed $expected
-     * @param mixed $actual
      */
     public function testAcceptsSucceeds($expected, $actual)
     {
@@ -103,9 +100,6 @@ class ExceptionComparatorTest extends TestCase
     /**
      * @covers       ::accepts
      * @dataProvider acceptsFailsProvider
-     *
-     * @param mixed $expected
-     * @param mixed $actual
      */
     public function testAcceptsFails($expected, $actual)
     {
@@ -117,9 +111,6 @@ class ExceptionComparatorTest extends TestCase
     /**
      * @covers       ::assertEquals
      * @dataProvider assertEqualsSucceedsProvider
-     *
-     * @param mixed $expected
-     * @param mixed $actual
      */
     public function testAssertEqualsSucceeds($expected, $actual)
     {
@@ -136,10 +127,6 @@ class ExceptionComparatorTest extends TestCase
     /**
      * @covers       ::assertEquals
      * @dataProvider assertEqualsFailsProvider
-     *
-     * @param mixed $expected
-     * @param mixed $actual
-     * @param mixed $message
      */
     public function testAssertEqualsFails($expected, $actual, $message)
     {

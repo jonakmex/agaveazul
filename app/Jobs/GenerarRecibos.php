@@ -11,6 +11,9 @@ use App\Cuota;
 use App\Reciboheader;
 use App\Recibos;
 use Carbon\Carbon;
+use Mail;
+use App\AvisoMail;
+use App\Vivienda;
 
 class GenerarRecibos implements ShouldQueue
 {
@@ -57,7 +60,14 @@ class GenerarRecibos implements ShouldQueue
                 $recibo->importe = $cuota->importe;
                 $recibo->estado = 1;
                 $recibo->saldo = 0;
-                $newReciboHeader->recibos()->save($recibo );
+                $newReciboHeader->recibos()->save($recibo);
+
+                $vivienda = Vivienda::findOrFail($cuotavivienda->vivienda_id);
+
+                foreach($vivienda->residentes as $residente){
+                  $data = array('recibo'=>$recibo);
+                  Mail::to($residente->email)->queue(new AvisoMail($data));
+                }
             }
           }
         }

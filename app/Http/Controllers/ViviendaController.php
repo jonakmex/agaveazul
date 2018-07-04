@@ -67,7 +67,7 @@ class ViviendaController extends Controller
     {
       // Use the model to get one record from DB
       $vivienda = Vivienda::findOrFail($id);
-      $recibos = Recibos::where('vivienda_id',$id)->orderBy('fecLimite','desc')->get();
+      $recibos = Recibos::where('vivienda_id',$id)->orderBy('fecLimite','desc')->paginate(10);
       //Show the view and pass the record
       return view('admin.vivienda.show')->with(['vivienda'=>$vivienda,'recibos'=>$recibos]);
     }

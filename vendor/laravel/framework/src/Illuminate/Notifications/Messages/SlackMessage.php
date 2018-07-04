@@ -84,18 +84,6 @@ class SlackMessage
     public $http = [];
 
     /**
-     * Indicate that the notification gives information about an operation.
-     *
-     * @return $this
-     */
-    public function info()
-    {
-        $this->level = 'info';
-
-        return $this;
-    }
-
-    /**
      * Indicate that the notification gives information about a successful operation.
      *
      * @return $this

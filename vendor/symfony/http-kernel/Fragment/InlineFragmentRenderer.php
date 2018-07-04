@@ -109,13 +109,26 @@ class InlineFragmentRenderer extends RoutableFragmentRenderer
         $cookies = $request->cookies->all();
         $server = $request->server->all();
 
-        if (Request::HEADER_X_FORWARDED_FOR & Request::getTrustedHeaderSet()) {
-            $currentXForwardedFor = $request->headers->get('X_FORWARDED_FOR', '');
+        // Override the arguments to emulate a sub-request.
+        // Sub-request object will point to localhost as client ip and real client ip
+        // will be included into trusted header for client ip
+        try {
+            if (Request::HEADER_X_FORWARDED_FOR & Request::getTrustedHeaderSet()) {
+                $currentXForwardedFor = $request->headers->get('X_FORWARDED_FOR', '');
 
-            $server['HTTP_X_FORWARDED_FOR'] = ($currentXForwardedFor ? $currentXForwardedFor.', ' : '').$request->getClientIp();
+                $server['HTTP_X_FORWARDED_FOR'] = ($currentXForwardedFor ? $currentXForwardedFor.', ' : '').$request->getClientIp();
+            } elseif (method_exists(Request::class, 'getTrustedHeaderName') && $trustedHeaderName = Request::getTrustedHeaderName(Request::HEADER_CLIENT_IP, false)) {
+                $currentXForwardedFor = $request->headers->get($trustedHeaderName, '');
+
+                $server['HTTP_'.$trustedHeaderName] = ($currentXForwardedFor ? $currentXForwardedFor.', ' : '').$request->getClientIp();
+            }
+        } catch (\InvalidArgumentException $e) {
+            // Do nothing
         }
 
-        $server['REMOTE_ADDR'] = '127.0.0.1';
+        $trustedProxies = Request::getTrustedProxies();
+        $server['REMOTE_ADDR'] = $trustedProxies ? reset($trustedProxies) : '127.0.0.1';
+
         unset($server['HTTP_IF_MODIFIED_SINCE']);
         unset($server['HTTP_IF_NONE_MATCH']);
 

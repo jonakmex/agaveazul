@@ -47,7 +47,7 @@
     <!-- Main content -->
     <section class="content">
         <div class="row">
-        <div class="col-xs-6">
+        <div class="col-xs-4">
           <div class="box">
             <div class="box-header">
               <h3 class="box-title">Cuentas</h3>
@@ -107,7 +107,7 @@
         </div>
         <!-- /.col -->
         <!-- /.col (left) -->
-        <div class="col-md-6">
+        <div class="col-md-8">
           <div class="box box-primary">
             <div class="box-header">
               <h3 class="box-title">Estado de Cuenta <b>{{$selected->descripcion}}</b></h3>
@@ -152,9 +152,53 @@
                 </tbody>
               </table>
 
-            </div>
             <!-- /.box-body -->
             {!! $movimientos->appends(request()->input())->links() !!}
+
+            <!-- Delete Modal HTML -->
+            <div id="report" class="modal fade">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <form action="{{route('estadoCta.exportar')}}" method="POST">
+                    {{ csrf_field () }}
+                    <div class="modal-header">
+                      <h4 class="modal-title">Seleccione periodo</b></h4>
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <input type="hidden" name="id" value="{{$selected->id}}"/>
+                    <div class="modal-body">
+                      <div class="col-md-6">
+                        <div class="form-group @php($err_fecInicio = $errors->has('fecInicio')?'has-error':'') {{$err_fecInicio}}" >
+                          <label for="fecInicio">Fecha Inicial</label>
+                          <div class="input-group date">
+                            <div class="input-group-addon">
+                              <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text"  name="fecInicio" id="fecInicio" class="form-control"/ required>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group @php($err_fecFin = $errors->has('fecFin')?'has-error':'') {{$err_fecFin}}" >
+                          <label for="fecFin">Fecha Final</label>
+                          <div class="input-group date">
+                            <div class="input-group-addon">
+                              <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text"  name="fecFin" id="fecFin" class="form-control"/ required>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                      <input type="submit" class="btn btn-primary" value="Enviar">
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
           </div>
           <!-- /.box -->
       </div>
@@ -166,6 +210,7 @@
 @section('scripts')
 <script src="{{asset('dashboard/plugins/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('dashboard/plugins/datatables/dataTables.bootstrap.min.js')}}"></script>
+<script src="{{asset('dashboard/plugins/datepicker/bootstrap-datepicker.js')}}"></script>
 <script>
   $(function () {
     $("#tblCuentas").DataTable({
@@ -180,7 +225,7 @@
 
     $("div.toolbar").html('<a href="{{route('cuentas.create')}}" class="edit"><i class="icon ion-md-add material-icons" title="Add"></i></a>');
 
-    //Tabla Movimientos
+    //Tabla Movimientos '<"toolbar_mov">frtip'
     $("#tblMovimientos").DataTable({
       "paging": false,
       "lengthChange": false,
@@ -188,10 +233,23 @@
       "ordering": false,
       "info": false,
       "autoWidth": false,
-      "dom": '<"toolbar_mov">frtip'
+      "dom": '<"toolbar_mov">frtip',
+      buttons: [
+        'excel'
+      ]
     });
 
-    $("div.toolbar_mov").html('<a href="{{route('movimientos.create',['cuenta_id'=>$selected->id])}}" class="edit"><i class="icon ion-md-add material-icons" title="Add"></i></a>');
+    $("div.toolbar_mov").html('<a href="{{route('movimientos.create',['cuenta_id'=>$selected->id])}}" class="edit"><i class="icon ion-md-add material-icons" title="Add"></i></a>   <a href="#report" data-toggle="modal" class="edit"><i class="icon ion-md-download material-icons" title="Excel"></i></a>');
+
+    $('#fecInicio').datepicker({
+      autoclose: true,
+      format: "yyyy-mm-dd"
+    });
+
+    $('#fecFin').datepicker({
+      autoclose: true,
+      format: "yyyy-mm-dd"
+    });
   });
 </script>
 @endsection

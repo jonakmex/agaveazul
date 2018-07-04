@@ -10,7 +10,7 @@
 
 namespace SebastianBergmann\CodeCoverage\Report\Xml;
 
-abstract class Node
+class Node
 {
     /**
      * @var \DOMDocument
@@ -27,19 +27,30 @@ abstract class Node
         $this->setContextNode($context);
     }
 
-    public function getDom(): \DOMDocument
+    protected function setContextNode(\DOMElement $context)
+    {
+        $this->dom         = $context->ownerDocument;
+        $this->contextNode = $context;
+    }
+
+    public function getDom()
     {
         return $this->dom;
     }
 
-    public function getTotals(): Totals
+    protected function getContextNode()
+    {
+        return $this->contextNode;
+    }
+
+    public function getTotals()
     {
         $totalsContainer = $this->getContextNode()->firstChild;
 
         if (!$totalsContainer) {
             $totalsContainer = $this->getContextNode()->appendChild(
                 $this->dom->createElementNS(
-                    'https://schema.phpunit.de/coverage/1.0',
+                    'http://schema.phpunit.de/coverage/1.0',
                     'totals'
                 )
             );
@@ -48,10 +59,10 @@ abstract class Node
         return new Totals($totalsContainer);
     }
 
-    public function addDirectory(string $name): Directory
+    public function addDirectory($name)
     {
         $dirNode = $this->getDom()->createElementNS(
-            'https://schema.phpunit.de/coverage/1.0',
+            'http://schema.phpunit.de/coverage/1.0',
             'directory'
         );
 
@@ -61,10 +72,10 @@ abstract class Node
         return new Directory($dirNode);
     }
 
-    public function addFile(string $name, string $href): File
+    public function addFile($name, $href)
     {
         $fileNode = $this->getDom()->createElementNS(
-            'https://schema.phpunit.de/coverage/1.0',
+            'http://schema.phpunit.de/coverage/1.0',
             'file'
         );
 
@@ -73,16 +84,5 @@ abstract class Node
         $this->getContextNode()->appendChild($fileNode);
 
         return new File($fileNode);
-    }
-
-    protected function setContextNode(\DOMElement $context): void
-    {
-        $this->dom         = $context->ownerDocument;
-        $this->contextNode = $context;
-    }
-
-    protected function getContextNode(): \DOMElement
-    {
-        return $this->contextNode;
     }
 }

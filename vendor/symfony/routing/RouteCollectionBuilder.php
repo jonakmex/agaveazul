@@ -58,7 +58,7 @@ class RouteCollectionBuilder
      */
     public function import($resource, $prefix = '/', $type = null)
     {
-        /** @var RouteCollection[] $collections */
+        /** @var RouteCollection[] $collection */
         $collections = $this->load($resource, $type);
 
         // create a builder from the RouteCollection
@@ -118,7 +118,7 @@ class RouteCollectionBuilder
      * @param string                 $prefix
      * @param RouteCollectionBuilder $builder
      */
-    public function mount($prefix, RouteCollectionBuilder $builder)
+    public function mount($prefix, self $builder)
     {
         $builder->prefix = trim(trim($prefix), '/');
         $this->routes[] = $builder;
@@ -251,11 +251,9 @@ class RouteCollectionBuilder
     /**
      * Adds a resource for this collection.
      *
-     * @param ResourceInterface $resource
-     *
      * @return $this
      */
-    private function addResource(ResourceInterface $resource): RouteCollectionBuilder
+    private function addResource(ResourceInterface $resource)
     {
         $this->resources[] = $resource;
 
@@ -326,8 +324,10 @@ class RouteCollectionBuilder
 
     /**
      * Generates a route name based on details of this route.
+     *
+     * @return string
      */
-    private function generateRouteName(Route $route): string
+    private function generateRouteName(Route $route)
     {
         $methods = implode('_', $route->getMethods()).'_';
 
@@ -351,7 +351,7 @@ class RouteCollectionBuilder
      *
      * @throws FileLoaderLoadException If no loader is found
      */
-    private function load($resource, string $type = null): array
+    private function load($resource, $type = null)
     {
         if (null === $this->loader) {
             throw new \BadMethodCallException('Cannot import other routing resources: you must pass a LoaderInterface when constructing RouteCollectionBuilder.');

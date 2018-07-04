@@ -15,10 +15,9 @@ class PostgresGrammar extends Grammar
      */
     protected $operators = [
         '=', '<', '>', '<=', '>=', '<>', '!=',
-        'like', 'not like', 'between', 'ilike', 'not ilike',
-        '~', '&', '|', '#', '<<', '>>', '<<=', '>>=',
+        'like', 'not like', 'ilike',
+        '&', '|', '#', '<<', '>>', '>>=', '=<<',
         '&&', '@>', '<@', '?', '?|', '?&', '||', '-', '-', '#-',
-        'is distinct from', 'is not distinct from',
     ];
 
     /**
@@ -261,6 +260,7 @@ class PostgresGrammar extends Grammar
      *
      * @param  \Illuminate\Database\Query\Builder  $query
      * @param  string  $table
+     * @param  array  $where
      * @return string
      */
     protected function compileDeleteWithJoins($query, $table)

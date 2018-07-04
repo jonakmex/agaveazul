@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Exports\EstadoCuentaExport;
 use App\Cuenta;
 use App\Cuentamovimiento;
 class CuentasController extends Controller
@@ -67,6 +68,18 @@ class CuentasController extends Controller
         $cuentas = Cuenta::where('estado',1)->get();
         $movimientos = Cuentamovimiento::where('cuenta_id',$cuenta->id)->orderBy('fecMov','desc')->orderBy('id','desc')->paginate(5);
         return view('admin.cuentas.show')->with(['selected'=>$cuenta,'cuentas'=>$cuentas,'movimientos'=>$movimientos] );
+    }
+
+    public function exportar(Request $request)
+    {
+      // validate form data
+      $this->validate($request,[
+          'fecInicio' => 'required',
+          'fecFin' => 'required'
+      ]);
+      $cuenta = Cuenta::findOrFail($request->id);
+      $name = $cuenta->descripcion;
+      return (new EstadoCuentaExport($request->id,$request->fecInicio,$request->fecFin))->download("$name.xlsx");
     }
 
     /**

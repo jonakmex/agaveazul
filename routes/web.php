@@ -28,8 +28,11 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('cuentas', 'CuentasController');
     Route::resource('pagos', 'PagosController');
     Route::resource('recibosHeader', 'RecibosHeaderController');
+    Route::get('/recibosHeader/export/{hdr_id}', ['uses' =>'RecibosHeaderController@exportar'])->name('recibosHeader.exportar');
     Route::get('/recibos/payAndBackToVivienda/{rec_id}', ['uses' =>'RecibosController@payAndBackToVivienda'])->name('recibos.payAndBackToVivienda');
     Route::get('/recibos/payAndBackToRecibos/{rec_id}', ['uses' =>'RecibosController@payAndBackToRecibos'])->name('recibos.payAndBackToRecibos');
     Route::resource('movimientos', 'CuentamovimientoController',['except' => ['create']]);
     Route::get('/movimientos/create/{cuenta_id}', ['uses' =>'CuentamovimientoController@create'])->name('movimientos.create');
+    Route::post('/estadoCta/export', ['uses' =>'CuentasController@exportar'])->name('estadoCta.exportar');
+    Route::get('/test/sendMail', ['uses' =>'TestController@sendMail'])->name('test.sendMail');
 });

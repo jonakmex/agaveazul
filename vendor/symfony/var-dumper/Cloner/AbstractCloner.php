@@ -95,6 +95,7 @@ abstract class AbstractCloner implements ClonerInterface
         'AMQPEnvelope' => array('Symfony\Component\VarDumper\Caster\AmqpCaster', 'castEnvelope'),
 
         'ArrayObject' => array('Symfony\Component\VarDumper\Caster\SplCaster', 'castArrayObject'),
+        'ArrayIterator' => array('Symfony\Component\VarDumper\Caster\SplCaster', 'castArrayIterator'),
         'SplDoublyLinkedList' => array('Symfony\Component\VarDumper\Caster\SplCaster', 'castDoublyLinkedList'),
         'SplFileInfo' => array('Symfony\Component\VarDumper\Caster\SplCaster', 'castFileInfo'),
         'SplFileObject' => array('Symfony\Component\VarDumper\Caster\SplCaster', 'castFileObject'),
@@ -103,6 +104,8 @@ abstract class AbstractCloner implements ClonerInterface
         'SplObjectStorage' => array('Symfony\Component\VarDumper\Caster\SplCaster', 'castObjectStorage'),
         'SplPriorityQueue' => array('Symfony\Component\VarDumper\Caster\SplCaster', 'castHeap'),
         'OuterIterator' => array('Symfony\Component\VarDumper\Caster\SplCaster', 'castOuterIterator'),
+
+        'MongoCursorInterface' => array('Symfony\Component\VarDumper\Caster\MongoCaster', 'castCursor'),
 
         'Redis' => array('Symfony\Component\VarDumper\Caster\RedisCaster', 'castRedis'),
         'RedisArray' => array('Symfony\Component\VarDumper\Caster\RedisCaster', 'castRedisArray'),
@@ -131,6 +134,7 @@ abstract class AbstractCloner implements ClonerInterface
     protected $maxItems = 2500;
     protected $maxString = -1;
     protected $minDepth = 1;
+    protected $useExt;
 
     private $casters = array();
     private $prevErrorHandler;
@@ -148,6 +152,7 @@ abstract class AbstractCloner implements ClonerInterface
             $casters = static::$defaultCasters;
         }
         $this->addCasters($casters);
+        $this->useExt = extension_loaded('symfony_debug');
     }
 
     /**
