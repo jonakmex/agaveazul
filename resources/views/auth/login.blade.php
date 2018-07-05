@@ -3,12 +3,12 @@
 @section('body')
 <body class="hold-transition login-page">
 <div class="login-box">
-  
+
   <div class="login-box-body">
     <p class="login-box-msg">Iniciar Sesión</p>
 
     <form method="POST" action="{{ route('login') }}">
-      @csrf
+      {{ csrf_field () }}
       <div class="form-group has-feedback">
         <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" placeholder="Email" required autofocus>
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
@@ -44,7 +44,6 @@
     </form>
 
     <a href="{{ route('password.request') }}">Olvide mi contraseña</a><br>
-    <a href="{{ route('register') }}" class="text-center">Registrarme</a>
 
   </div>
   <!-- /.login-box-body -->

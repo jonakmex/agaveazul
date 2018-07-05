@@ -32,7 +32,7 @@
   <ul class="treeview-menu">
     <li class="{{$cuentas}}"><a href="{{route('cuentas.index')}}"><i class="fa fa-circle-o"></i>Cuentas</a></li>
     <li class="{{$cuotas}}"><a href="{{route('cuotas.index')}}"><i class="fa fa-circle-o"></i>Cuotas</a></li>
-    <li><a href="{{route('test.sendMail')}}"><i class="fa fa-circle-o"></i>Send Mail</a></li>
   </ul>
 </li>
+
 </ul>
