@@ -30,6 +30,18 @@
   <link rel="stylesheet" href="{{asset('dashboard/plugins/iCheck/all.css')}}">
 @endsection
 @section('content')
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>
+    Viviendas
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="{{route('home')}}"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a href="{{route('vivienda.index')}}">Viviendas</a></li>
+  </ol>
+</section>
+
 		<!-- Main content -->
 <section class="content">
   <div class="row">
