@@ -1,1 +1,0 @@
-<script src="{{asset('dashboard/plugins/fastclick/fastclick.js')}}"></script>
