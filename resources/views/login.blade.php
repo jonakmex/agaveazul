@@ -1,5 +1,5 @@
 
-@extends('_template.login')
+@extends('_template.public')
 
 @section('title')
   <title>Login</title>

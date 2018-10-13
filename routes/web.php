@@ -20,3 +20,7 @@ Route::get('/home', function () {
 });
 
 Auth::routes();
+
+Route::group(['middleware' => ['auth']], function() {
+    Route::resource('vivienda', 'ViviendaController');
+});
