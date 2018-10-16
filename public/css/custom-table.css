@@ -41,8 +41,12 @@
 		margin-top: 2px;
 	}
 
+  div.toolbar {
+      float: right;
+  }
+
   ion-icon {
-    font-size: 32px;
+    font-size: 25px;
   }
 
     table.table tr th, table.table tr td {
