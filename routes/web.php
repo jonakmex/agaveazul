@@ -27,4 +27,5 @@ Auth::routes();
 
 Route::group(['middleware' => ['auth']], function() {
     Route::resource('vivienda', 'ViviendaController');
+    Route::resource('residentes', 'ResidentesController');
 });

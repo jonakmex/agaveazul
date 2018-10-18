@@ -61,7 +61,7 @@
                         <label for="checkbox1"></label>
                         </span>
                       </td>
-                      <td>{{ $vivienda->descripcion }}</td>
+                      <td><a href="{{route('vivienda.show',['id'=>$vivienda->id])}}">{{ $vivienda->descripcion }}</a></td>
                       <td>
                         <a href="#editEmployeeModal{{$vivienda->id}}" class="edit" data-toggle="modal"><ion-icon  name="create" data-toggle="tooltip" title="Edit"></i></a>
                         <a href="#deleteEmployeeModal{{$vivienda->id}}" class="delete" data-toggle="modal"><ion-icon name="trash" data-toggle="tooltip" title="Delete"></i></a>

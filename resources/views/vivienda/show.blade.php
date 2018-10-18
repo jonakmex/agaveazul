@@ -20,7 +20,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Casa 10
+        {{$vivienda->descripcion}}
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -40,7 +40,7 @@
             <div class="box-body box-profile">
 
 
-              <h3 class="profile-username text-center">Casa 10</h3>
+              <h3 class="profile-username text-center">{{$vivienda->descripcion}}</h3>
 
               <p class="text-muted text-center">Agave Azul V</p>
 
@@ -83,18 +83,33 @@
                   </thead>
                   <tbody>
 
+                    @foreach($recibos as $recibo)
                     <tr>
-                      <td>XXXXX</td>
-                      <td>XXXXX</td>
-                      <td>XXXXX</td>
-                      <td>XXXXX</td>
-                      <td>XXXXX</td>
-                      <td>XXXXX</td>
                       <td>
-                        <a href="#" class="edit" data-toggle="modal"><ion-icon  name="create" data-toggle="tooltip" title="Edit"></i></a>
-                        <a href="#" class="delete" data-toggle="modal"><ion-icon name="trash" data-toggle="tooltip" title="Delete"></i></a>
+                      @if($recibo->reciboheader != null)
+                        <a href="#">{{$recibo->reciboheader->cuota->descripcion}}</a>
+                      @endif
+                      </td>
+                      <td><a href="#">{{$recibo->descripcion}}</a></td>
+                      <td>{{$recibo->fecLimite}}</td>
+                      <td>{{$recibo->fecPago}}</td>
+                      <td>${{$recibo->importe}}</td>
+                      <td>
+                      @if($recibo->estado == 1)
+                        <ion-icon name="calendar" title="Pendiente"></ion-icon>
+                      @else
+                        <ion-icon name="checkmark" title="Pagado"></ion-icon>
+                      @endif
+                      </td>
+                      <td>
+                        @if($recibo->estado == 1)
+                          <a href="#"><ion-icon name="card" title="Pagar"></ion-icon></a>
+                        @else
+                          <a href="#" target="_blank" class="edit"><i class="icon ion-md-eye material-icons" title="Ver Recibo"></i></a>
+                        @endif
                       </td>
                     </tr>
+                    @endforeach
 
                   </tbody>
                 </table>
@@ -104,40 +119,35 @@
                 <table id="tblContactos" class="table table-striped table-hover">
                   <thead>
                     <tr>
-                      <th>
-                        <span class="custom-checkbox">
-                          <input type="checkbox" id="selectAll">
-                          <label for="selectAll"></label>
-                        </span>
-                      </th>
                       <th>Nombre</th>
                       <th>Email</th>
                       <th>Telefono</th>
+                      <th>Tipo</th>
                       <th>Acciones</th>
                     </tr>
                   </thead>
                   <tbody>
 
+                    @foreach($vivienda->residentes()->where('estado', 1)->get() as $residente)
                     <tr>
-                      <td>
-                        <span class="custom-checkbox">
-                        <input type="checkbox" id="checkbox1" name="options[]" value="1">
-                        <label for="checkbox1"></label>
-                        </span>
-                      </td>
-                      <td>XXXXX</td>
-                      <td>XXXXX</td>
-                      <td>XXXXX</td>
-                      
-                      <td>
-                        <a href="#" class="edit" data-toggle="modal"><ion-icon  name="create" data-toggle="tooltip" title="Edit"></i></a>
-                        <a href="#" class="delete" data-toggle="modal"><ion-icon name="trash" data-toggle="tooltip" title="Delete"></i></a>
+                      <td width="30%">{{$residente->nombre}}</td>
+                      <td width="20%">{{$residente->email}}</td>
+                      <td width="20%">{{$residente->telefono}}</td>
+                      <td width="20%">Propietario</td>
+                      <td >
+                        <a href="#editModal{{$residente->id}}" class="edit" data-toggle="modal"><ion-icon name="create" data-toggle="tooltip" title="Editar"></ion-icon></a>
+                        <a href="#deleteModal{{$residente->id}}" class="delete" data-toggle="modal"><ion-icon name="trash" data-toggle="tooltip" title="Eliminar"></ion-icon></a>
                       </td>
                     </tr>
+                    @include('contacto.modal.edit',['name'=>'editModal'.$residente->id])
+                    @include('contacto.modal.delete',['name'=>'deleteModal'.$residente->id])
+
+                  @endforeach
 
 
                   </tbody>
                 </table>
+                @include('contacto.modal.add',['name'=>'addModal'])
               </div>
               <!-- /.tab-pane -->
 
