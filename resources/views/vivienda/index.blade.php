@@ -42,12 +42,6 @@
                 <table id="tblViviendas" class="table table-striped table-hover">
                   <thead>
                     <tr>
-                      <th>
-                        <span class="custom-checkbox">
-                          <input type="checkbox" id="selectAll">
-                          <label for="selectAll"></label>
-                        </span>
-                      </th>
                       <th>Descripcion</th>
                       <th>Acciones</th>
                     </tr>
@@ -55,12 +49,6 @@
                   <tbody>
                     @foreach($viviendas as $vivienda)
                     <tr>
-                      <td>
-                        <span class="custom-checkbox">
-                        <input type="checkbox" id="checkbox1" name="options[]" value="1">
-                        <label for="checkbox1"></label>
-                        </span>
-                      </td>
                       <td><a href="{{route('vivienda.show',['id'=>$vivienda->id])}}">{{ $vivienda->descripcion }}</a></td>
                       <td>
                         <a href="#editEmployeeModal{{$vivienda->id}}" class="edit" data-toggle="modal"><ion-icon  name="create" data-toggle="tooltip" title="Edit"></i></a>

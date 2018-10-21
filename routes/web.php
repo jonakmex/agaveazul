@@ -12,20 +12,29 @@
 */
 
 Route::get('/', function () {
-    return view('login');
-});
-
-Route::get('/nav', function () {
-    return view('nav');
-});
-
-Route::get('/home', function () {
-    return view('home');
+    return redirect()->intended('home');
 })->name('home');
+
 
 Auth::routes();
 
 Route::group(['middleware' => ['auth']], function() {
+    Route::get('/home',function(){
+      return view('home');
+    });
     Route::resource('vivienda', 'ViviendaController');
     Route::resource('residentes', 'ResidentesController');
+    Route::resource('cuotas', 'CuotasController');
+    Route::resource('recibosHeader', 'RecibosHeaderController');
+    Route::resource('recibos', 'RecibosController');
+    Route::get('/recibos/payAndBackToRecibos/{rec_id}', ['uses' =>'RecibosController@payAndBackToRecibos'])->name('recibos.payAndBackToRecibos');
+    Route::get('/recibosHeader/export/{hdr_id}', ['uses' =>'RecibosHeaderController@exportar'])->name('recibosHeader.exportar');
+    Route::post('/estadoCta/export', ['uses' =>'CuentasController@exportar'])->name('estadoCta.exportar');
+
+    Route::resource('cuentas', 'CuentasController');
+
+    Route::get('/movimientos/create/{cuenta_id}', ['uses' =>'CuentamovimientoController@create'])->name('movimientos.create');
+    Route::resource('movimientos', 'CuentamovimientoController',['except' => ['create']]);
+
+    Route::resource('pagos', 'PagosController');
 });

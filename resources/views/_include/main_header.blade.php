@@ -1,11 +1,11 @@
 <header class="main-header">
 
   <!-- Logo -->
-  <a href="index2.html" class="logo">
+  <a href="{{route('home')}}" class="logo">
     <!-- mini logo for sidebar mini 50x50 pixels -->
-    <span class="logo-mini"><b>A</b>LT</span>
+    <span class="logo-mini"><b>AG</b>V</span>
     <!-- logo for regular state and mobile devices -->
-    <span class="logo-lg"><b>Jonak</b>LTE</span>
+    <span class="logo-lg">Agave Azul <b>V</b></span>
   </a>
 
   <!-- Header Navbar -->
@@ -117,14 +117,14 @@
           <!-- Menu Toggle Button -->
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             <!-- The user image in the navbar-->
-            <img src="{{('img/residencial-el-agave-azul2.png')}}" class="user-image" alt="User Image">
+            <img src="{{asset('img/residencial-el-agave-azul2.png')}}" class="user-image" alt="User Image">
             <!-- hidden-xs hides the username on small devices so only the image appears. -->
-            <span class="hidden-xs">Alexander Pierce</span>
+            <span class="hidden-xs">{{Auth::user()->name}}</span>
           </a>
           <ul class="dropdown-menu">
             <!-- The user image in the menu -->
             <li class="user-header">
-              <img src="{{('img/residencial-el-agave-azul.png')}}" class="img-circle" alt="User Image">
+              <img src="{{asset('img/residencial-el-agave-azul.png')}}" class="img-circle" alt="User Image">
 
               <p>
                 Alexander Pierce - Web Developer
@@ -152,7 +152,14 @@
                 <a href="#" class="btn btn-default btn-flat">Profile</a>
               </div>
               <div class="pull-right">
-                <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                <a class="btn btn-default btn-flat" href="{{ route('logout') }}"
+                   onclick="event.preventDefault();
+                                 document.getElementById('logout-form').submit();">
+                    {{ __('Salir') }}
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    {{ csrf_field() }}
+                </form>
               </div>
             </li>
           </ul>

@@ -1,5 +1,5 @@
 <div class="clearfix">
-    <div class="hint-text">Mostrando <b>{{$results->perPage()}}</b> de <b>{{$results->total()}}</b></div>
+    <div class="hint-text">Mostrando <b>{{(($results->currentPage() -1 )* $results->perPage() + $results->count())}}</b> de <b>{{$results->total()}}</b></div>
     @if ($results->lastPage() > 1)
     <ul class="pagination">
         <li class="page-item {{ ($results->currentPage() == 1) ? ' disabled' : '' }}">

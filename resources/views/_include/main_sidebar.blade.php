@@ -9,7 +9,7 @@
         <img src="{{asset('img/residencial-el-agave-azul2.png')}}" class="img-circle" alt="User Image">
       </div>
       <div class="pull-left info">
-        <p>Alexander Pierce</p>
+        <p>{{Auth::user()->name}}</p>
         <!-- Status -->
         <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
       </div>
@@ -29,19 +29,26 @@
 
     <!-- Sidebar Menu -->
     <ul class="sidebar-menu">
-      <li class="header">HEADER</li>
-      <!-- Optionally, you can add icons to the links -->
-      <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
-      <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
+      <li class="header">MAIN MENU</li>
       <li class="treeview">
-        <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
+        <a href="#"><ion-icon class="fa fa-home" name="home"></ion-icon> <span>Residencial</span>
           <span class="pull-right-container">
             <i class="fa fa-angle-left pull-right"></i>
           </span>
         </a>
         <ul class="treeview-menu">
-          <li><a href="#">Link in level 2</a></li>
-          <li><a href="#">Link in level 2</a></li>
+          <li><a href="{{route('vivienda.index')}}">Directorio</a></li>
+        </ul>
+      </li>
+      <li class="treeview">
+        <a href="#"><ion-icon class="fa fa-calculator" name="calculator"></ion-icon> <span>Finanzas</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="{{route('cuentas.index')}}">Cuentas</a></li>
+          <li><a href="{{route('cuotas.index')}}">Cuotas</a></li>
         </ul>
       </li>
     </ul>

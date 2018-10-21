@@ -11,6 +11,8 @@
   <link href="{{asset('css/custom-pagination.css')}}" rel="stylesheet">
   <!-- DataTables -->
   <link rel="stylesheet" href="{{asset('dashboard/plugins/datatables/dataTables.bootstrap.css')}}">
+  <!-- Bootstrap time Picker -->
+  <link rel="stylesheet" href="{{asset('dashboard/plugins/timepicker/bootstrap-timepicker.min.css')}}">
 @endsection
 
 @section('content')
@@ -31,7 +33,6 @@
 
     <!-- Main content -->
     <section class="content">
-
       <div class="row">
         <div class="col-md-3">
 
@@ -103,16 +104,18 @@
                       </td>
                       <td>
                         @if($recibo->estado == 1)
-                          <a href="#"><ion-icon name="card" title="Pagar"></ion-icon></a>
+                          <a href="#payModal{{$recibo->id}}" data-toggle="modal"><ion-icon name="card" title="Pagar"></ion-icon></a>
                         @else
                           <a href="#" target="_blank" class="edit"><i class="icon ion-md-eye material-icons" title="Ver Recibo"></i></a>
                         @endif
                       </td>
                     </tr>
+                    @include('recibos.modal.pay',['name'=>'payModal'.$recibo->id,'recibo'=>$recibo,'cuentas'=>$cuentas])
                     @endforeach
 
                   </tbody>
                 </table>
+                {{ $recibos->links('_template.paginator', ['results' => $recibos]) }}
               </div>
               <!-- /.tab-pane -->
               <div class="tab-pane table-responsive" id="timeline">
@@ -165,14 +168,19 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-
-<!-- /.content-wrapper -->
 @endsection
 @section('scripts')
 <!-- DataTables -->
 <script src="{{asset('dashboard/plugins/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('dashboard/plugins/datatables/dataTables.bootstrap.min.js')}}"></script>
 <script src="https://unpkg.com/ionicons@4.4.4/dist/ionicons.js"></script>
+<script src="{{asset('dashboard/plugins/datepicker/bootstrap-datepicker.js')}}"></script>
+<script src="{{asset('dashboard/plugins/iCheck/icheck.min.js')}}"></script>
+<!-- InputMask -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.2.6/jquery.inputmask.bundle.min.js"></script>
+<!-- bootstrap time picker -->
+<script src="{{asset('dashboard/plugins/timepicker/bootstrap-timepicker.min.js')}}"></script>
+
 <script src="{{asset('dashboard/js/app.min.js')}}"></script>
 <script src="{{asset('js/vivienda/show.js')}}"></script>
 @endsection

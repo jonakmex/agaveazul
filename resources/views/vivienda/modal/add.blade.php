@@ -17,7 +17,7 @@
 		</div>
 	</div>
 	<div class="modal-footer">
-                <a href="{{route('vivienda.index')}}" class="btn btn-default">Cancelar</a>
+    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
 		<input type="submit" class="btn btn-success" value="Guardar">
 	</div>
 </form>

@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Vivienda;
 use App\Recibos;
+use App\Cuenta;
+use App\Service\ViviendaService;
+use App\Exception\BusinessException;
+
 class ViviendaController extends Controller
 {
     /**
@@ -44,17 +48,19 @@ class ViviendaController extends Controller
       $vivienda = Vivienda::find($request->id);
       if($vivienda === null){
           $vivienda = new Vivienda();
+          $vivienda->estado = 1;
       }
 
       $vivienda->descripcion = $request->descripcion;
-      $vivienda->estado = 1;
-      //Redirect if successfull
-      if($vivienda->save()){
-          return redirect()->route('vivienda.index');
+
+      try{
+        ViviendaService::save($vivienda);
+        return redirect()->route('vivienda.index');
       }
-      else{
-          return redirect()->route('vivienda.create');
-        }
+      catch(BusinessException $e){
+        return redirect()->route('vivienda.create');
+      }
+
     }
 
     /**
@@ -67,9 +73,10 @@ class ViviendaController extends Controller
     {
       // Use the model to get one record from DB
       $vivienda = Vivienda::findOrFail($id);
-      $recibos = Recibos::where('vivienda_id',$id)->orderBy('fecLimite','desc')->paginate(10);
+      $recibos = Recibos::where('vivienda_id',$id)->whereIn('estado',[1,2])->orderBy('fecLimite','desc')->paginate(10);
+      $cuentas = Cuenta::where('estado',1)->paginate(10);
       //Show the view and pass the record
-      return view('vivienda.show')->with(['vivienda'=>$vivienda,'recibos'=>$recibos]);
+      return view('vivienda.show')->with(['vivienda'=>$vivienda,'recibos'=>$recibos,'cuentas'=>$cuentas]);
     }
 
     /**
