@@ -10,6 +10,8 @@ use App\Cuenta;
 use App\Cuentamovimiento;
 use \Datetime;
 use PDF;
+use Mail;
+use App\AvisoMail;
 
 class PagosController extends Controller
 {
@@ -94,7 +96,12 @@ class PagosController extends Controller
         }
 
         $pdf = PDF::loadView('_pdf.recibo', compact('recibo'));
-        return $pdf->download('invoice.pdf');
+        //return $pdf->download('invoice.pdf');
+
+        Storage::put('rec_'.$recibo->id.'/recibo.pdf', $pdf->output());
+        $data = array('recibo'=>$recibo);
+        $file = storage_path('app/rec_'.$recibo->id.'/recibo.pdf');
+        Mail::to($recibo->vivienda->residentes[0]->email)->queue(new AvisoMail($data,$file));
         /*if($request->backTo === 'vivienda'){
           return redirect()->route('vivienda.show',['id' => $recibo->vivienda->id]);
         }

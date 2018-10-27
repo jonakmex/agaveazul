@@ -11,9 +11,11 @@ class AvisoMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
     protected $data;
+    protected $file;
 
-    public function __construct($data){
+    public function __construct($data,$file){
       $this->data = $data;
+      $this->file = $file;
     }
 
     /**
@@ -26,7 +28,8 @@ class AvisoMail extends Mailable implements ShouldQueue
        $this->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'))
            ->subject('Solicitud de pago')
            ->view('_emails.test')
-           ->with(['data'=>$this->data]);
+           ->with(['data'=>$this->data])
+           ->attach($this->file);
 
        return $this;
    }

@@ -15,4 +15,6 @@ class Recibos extends Model
   {
     return $this->belongsTo('App\Vivienda');
   }
+
+  
 }

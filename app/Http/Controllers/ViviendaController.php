@@ -42,7 +42,7 @@ class ViviendaController extends Controller
     {
       // validate form data
       $this->validate($request,[
-          'descripcion' => 'required|min:3|max:30'
+          'descripcion' => 'required|min:1|max:30'
       ]);
       //Process de data and submit it
       $vivienda = Vivienda::find($request->id);
@@ -104,7 +104,7 @@ class ViviendaController extends Controller
     {
       // validate form data
       $this->validate($request,[
-          'descripcion' => 'required|min:3|max:30'
+          'descripcion' => 'required|min:1|max:30'
       ]);
       //Process de data and submit it
       $vivienda = Vivienda::findOrFail($id);
