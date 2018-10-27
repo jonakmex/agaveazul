@@ -61,6 +61,16 @@ $(document).ready(function(){
     $('#fecIngreso').datepicker('setDate', today);
     $('#fecEgreso').datepicker('setDate', today);
     $('#fecTransfer').datepicker('setDate', today);
+
+    $('#fecInicio').datepicker({
+      autoclose: true,
+      format: "yyyy-mm-dd"
+    });
+    $('#fecFin').datepicker({
+      autoclose: true,
+      format: "yyyy-mm-dd"
+    });
+
     //Money Euro
     $("#transferImporte").inputmask({ alias : "pesos", prefix: '$',removeMaskOnSubmit: true });
     $("#ingresoImporte").inputmask({ alias : "pesos", prefix: '$',removeMaskOnSubmit: true });

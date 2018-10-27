@@ -24,7 +24,7 @@
 		</div>
 	</div>
 	<div class="modal-footer">
-                <a href="{{route('cuentas.index')}}" class="btn btn-default">Cancelar</a>
+    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
 		<input type="submit" class="btn btn-success" value="Guardar">
 	</div>
 </form>

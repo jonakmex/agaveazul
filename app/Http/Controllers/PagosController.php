@@ -9,6 +9,8 @@ use App\Recibos;
 use App\Cuenta;
 use App\Cuentamovimiento;
 use \Datetime;
+use PDF;
+
 class PagosController extends Controller
 {
     /**
@@ -91,12 +93,14 @@ class PagosController extends Controller
           $saldo += ($item->egreso - $item->ingreso);
         }
 
-        if($request->backTo === 'vivienda'){
+        $pdf = PDF::loadView('_pdf.recibo', compact('recibo'));
+        return $pdf->download('invoice.pdf');
+        /*if($request->backTo === 'vivienda'){
           return redirect()->route('vivienda.show',['id' => $recibo->vivienda->id]);
         }
         else{
           return redirect()->route('recibosHeader.show',['id' => $reciboheader->id]);
-        }
+        }*/
 
     }
 
@@ -143,5 +147,11 @@ class PagosController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function pdf()
+    {
+      $pdf = PDF::loadView('table');
+      return $pdf->download('invoice.pdf');
     }
 }

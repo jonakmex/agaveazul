@@ -16,7 +16,13 @@ Route::get('/', function () {
 })->name('home');
 
 
+Route::get('/recibo', function () {
+    return view('table');
+});
+
 Auth::routes();
+
+Route::get('/pdf', 'PagosController@pdf');
 
 Route::group(['middleware' => ['auth']], function() {
     Route::get('/home',function(){

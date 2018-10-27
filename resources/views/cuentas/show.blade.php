@@ -11,6 +11,8 @@
   <link href="{{asset('css/custom-pagination.css')}}" rel="stylesheet">
   <!-- DataTables -->
   <link rel="stylesheet" href="{{asset('dashboard/plugins/datatables/dataTables.bootstrap.css')}}">
+  <!-- Bootstrap time Picker -->
+  <link rel="stylesheet" href="{{asset('dashboard/plugins/timepicker/bootstrap-timepicker.min.css')}}">
 @endsection
 
 @section('content')

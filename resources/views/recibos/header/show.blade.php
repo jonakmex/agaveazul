@@ -1,7 +1,7 @@
 @extends('_template.dashboard')
 
 @section('title')
-  <title>Recibos</title>
+  <title>Recibos X</title>
 @endsection
 
 @section('styles')
@@ -11,6 +11,8 @@
   <link href="{{asset('css/custom-pagination.css')}}" rel="stylesheet">
   <!-- DataTables -->
   <link rel="stylesheet" href="{{asset('dashboard/plugins/datatables/dataTables.bootstrap.css')}}">
+  <!-- Bootstrap time Picker -->
+  <link rel="stylesheet" href="{{asset('dashboard/plugins/timepicker/bootstrap-timepicker.min.css')}}">
 @endsection
 
 @section('content')
@@ -121,6 +123,9 @@
 <script src="{{asset('dashboard/plugins/iCheck/icheck.min.js')}}"></script>
 <!-- InputMask -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.2.6/jquery.inputmask.bundle.min.js"></script>
+<!-- bootstrap time picker -->
+<script src="{{asset('dashboard/plugins/timepicker/bootstrap-timepicker.min.js')}}"></script>
+
 <script src="{{asset('dashboard/js/app.min.js')}}"></script>
 <script src="{{asset('js/recibos/header/show.js')}}"></script>
 @endsection
