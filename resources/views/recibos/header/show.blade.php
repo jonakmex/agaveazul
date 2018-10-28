@@ -87,7 +87,8 @@
                           @if($rec->estado == 1)
                             <a href="#payModal{{$rec->id}}" data-toggle="modal"><ion-icon name="card" title="Pagar"></ion-icon></a>
                           @elseif($rec->estado == 2)
-                            <a href="{{asset($rec->comprobante)}}" target="_blank"><ion-icon name="eye" title="Ver recibo"></ion-icon></a>
+                            <a href="{{route('recibos.getPdf',['rec_id'=>$rec->id])}}" target="_blank" ><ion-icon name="document" title="Recibo"></ion-icon></a>
+                            <a href="{{asset($rec->comprobante)}}" target="_blank"><ion-icon name="eye" title="Comprobante"></ion-icon></a>
                           @elseif($rec->estado == 3)
                             <a href="{{asset($rec->comprobante)}}" class="edit"><ion-icon name="card" title="Pagar"></ion-icon></a>
                           @endif

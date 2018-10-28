@@ -18,11 +18,11 @@ class Recibos extends Model
 
   public function dir()
   {
-      return '/storage/'.'rec_'.$this->id.'/';
+      return '/storage/'.'rec_'.$this->id;
   }
 
   public function storage(){
-    return 'rec_'.$this->id.'/';
+    return 'rec_'.$this->id;
   }
 
 }

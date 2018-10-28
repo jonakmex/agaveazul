@@ -47,7 +47,7 @@
 
               <ul class="list-group list-group-unbordered">
                 <li class="list-group-item">
-                  <b>Saldo</b> <a class="pull-right">-${{number_format($vivienda->saldo(), 2, '.', ',')}}</a>
+                  <b>Saldo</b> <a class="pull-right">${{number_format($vivienda->saldo(), 2, '.', ',')}}</a>
                 </li>
                 <li class="list-group-item">
                   <b>Estatus</b> <a class="pull-right"><span class="label label-{{$vivienda->estado() == 1 ? 'success':'danger' }}">{{$vivienda->estado() == 1 ? 'Corriente':'Mora' }}</span></a>
@@ -105,8 +105,8 @@
                         @if($recibo->estado == 1)
                           <a href="#payModal{{$recibo->id}}" data-toggle="modal"><ion-icon name="card" title="Pagar"></ion-icon></a>
                         @else
-                          <a href="{{asset($recibo->emision)}}"  ><ion-icon name="document" title="Recibo"></ion-icon></a>
-                          <a href="{{asset($recibo->comprobante)}}"  ><ion-icon name="eye" title="Comprobante"></ion-icon></a>
+                          <a href="{{route('recibos.getPdf',['rec_id'=>$recibo->id])}}" target="_blank" ><ion-icon name="document" title="Recibo"></ion-icon></a>
+                          <a href="{{asset($recibo->comprobante)}}" target="_blank" ><ion-icon name="eye" title="Comprobante"></ion-icon></a>
                         @endif
                       </td>
                     </tr>

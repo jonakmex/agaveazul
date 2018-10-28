@@ -35,6 +35,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('recibos', 'RecibosController');
     Route::get('/recibos/payAndBackToRecibos/{rec_id}', ['uses' =>'RecibosController@payAndBackToRecibos'])->name('recibos.payAndBackToRecibos');
     Route::get('/recibosHeader/export/{hdr_id}', ['uses' =>'RecibosHeaderController@exportar'])->name('recibosHeader.exportar');
+    Route::get('/recibos/getPdf/{rec_id}', ['uses' =>'RecibosController@getPdf'])->name('recibos.getPdf');
     Route::post('/estadoCta/export', ['uses' =>'CuentasController@exportar'])->name('estadoCta.exportar');
 
     Route::resource('cuentas', 'CuentasController');

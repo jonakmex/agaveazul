@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Profile;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -70,5 +71,11 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
             'profile_id' => $data['profile_id'],
         ]);
+    }
+
+    protected function showRegistrationForm()
+    {
+        $profiles = Profile::all();
+        return view('auth.register')->with(['profiles'=>$profiles]);
     }
 }

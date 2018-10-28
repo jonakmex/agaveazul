@@ -18,6 +18,7 @@ class ReciboMapper
     $recibo->saldo = $recibo->importe + $request->ajuste;
     $recibo->fecPago = DateTime::createFromFormat( 'Y-m-d H:i A', $request->fecPago.' '.$request->timeIngreso)->format( 'Y-m-d H:i:s');
     $recibo->comprobante = $recibo->dir().'/'.$request->file('comprobante')->getClientOriginalName();
+    $recibo->emision = $recibo->dir().'/emision_'.$recibo->id.'.pdf';
     $pagarReciboIn->recibo = $recibo;
     // $cuenta;
     $pagarReciboIn->cuenta = Cuenta::findOrFail($request->cuenta_id);

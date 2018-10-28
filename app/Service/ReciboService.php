@@ -31,11 +31,17 @@ class ReciboService
     $movimiento->comprobante = $recibo->dir().'/'.$pagarReciboIn->comprobante->getClientOriginalName();;
     CuentaService::movimiento($movimiento);
 
+    if($recibo->reciboheader != null){
+      $reciboheader = $recibo->reciboheader;
+      $reciboheader->saldo = $reciboheader->saldo + $movimiento->ingreso;
+      $reciboheader->save();
+    }
+
     //Subir archivo
-    Storage::disk('public')->put($recibo->storage().$pagarReciboIn->comprobante->getClientOriginalName(),File::get($pagarReciboIn->comprobante));
+    Storage::disk('public')->put($recibo->storage().'/'.$pagarReciboIn->comprobante->getClientOriginalName(),File::get($pagarReciboIn->comprobante));
     //Generar PDF
     $pdf = PDF::loadView('_pdf.recibo', compact('recibo'));
-    Storage::disk('public')->put($recibo->storage().'emision_'.$recibo->id.'.pdf', $pdf->output());
+    Storage::disk('public')->put($recibo->storage().'/'.'emision_'.$recibo->id.'.pdf', $pdf->output());
 
     $data = array('recibo'=>$recibo);
     $file = storage_path('app/public/rec_'.$recibo->id.'/emision_'.$recibo->id.'.pdf');

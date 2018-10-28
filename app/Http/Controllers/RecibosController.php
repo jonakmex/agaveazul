@@ -107,4 +107,10 @@ class RecibosController extends Controller
       ];
       return view('admin.pagos.create')->with('form',$form);
     }
+
+    public function getPdf($id){
+      $recibo = Recibos::findOrFail($id);
+      $pdf = storage_path('app/public/rec_'.$recibo->id.'/emision_'.$recibo->id.'.pdf');
+      return response()->file($pdf);
+    }
 }

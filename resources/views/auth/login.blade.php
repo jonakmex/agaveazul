@@ -40,7 +40,7 @@
   </div>
 
    <button type="submit" class="btn btn-primary btn-block btn-flat">{{ __('Login') }}</button>
-   
+
    <div class="checkbox mb-3">
      <label>
        <a href="{{ route('password.request') }}">Olvide mi contraseña</a><br>
