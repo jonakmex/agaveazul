@@ -11,7 +11,7 @@ $(document).ready(function(){
 		"autoWidth": false,
 		"dom": '<"toolbar">frtip'
 	});
-	
-	$("div.toolbar").html('<button data-target="#addEmployeeModal" data-toggle="modal" class="btn btn-sm btn-success"><ion-icon name="add"></ion-icon></button> <button data-target="#deleteEmployeeModal" data-toggle="modal" class="btn btn-sm btn-danger"><ion-icon name="trash"></ion-icon></button>');
+
+	$("div.toolbar").html('<button data-target="#addEmployeeModal" data-toggle="modal" class="btn btn-sm btn-success"><ion-icon name="add"></ion-icon></button> ');
 
 });

@@ -7,6 +7,7 @@ use App\Vivienda;
 use App\Recibos;
 use App\Cuenta;
 use App\Service\ViviendaService;
+use App\Service\Mapper\ViviendaMapper;
 use App\Exception\BusinessException;
 
 class ViviendaController extends Controller
@@ -48,10 +49,8 @@ class ViviendaController extends Controller
       $vivienda = Vivienda::find($request->id);
       if($vivienda === null){
           $vivienda = new Vivienda();
-          $vivienda->estado = 1;
       }
-
-      $vivienda->descripcion = $request->descripcion;
+      ViviendaMapper::map($vivienda,$request);
 
       try{
         ViviendaService::save($vivienda);

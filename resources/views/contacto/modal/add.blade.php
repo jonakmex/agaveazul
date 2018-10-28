@@ -30,6 +30,21 @@
 							 	<span class="help-block">{{ $errors->first('email') }}</span>
 							 @endif
 						</div>
+            <div class="form-group @php($err_tipo = $errors->has('tipo')?'has-error':'') {{$err_tipo}}">
+							<label for="tipo">Tipo</label>
+							 <select type="text"  name="tipo" id="tipo" class="form-control"/ required>
+                  <option value="1">Propietario</option>
+                  <option value="2">Inquilino</option>
+                  <option value="3">Representante</option>
+               </select>
+							 @if ($errors->has('tipo'))
+							 	<span class="help-block">{{ $errors->first('tipo') }}</span>
+							 @endif
+						</div>
+            <span class="custom-checkbox">
+              <input id="chkPrincipal" type="checkbox"  class="flat-red" name="chkPrincipal"/>
+              <label for="chkPrincipal">Principal</label>
+            </span>
 					</div>
 					<div class="modal-footer">
             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">

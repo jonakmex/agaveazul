@@ -16,5 +16,13 @@ class Recibos extends Model
     return $this->belongsTo('App\Vivienda');
   }
 
-  
+  public function dir()
+  {
+      return '/storage/'.'rec_'.$this->id.'/';
+  }
+
+  public function storage(){
+    return 'rec_'.$this->id.'/';
+  }
+
 }

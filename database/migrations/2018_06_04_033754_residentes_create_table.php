@@ -20,6 +20,8 @@ class ResidentesCreateTable extends Migration
           $table->string('nombre');
           $table->string('email');
           $table->string('telefono');
+          $table->integer('tipo')->unsigned;
+          $table->integer('principal')->unsigned;
           $table->integer('estado')->unsigned;
           $table->timestamps();
 
