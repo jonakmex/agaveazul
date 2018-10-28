@@ -41,7 +41,7 @@ class ResidentesController extends Controller
       // validate form data
       $this->validate($request,[
           'vivienda_id' => 'required',
-          'nombre' => 'required|min:3|max:30',
+          'nombre' => 'required|min:3|max:100',
           'telefono' => 'required|min:10|max:10',
           'email' => 'required|email',
           'tipo' => 'required|integer',
@@ -101,7 +101,7 @@ class ResidentesController extends Controller
     {
       // validate form data
       $this->validate($request,[
-          'nombre' => 'required|min:3|max:30',
+          'nombre' => 'required|min:3|max:100',
           'telefono' => 'required|min:10|max:10',
           'email' => 'required|email',
           'tipo' => 'required|integer',

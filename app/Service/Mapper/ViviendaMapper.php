@@ -8,6 +8,7 @@ class ViviendaMapper
   public static function map(Vivienda $vivienda,Request $request)
   {
     $vivienda->descripcion = $request->descripcion;
+    $vivienda->clave = $request->clave;
 
   }
 }

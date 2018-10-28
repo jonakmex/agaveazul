@@ -35,6 +35,10 @@
       							<label for="descripcion">Descripcion</label>
       							 <input type="text" value="{{$cuota->descripcion}}"  name="descripcion" id="descripcion" class="form-control"/ required>
       						</div>
+                  <div class="form-group">
+      							<label for="clave">Clave</label>
+      							 <input type="text" value="{{$cuota->clave}}"  name="clave" id="clave" class="form-control"/ required>
+      						</div>
                   <!-- IP mask -->
                   <div class="form-group">
                     <label>Importe:</label>

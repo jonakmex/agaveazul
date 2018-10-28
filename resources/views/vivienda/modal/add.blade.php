@@ -15,6 +15,13 @@
 			 	<span class="help-block">{{ $errors->first('descripcion') }}</span>
 			 @endif
 		</div>
+    <div class="form-group @php($err_clave = $errors->has('clave')?'has-error':'') {{$err_clave}}">
+			<label for="clave">Clave</label>
+			 <input type="text" value="{{ old('clave') }}" name="clave" id="clave" class="form-control"/ required>
+       @if ($errors->has('clave'))
+			 	<span class="help-block">{{ $errors->first('clave') }}</span>
+			 @endif
+		</div>
 	</div>
 	<div class="modal-footer">
     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">

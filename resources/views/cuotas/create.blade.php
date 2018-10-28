@@ -51,6 +51,13 @@
   							 	<span class="help-block">{{ $errors->first('descripcion') }}</span>
   							 @endif
   						</div>
+              <div class="form-group @php($err_clave = $errors->has('clave')?'has-error':'') {{$err_clave}}">
+  							<label for="clave">Clave</label>
+  							 <input type="text" value="{{old('clave')}}"  name="clave" id="clave" class="form-control"/ required>
+                 @if ($errors->has('clave'))
+  							 	<span class="help-block">{{ $errors->first('clave') }}</span>
+  							 @endif
+  						</div>
               <!-- IP mask -->
               <div class="form-group @php($err_importe = $errors->has('importe')?'has-error':'') {{$err_importe}}">
                 <label>Importe:</label>

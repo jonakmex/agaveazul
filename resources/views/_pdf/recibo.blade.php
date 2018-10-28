@@ -49,7 +49,7 @@
     <td><span class="emision">{{date("d")}}</span></td>
     <td colspan="2"><span class="emision">{{date("m")}}</span></td>
     <td><span class="emision">{{date("Y")}}</span></td>
-    <td colspan="2"><span class="casa"><strong>{{$recibo->vivienda->descripcion}}</strong></span></td>
+    <td colspan="2"><span class="casa"><strong>{{$recibo->vivienda->clave}}</strong></span></td>
   </tr>
   <tr>
     <td colspan="3"><span class="title">FECHA DE EMISIÓN</span></td>
@@ -60,7 +60,7 @@
   </tr>
   <tr>
     <td rowspan="2" colspan="3"><span class="green">{{date_create($recibo->fecPago)->format('d/m/Y')}}</span></td>
-    <td rowspan="2" colspan="9">{{$recibo->vivienda->residentes[0]->nombre}}</td>
+    <td rowspan="2" colspan="9">{{$recibo->vivienda->contactoPrincipal()->nombre}}</td>
   </tr>
   <tr></tr>
   <tr>
@@ -70,11 +70,11 @@
   <tr>
     <td rowspan="2" colspan="3"><span class="green">TRANSFERENCIA</span></td>
     <td colspan="3"><span class="green"><strong>${{number_format($recibo->importe + $recibo->ajuste, 2, '.', ',')}}</strong></span></td>
-    <td colspan="4"><span class="concepto">Mantenimiento</span></td>
-    <td colspan="2"><span class="concepto">Junio 2018</span></td>
+    <td colspan="4"><span class="concepto">{{$recibo->reciboHeader->cuota->descripcion}}</span></td>
+    <td colspan="2"><span class="concepto">{{$recibo->reciboHeader->descripcion}}</span></td>
   </tr>
   <tr>
-    <td colspan="3"> <span class="concepto">(quinientos pesos 00/100 M.N.)</span></td>
+    <td colspan="3"> <span class="concepto">({{$recibo->importeLetra()}})</span></td>
     <td><span class="title-min">APAR DE PALAPA</span></td>
     <td><span class="title-min">EXT / ESP</span></td>
     <td><span class="title-min">ANUAL</span></td>
@@ -91,7 +91,7 @@
     <td colspan="3">5579 2091 1421 3975</td>
     <td colspan="3">María de los Angeles Maya Pérez</td>
     <td colspan="4">Adriana Villalobos Alvarez</td>
-    <td rowspan="2" colspan="2">45MTO0618</td>
+    <td rowspan="2" colspan="2">{{$recibo->folio()}}</td>
   </tr>
   <tr>
     <td colspan="3">Scotiabank</td>

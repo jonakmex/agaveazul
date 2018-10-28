@@ -15,7 +15,8 @@ class CuotasCreateTable extends Migration
     {
       Schema::create('cuotas',function(Blueprint $table){
           $table->increments('id')->unsigned;
-          $table->string('descripcion');
+          $table->string('descripcion',50);
+          $table->string('clave',5);
           $table->decimal('importe',10,2);
           $table->date('fecPago');
           $table->integer('periodoGracia')->unsigned;

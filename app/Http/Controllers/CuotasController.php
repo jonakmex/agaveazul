@@ -46,6 +46,7 @@ class CuotasController extends Controller
       // validate form data
       $this->validate($request,[
           'descripcion' => 'required|min:3|max:30',
+          'clave' => 'required|min:3|max:10',
           'importe' => 'required',
           'fecPago' => 'required',
           'periodoGracia' => 'required',
@@ -62,6 +63,7 @@ class CuotasController extends Controller
       $cuota = new Cuota();
 
       $cuota->descripcion = $request->descripcion;
+      $cuota->clave = $request->clave;
       $cuota->importe = preg_replace('/[\$,]/', '', $request->importe);
       $cuota->fecPago = date( "Y-m-d", strtotime( $request->fecPago ) );
       $cuota->periodoGracia = $request->periodoGracia;
@@ -165,6 +167,7 @@ class CuotasController extends Controller
     {
       $this->validate($request,[
           'descripcion' => 'required|min:3|max:30',
+          'clave' => 'required|min:3|max:10',
           'importe' => 'required',
           'fecPago' => 'required',
           'periodoGracia' => 'required',

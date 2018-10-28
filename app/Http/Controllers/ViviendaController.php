@@ -43,7 +43,8 @@ class ViviendaController extends Controller
     {
       // validate form data
       $this->validate($request,[
-          'descripcion' => 'required|min:1|max:30'
+          'descripcion' => 'required|min:1|max:30',
+          'clave' => 'required|min:1|max:10'
       ]);
       //Process de data and submit it
       $vivienda = Vivienda::find($request->id);
@@ -103,11 +104,12 @@ class ViviendaController extends Controller
     {
       // validate form data
       $this->validate($request,[
-          'descripcion' => 'required|min:1|max:30'
+          'descripcion' => 'required|min:1|max:30',
+          'clave' => 'required|min:1|max:10'
       ]);
       //Process de data and submit it
       $vivienda = Vivienda::findOrFail($id);
-      $vivienda->descripcion = $request->descripcion;
+      ViviendaMapper::map($vivienda,$request);
 
       //Redirect if successfull
       if($vivienda->save()){
