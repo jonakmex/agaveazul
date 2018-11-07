@@ -14,7 +14,7 @@ class CuentamovimientoController extends Controller
     {
       $cuenta = Cuenta::findOrFail($id);
       $cuentas = Cuenta::where('estado',1)->whereNotIn('id',[$id])->get();
-      return view('admin.movimientos.create')->with(['cuenta'=>$cuenta,'cuentas'=>$cuentas]);
+      return view('movimientos.create')->with(['cuenta'=>$cuenta,'cuentas'=>$cuentas]);
 
     }
 

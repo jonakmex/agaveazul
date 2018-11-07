@@ -1,24 +1,33 @@
-@extends('layouts.app')
-@extends('layouts.app')
+@extends('_template.dashboard')
+
+@section('title')
+  <title>Home</title>
+@endsection
+
+@section('styles')
+  <link href="{{asset('css/custom-checkbox.css')}}" rel="stylesheet">
+  <link href="{{asset('css/custom-table.css')}}" rel="stylesheet">
+  <link href="{{asset('css/custom-modal.css')}}" rel="stylesheet">
+  <link href="{{asset('css/custom-pagination.css')}}" rel="stylesheet">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{{asset('dashboard/plugins/datatables/dataTables.bootstrap.css')}}">
+@endsection
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+<!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    
+  </div>
+  <!-- /.content-wrapper -->
 
-                    You are logged in!
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<!-- /.content-wrapper -->
+@endsection
+@section('scripts')
+<!-- DataTables -->
+<script src="{{asset('dashboard/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('dashboard/plugins/datatables/dataTables.bootstrap.min.js')}}"></script>
+<script src="https://unpkg.com/ionicons@4.4.4/dist/ionicons.js"></script>
+<script src="{{asset('dashboard/js/app.min.js')}}"></script>
+<script src="{{asset('js/vivienda/show.js')}}"></script>
 @endsection

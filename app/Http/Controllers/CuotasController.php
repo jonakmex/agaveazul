@@ -7,6 +7,7 @@ use App\Cuota;
 use App\Vivienda;
 use App\CuotaVivienda;
 use App\Recibos;
+use App\Reciboheader;
 use Mail;
 use App\AvisoMail;
 
@@ -20,7 +21,7 @@ class CuotasController extends Controller
     public function index()
     {
       $cuotas = Cuota::where('estado',1)->paginate(10);
-      return view('admin.cuotas.index')->with('cuotas',$cuotas);
+      return view('cuotas.index')->with('cuotas',$cuotas);
     }
 
     /**
@@ -31,7 +32,7 @@ class CuotasController extends Controller
     public function create()
     {
         $viviendas = Vivienda::where('estado',1)->get();
-        return view('admin.cuotas.create')->with('viviendas',$viviendas);
+        return view('cuotas.create')->with('viviendas',$viviendas);
     }
 
     /**
@@ -45,9 +46,9 @@ class CuotasController extends Controller
       // validate form data
       $this->validate($request,[
           'descripcion' => 'required|min:3|max:30',
+          'clave' => 'required|min:3|max:10',
           'importe' => 'required',
           'fecPago' => 'required',
-          'periodoGracia' => 'required',
       ]);
 
       if($request->chkRpt === "on")
@@ -61,9 +62,10 @@ class CuotasController extends Controller
       $cuota = new Cuota();
 
       $cuota->descripcion = $request->descripcion;
+      $cuota->clave = $request->clave;
       $cuota->importe = preg_replace('/[\$,]/', '', $request->importe);
       $cuota->fecPago = date( "Y-m-d", strtotime( $request->fecPago ) );
-      $cuota->periodoGracia = $request->periodoGracia;
+      $cuota->periodoGracia = 0;
       if($request->chkRpt === "on")
       {
         $cuota->periodicidad = $request->periodicidad;
@@ -81,6 +83,16 @@ class CuotasController extends Controller
             $cuota->viviendas()->save($cuotavivienda);
             if($request->chkRpt != "on")
             {
+              $reciboHeader = new Reciboheader();
+              $reciboHeader->cuota_id = $cuota->id;
+              $reciboHeader->descripcion = $cuota->descripcion;
+              $reciboHeader->importe = $cuota->importe;
+              $reciboHeader->saldo = 0;
+              $reciboHeader->fecVence = $cuota->fecPago;
+              $reciboHeader->fecLimite = date_add(date_create($cuota->fecPago), date_interval_create_from_date_string($cuota->periodoGracia.' days'));
+              $reciboHeader->estado = 1;
+              $reciboHeader->save();
+
               $recibo = new Recibos();
               $recibo->vivienda_id = $vivienda;
               $recibo->descripcion = $request->descripcion;
@@ -88,7 +100,7 @@ class CuotasController extends Controller
               $recibo->importe = $cuota->importe;
               $recibo->estado = 1;
               $recibo->saldo = 0;
-              $recibo->save();
+              $reciboHeader->recibos()->save($recibo);
 
               foreach($oVivienda->residentes as $residente){
                 $data = array('recibo'=>$recibo);
@@ -98,7 +110,7 @@ class CuotasController extends Controller
             }
 
         }
-        return redirect()->route('cuotas.show',['id' => $cuota->id]);
+        return redirect()->route('cuotas.index',['id' => $cuota->id]);
       }
       else{
           return redirect()->route('cuotas.create');
@@ -115,7 +127,7 @@ class CuotasController extends Controller
     {
       $cuota = Cuota::findOrFail($id);
       $cuotas = Cuota::where('estado',1)->paginate(10);
-      return view('admin.cuotas.show')->with(['selected'=>$cuota,'cuotas'=>$cuotas] );
+      return view('cuotas.show')->with(['selected'=>$cuota,'cuotas'=>$cuotas] );
     }
 
     /**
@@ -140,7 +152,7 @@ class CuotasController extends Controller
         }
         array_push($selected,['checked'=>$checked,'vivienda'=>$vivienda]);
       }
-      return view('admin.cuotas.edit')->with(['cuota'=>$cuota,'items'=>$selected] );
+      return view('cuotas.edit')->with(['cuota'=>$cuota,'items'=>$selected] );
     }
 
     /**
@@ -154,9 +166,10 @@ class CuotasController extends Controller
     {
       $this->validate($request,[
           'descripcion' => 'required|min:3|max:30',
+          'clave' => 'required|min:3|max:10',
           'importe' => 'required',
           'fecPago' => 'required',
-          'periodoGracia' => 'required',
+
       ]);
 
       if($request->chkRpt === "on")
@@ -172,7 +185,7 @@ class CuotasController extends Controller
         $cuota->descripcion = $request->descripcion;
         $cuota->importe = preg_replace('/[\$,]/', '', $request->importe);
         $cuota->fecPago = date( "Y-m-d", strtotime( $request->fecPago ) );
-        $cuota->periodoGracia = $request->periodoGracia;
+        $cuota->periodoGracia = 0;
         if($request->chkRpt === "on")
         {
           $cuota->periodicidad = $request->periodicidad;
@@ -212,6 +225,16 @@ class CuotasController extends Controller
       $cuota = Cuota::findOrFail($id);
       $cuota->estado = 0;
       if($cuota->save()){
+        foreach($cuota->recibosHeader as $reciboHeader){
+          $reciboHeader->estado = 0;
+          $reciboHeader->save();
+          foreach($reciboHeader->recibos as $recibo){
+            $recibo->estado = 0;
+            $recibo->save();
+          }
+
+        }
+
           return redirect()->route('cuotas.index');
       }
     }

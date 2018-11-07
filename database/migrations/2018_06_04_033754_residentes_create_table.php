@@ -17,9 +17,11 @@ class ResidentesCreateTable extends Migration
           $table->increments('id')->unsigned();
           $table->integer('vivienda_id')->unsigned();
           $table->foreign('vivienda_id')->references('id')->on('vivienda')->onDelete('cascade');
-          $table->string('nombre');
+          $table->string('nombre',200);
           $table->string('email');
           $table->string('telefono');
+          $table->integer('tipo')->unsigned;
+          $table->integer('principal')->unsigned;
           $table->integer('estado')->unsigned;
           $table->timestamps();
 

@@ -46,8 +46,8 @@ class RecibosController extends Controller
      */
     public function show($id)
     {
-
-        return view('admin.recibos.show');
+      $cuentas = Cuenta::where('estado',1)->paginate(10);
+      return view('admin.recibos.show')->with('cuentas',$cuentas);
     }
 
     /**
@@ -106,5 +106,11 @@ class RecibosController extends Controller
         'backTo'=>'recibos'
       ];
       return view('admin.pagos.create')->with('form',$form);
+    }
+
+    public function getPdf($id){
+      $recibo = Recibos::findOrFail($id);
+      $pdf = storage_path('app/public/rec_'.$recibo->id.'/emision_'.$recibo->id.'.pdf');
+      return response()->file($pdf);
     }
 }

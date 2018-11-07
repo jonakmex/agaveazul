@@ -9,6 +9,12 @@ use App\Recibos;
 use App\Cuenta;
 use App\Cuentamovimiento;
 use \Datetime;
+use App\AvisoMail;
+use App\DTO\PagarReciboIn;
+use App\Service\Mapper\ReciboMapper;
+use App\Service\ReciboService;
+use App\Log;
+
 class PagosController extends Controller
 {
     /**
@@ -28,7 +34,7 @@ class PagosController extends Controller
      */
     public function create()
     {
-        return view('admin.pagos.create');
+        //return view('admin.pagos.create');
     }
 
     /**
@@ -49,54 +55,10 @@ class PagosController extends Controller
         'comprobante' => 'required|Image',
       ]);
 
-        $file = $request->file('comprobante');
-        $recibo = Recibos::findOrFail($request->rec_id);
+      $pagarReciboIn = ReciboMapper::getPagarReciboIn($request);
+      ReciboService::pagar($pagarReciboIn);
 
-        $hrMov = DateTime::createFromFormat( 'Y-m-d H:i A', $request->fecPago.' '.$request->timeIngreso);
-
-        /*PAGAR RECIBO*/
-        Storage::disk('public')->put('rec_'.$recibo->id.'/'.$file->getClientOriginalName(),File::get($file));
-        $recibo->ajuste = $request->ajuste;
-        $recibo->saldo = $recibo->importe + $recibo->ajuste;
-        $recibo->fecPago = $hrMov->format( 'Y-m-d H:i:s');
-        $recibo->comprobante = '/storage/'.'rec_'.$recibo->id.'/'.$file->getClientOriginalName();
-        $recibo->estado = 2; //Pagado
-        $recibo->save();
-
-        /*Create Movimiento cuenta record*/
-        $cuenta = Cuenta::findOrFail($request->cuenta_id);
-
-        $movimiento = new Cuentamovimiento();
-        $movimiento->descripcion = $recibo->reciboheader != null?$recibo->reciboheader->cuota->descripcion.' > '.$recibo->vivienda->descripcion.' > '.$recibo->descripcion:$recibo->descripcion;
-        $movimiento->ingreso = $recibo->importe+$recibo->ajuste;
-        $movimiento->saldo = 0;
-        $movimiento->fecMov = $hrMov->format( 'Y-m-d H:i:s');
-        $movimiento->comprobante = '/storage/'.'rec_'.$recibo->id.'/'.$file->getClientOriginalName();
-        $cuenta->movimientos()->save($movimiento);
-
-        if($recibo->reciboheader != null){
-          $reciboheader = $recibo->reciboheader;
-          $reciboheader->saldo = $reciboheader->saldo + $movimiento->ingreso;
-          $reciboheader->save();
-        }
-
-        $cuenta->saldo += $movimiento->ingreso;
-        $cuenta->save();
-
-        $recalculate = Cuentamovimiento::where('cuenta_id','=',$cuenta->id)->where('fecMov','>=',$hrMov)->orderBy('fecMov','desc')->orderBy('id','desc')->get();
-        $saldo = $cuenta->saldo;
-        foreach($recalculate as $item){
-          $item->saldo = $saldo;
-          $item->save();
-          $saldo += ($item->egreso - $item->ingreso);
-        }
-
-        if($request->backTo === 'vivienda'){
-          return redirect()->route('vivienda.show',['id' => $recibo->vivienda->id]);
-        }
-        else{
-          return redirect()->route('recibosHeader.show',['id' => $reciboheader->id]);
-        }
+      return redirect()->route('vivienda.show',['id' => $pagarReciboIn->recibo->vivienda->id]);
 
     }
 
@@ -143,5 +105,11 @@ class PagosController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function pdf()
+    {
+      $pdf = PDF::loadView('table');
+      return $pdf->download('invoice.pdf');
     }
 }

@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Vivienda;
 use App\Recibos;
+use App\Cuenta;
+use App\Service\ViviendaService;
+use App\Service\Mapper\ViviendaMapper;
+use App\Exception\BusinessException;
+
 class ViviendaController extends Controller
 {
     /**
@@ -14,8 +19,8 @@ class ViviendaController extends Controller
      */
     public function index()
     {
-        $viviendas = Vivienda::where('estado',1)->paginate(10);
-        return view('admin.vivienda.index')->with('viviendas',$viviendas);
+        $viviendas = Vivienda::where('estado',1)->paginate(5);
+        return view('vivienda.index')->with('viviendas',$viviendas);
     }
 
     /**
@@ -25,7 +30,7 @@ class ViviendaController extends Controller
      */
     public function create()
     {
-        return view('admin.vivienda.create');
+        return view('vivienda.create');
     }
 
     /**
@@ -38,23 +43,24 @@ class ViviendaController extends Controller
     {
       // validate form data
       $this->validate($request,[
-          'descripcion' => 'required|min:3|max:30'
+          'descripcion' => 'required|min:1|max:30',
+          'clave' => 'required|min:1|max:10'
       ]);
       //Process de data and submit it
       $vivienda = Vivienda::find($request->id);
       if($vivienda === null){
           $vivienda = new Vivienda();
       }
+      ViviendaMapper::map($vivienda,$request);
 
-      $vivienda->descripcion = $request->descripcion;
-      $vivienda->estado = 1;
-      //Redirect if successfull
-      if($vivienda->save()){
-          return redirect()->route('vivienda.index');
+      try{
+        ViviendaService::save($vivienda);
+        return redirect()->route('vivienda.index');
       }
-      else{
-          return redirect()->route('vivienda.create');
-        }
+      catch(BusinessException $e){
+        return redirect()->route('vivienda.create');
+      }
+
     }
 
     /**
@@ -67,9 +73,10 @@ class ViviendaController extends Controller
     {
       // Use the model to get one record from DB
       $vivienda = Vivienda::findOrFail($id);
-      $recibos = Recibos::where('vivienda_id',$id)->orderBy('fecLimite','desc')->paginate(10);
+      $recibos = Recibos::where('vivienda_id',$id)->whereIn('estado',[1,2])->orderBy('fecLimite','desc')->paginate(10);
+      $cuentas = Cuenta::where('estado',1)->paginate(10);
       //Show the view and pass the record
-      return view('admin.vivienda.show')->with(['vivienda'=>$vivienda,'recibos'=>$recibos]);
+      return view('vivienda.show')->with(['vivienda'=>$vivienda,'recibos'=>$recibos,'cuentas'=>$cuentas]);
     }
 
     /**
@@ -83,7 +90,7 @@ class ViviendaController extends Controller
       // Use the model to get one record from DB
       $vivienda = Vivienda::findOrFail($id);
       //Show the view and pass the record
-      return view('admin.vivienda.edit')->with('vivienda',$vivienda);
+      return view('vivienda.edit')->with('vivienda',$vivienda);
     }
 
     /**
@@ -97,11 +104,12 @@ class ViviendaController extends Controller
     {
       // validate form data
       $this->validate($request,[
-          'descripcion' => 'required|min:3|max:30'
+          'descripcion' => 'required|min:1|max:30',
+          'clave' => 'required|min:1|max:10'
       ]);
       //Process de data and submit it
       $vivienda = Vivienda::findOrFail($id);
-      $vivienda->descripcion = $request->descripcion;
+      ViviendaMapper::map($vivienda,$request);
 
       //Redirect if successfull
       if($vivienda->save()){

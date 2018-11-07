@@ -21,6 +21,7 @@ class ReciboCreateTable extends Migration
         $table->foreign('vivienda_id')->references('id')->on('vivienda')->onDelete('cascade');
         $table->string('descripcion');
         $table->string('comprobante')->nullable();
+        $table->string('emision')->nullable();
         $table->date('fecLimite');
         $table->date('fecPago')->nullable();
         $table->decimal('importe',10,2);

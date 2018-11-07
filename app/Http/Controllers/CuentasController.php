@@ -16,7 +16,7 @@ class CuentasController extends Controller
     public function index()
     {
         $cuentas = Cuenta::where('estado',1)->paginate(10);
-        return view('admin.cuentas.index')->with('cuentas',$cuentas);
+        return view('cuentas.index')->with('cuentas',$cuentas);
     }
 
     /**
@@ -26,7 +26,7 @@ class CuentasController extends Controller
      */
     public function create()
     {
-        return view('admin.cuentas.create');
+        return view('cuentas.create');
     }
 
     /**
@@ -67,7 +67,7 @@ class CuentasController extends Controller
         $cuenta = Cuenta::findOrFail($id);
         $cuentas = Cuenta::where('estado',1)->get();
         $movimientos = Cuentamovimiento::where('cuenta_id',$cuenta->id)->orderBy('fecMov','desc')->orderBy('id','desc')->paginate(5);
-        return view('admin.cuentas.show')->with(['selected'=>$cuenta,'cuentas'=>$cuentas,'movimientos'=>$movimientos] );
+        return view('cuentas.show')->with(['selected'=>$cuenta,'cuentas'=>$cuentas,'movimientos'=>$movimientos] );
     }
 
     public function exportar(Request $request)
@@ -91,7 +91,7 @@ class CuentasController extends Controller
     public function edit($id)
     {
         $cuenta = Cuenta::findOrFail($id);
-        return view('admin.cuentas.edit')->with('cuenta',$cuenta);
+        return view('cuentas.edit')->with('cuenta',$cuenta);
     }
 
     /**

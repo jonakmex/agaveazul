@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Vivienda;
 use App\Residente;
+use App\Service\Mapper\ResidenteMapper;
+use \DB;
 class ResidentesController extends Controller
 {
     /**
@@ -39,21 +41,24 @@ class ResidentesController extends Controller
       // validate form data
       $this->validate($request,[
           'vivienda_id' => 'required',
-          'nombre' => 'required|min:3|max:30',
+          'nombre' => 'required|min:3|max:100',
           'telefono' => 'required|min:10|max:10',
-          'email' => 'required|email'
+          'email' => 'required|email',
+          'tipo' => 'required|integer',
       ]);
       //Process de data and submit it
       $residente = new Residente();
-
-      $residente->nombre = $request->nombre;
-      $residente->telefono = $request->telefono;
-      $residente->email = $request->email;
-      $residente->estado = 1;
+      ResidenteMapper::map($residente,$request);
 
       $vivienda = Vivienda::findOrFail($request->vivienda_id);
       //Redirect if successfull
       if($vivienda->residentes()->save($residente)){
+          if($residente->principal == 1){
+            DB::table('residentes')
+            ->where('vivienda_id', $vivienda->id)
+            ->whereNotIn('id',[$residente->id])
+            ->update(['principal' => 0]);
+          }
           return redirect()->route('vivienda.show',['id'=>$request->vivienda_id]);
       }
       else
@@ -96,20 +101,24 @@ class ResidentesController extends Controller
     {
       // validate form data
       $this->validate($request,[
-          'nombre' => 'required|min:3|max:30',
+          'nombre' => 'required|min:3|max:100',
           'telefono' => 'required|min:10|max:10',
-          'email' => 'required|email'
+          'email' => 'required|email',
+          'tipo' => 'required|integer',
+
       ]);
       //Process de data and submit it
       $residente = Residente::findOrFail($id);
-
-      $residente->nombre = $request->nombre;
-      $residente->telefono = $request->telefono;
-      $residente->email = $request->email;
-      $vivienda = $residente->vivienda;
+      ResidenteMapper::map($residente,$request);
       //Redirect if successfull
       if($residente->save()){
-          return redirect()->route('vivienda.show',['id'=>$vivienda->id]);
+        if($residente->principal == 1){
+          DB::table('residentes')
+          ->where('vivienda_id', $residente->vivienda->id)
+          ->whereNotIn('id',[$residente->id])
+          ->update(['principal' => 0]);
+        }
+        return redirect()->route('vivienda.show',['id'=>$residente->vivienda->id]);
       }
       else
       {

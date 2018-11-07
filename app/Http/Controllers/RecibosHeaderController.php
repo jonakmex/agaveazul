@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Reciboheader;
 use App\Exports\RecibosExport;
+use App\Cuenta;
 
 class RecibosHeaderController extends Controller
 {
@@ -49,8 +50,9 @@ class RecibosHeaderController extends Controller
     {
       // Use the model to get one record from DB
       $reciboHeader = Reciboheader::findOrFail($id);
+      $cuentas = Cuenta::where('estado',1)->paginate(10);
       //Show the view and pass the record
-      return view('admin.recibosheader.show')->with('reciboHeader',$reciboHeader);
+      return view('recibos.header.show')->with(['reciboHeader'=>$reciboHeader,'cuentas'=>$cuentas]);
     }
 
     public function exportar($id)
