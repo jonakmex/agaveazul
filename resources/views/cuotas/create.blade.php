@@ -82,15 +82,7 @@
                 </div>
                 <!-- /.input group -->
               </div>
-              <div class="form-group">
-                <label>Periodo de gracia</label>
-                <select class="form-control select2" name="periodoGracia" id="periodoGracia" style="width: 100%;">
-                  <option value="0">0 Dias</option>
-                  <option value="5">5 Dias</option>
-                  <option value="10">10 Dias</option>
-                  <option value="15">15 Dias</option>
-                </select>
-              </div>
+              
               <!-- /.form group -->
               <div class="form-group">
                 <span class="custom-checkbox">

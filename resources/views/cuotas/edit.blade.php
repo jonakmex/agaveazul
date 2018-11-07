@@ -57,15 +57,7 @@
                     </div>
                     <!-- /.input group -->
                   </div>
-                  <div class="form-group">
-                    <label>Periodo de gracia</label>
-                    <select class="form-control select2" value="{{$cuota->periodoGracia}}" name="periodoGracia" id="periodoGracia" style="width: 100%;">
-                      <option {{$cuota->periodoGracia == 0 ? "selected" : ""}} value="0">0 Dias</option>
-                      <option {{$cuota->periodoGracia == 5 ? "selected" : ""}} value="5">5 Dias</option>
-                      <option {{$cuota->periodoGracia == 10 ? "selected" : ""}} value="10">10 Dias</option>
-                      <option {{$cuota->periodoGracia == 15 ? "selected" : ""}} value="15">15 Dias</option>
-                    </select>
-                  </div>
+                  
 
                   <!-- /.form group -->
                   <div class="form-group">

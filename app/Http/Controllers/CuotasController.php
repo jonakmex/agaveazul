@@ -49,7 +49,6 @@ class CuotasController extends Controller
           'clave' => 'required|min:3|max:10',
           'importe' => 'required',
           'fecPago' => 'required',
-          'periodoGracia' => 'required',
       ]);
 
       if($request->chkRpt === "on")
@@ -66,7 +65,7 @@ class CuotasController extends Controller
       $cuota->clave = $request->clave;
       $cuota->importe = preg_replace('/[\$,]/', '', $request->importe);
       $cuota->fecPago = date( "Y-m-d", strtotime( $request->fecPago ) );
-      $cuota->periodoGracia = $request->periodoGracia;
+      $cuota->periodoGracia = 0;
       if($request->chkRpt === "on")
       {
         $cuota->periodicidad = $request->periodicidad;
@@ -170,7 +169,7 @@ class CuotasController extends Controller
           'clave' => 'required|min:3|max:10',
           'importe' => 'required',
           'fecPago' => 'required',
-          'periodoGracia' => 'required',
+
       ]);
 
       if($request->chkRpt === "on")
@@ -186,7 +185,7 @@ class CuotasController extends Controller
         $cuota->descripcion = $request->descripcion;
         $cuota->importe = preg_replace('/[\$,]/', '', $request->importe);
         $cuota->fecPago = date( "Y-m-d", strtotime( $request->fecPago ) );
-        $cuota->periodoGracia = $request->periodoGracia;
+        $cuota->periodoGracia = 0;
         if($request->chkRpt === "on")
         {
           $cuota->periodicidad = $request->periodicidad;

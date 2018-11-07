@@ -46,9 +46,9 @@
   </tr>
   <tr>
     <td colspan="3">San Juan del Río, QRO</td>
-    <td><span class="emision">{{date("d")}}</span></td>
-    <td colspan="2"><span class="emision">{{date("m")}}</span></td>
-    <td><span class="emision">{{date("Y")}}</span></td>
+    <td><span class="emision">{{date("d",strtotime($recibo->fecPago))}}</span></td>
+    <td colspan="2"><span class="emision">{{date("m",strtotime($recibo->fecPago))}}</span></td>
+    <td><span class="emision">{{date("Y",strtotime($recibo->fecPago))}}</span></td>
     <td colspan="2"><span class="casa"><strong>{{$recibo->vivienda->clave}}</strong></span></td>
   </tr>
   <tr>
