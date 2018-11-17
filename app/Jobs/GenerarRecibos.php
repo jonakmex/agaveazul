@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Mail;
 use App\AvisoMail;
 use App\Vivienda;
+use App\Service\ReciboService;
 
 class GenerarRecibos implements ShouldQueue
 {
@@ -37,41 +38,7 @@ class GenerarRecibos implements ShouldQueue
     public function handle()
     {
       info('Running generator...');
-      $today = date('Y-m-d H:i:s');
-      $cuotas = Cuota::where('estado',1)->whereNotNull('periodicidad')->where('fecPago','<',$today)->get();
-      foreach($cuotas as $cuota){
-        if($cuota->periodicidad != null && ($cuota->nPeriodos == 0 || count($cuota->recibosHeader) < $cuota->nPeriodos)){
-          $lastRecHead = $cuota->recibosHeader()->orderBy('fecVence','desc')->first();
-          $toCreate = $this->getHeaders($cuota);
-          foreach($toCreate as $itemToCreate){
-            $newReciboHeader = new Reciboheader();
-            $newReciboHeader->descripcion = $itemToCreate['descripcion']; // PERIODO
-            $newReciboHeader->importe = $cuota->importe;
-            $newReciboHeader->saldo = 0.0;
-            $newReciboHeader->fecVence = $itemToCreate['fecVence'];
-            $newReciboHeader->fecLimite = $itemToCreate['fecLimite'];
-            $newReciboHeader->estado = 1;
-            $cuota->recibosHeader()->save($newReciboHeader);
-            foreach($cuota->viviendas as $cuotavivienda){
-                $recibo = new Recibos();
-                $recibo->vivienda_id = $cuotavivienda->vivienda_id;
-                $recibo->descripcion = $itemToCreate['descripcion'];
-                $recibo->fecLimite = $itemToCreate['fecLimite'];
-                $recibo->importe = $cuota->importe;
-                $recibo->estado = 1;
-                $recibo->saldo = 0;
-                $newReciboHeader->recibos()->save($recibo);
-
-                $vivienda = Vivienda::findOrFail($cuotavivienda->vivienda_id);
-
-                foreach($vivienda->residentes as $residente){
-                  $data = array('recibo'=>$recibo);
-                  Mail::to($residente->email)->queue(new AvisoMail($data));
-                }
-            }
-          }
-        }
-      }
+      ReciboService::generarRecibos();
       info('Generator SUCCESS');
     }
 

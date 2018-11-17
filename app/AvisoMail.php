@@ -20,6 +20,18 @@ class AvisoMail extends Mailable implements ShouldQueue
       $this->template = $template;
     }
 
+    public static function newAvisoReciboGenerado($data) {
+        $obj = new AvisoMail($data,null,2);
+        // other initialization
+        return $obj;
+    }
+
+    public static function newAvisoPagoExitoso($data,$file) {
+        $obj = new AvisoMail($data,$file,1);
+        // other initialization
+        return $obj;
+    }
+
     /**
     * Build the message.
     *
@@ -34,14 +46,22 @@ class AvisoMail extends Mailable implements ShouldQueue
        case 1: // Notificacion de pago
         $subject = 'Pago Recibido';
         $template = '_emails.pago';
+        $this->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'))
+            ->subject($subject)
+            ->view($template)
+            ->with(['data'=>$this->data])
+            ->attach($this->file);
        break;
-
+       case 2:
+         $subject = 'Solicitud de Pago';
+         $template = '_emails.solicitarPago';
+         $this->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'))
+             ->subject($subject)
+             ->view($template)
+             ->with(['data'=>$this->data]);
+         break;
      }
-       $this->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'))
-           ->subject($subject)
-           ->view($template)
-           ->with(['data'=>$this->data])
-           ->attach($this->file);
+
 
        return $this;
    }
