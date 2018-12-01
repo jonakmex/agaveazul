@@ -17,7 +17,7 @@
     <div class="form-group has-feedback">
 
 
-            <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" placeholder="Nombre" required autofocus>
+            <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{$token->residente->nombre}}" placeholder="Nombre" readonly>
 
             @if ($errors->has('name'))
                 <span class="invalid-feedback">
@@ -31,7 +31,7 @@
 
 
 
-            <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" placeholder="Email" required>
+            <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{$token->residente->email}}" placeholder="Email" readonly>
 
             @if ($errors->has('email'))
                 <span class="invalid-feedback">
@@ -62,22 +62,14 @@
 
 
     <div class="form-group">
-        <select name="profile_id" id="profile_id" class="form-control">
-          @foreach($profiles as $profile)
-            <option value="{{$profile->id}}">{{$profile->descripcion}}</option>
-          @endforeach
-        </select>
-            @if ($errors->has('name'))
-                <span class="invalid-feedback">
-                    <strong>{{ $errors->first('profile_id') }}</strong>
-                </span>
-            @endif
+      <input type="hidden" name="profile_id" value="{{$token->profile->id}}">
+      <input type="hidden" name="token" value="{{$token->token}}">
     </div>
 
     <div class="form-group has-feedback">
 
             <button type="submit" class="btn btn-primary">
-                {{ __('Register') }}
+                {{ __('Registrar') }}
             </button>
 
     </div>

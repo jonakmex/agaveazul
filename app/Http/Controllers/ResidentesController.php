@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Vivienda;
 use App\Residente;
 use App\Service\Mapper\ResidenteMapper;
+use App\Service\ContactoService;
 use \DB;
 class ResidentesController extends Controller
 {
@@ -140,5 +141,12 @@ class ResidentesController extends Controller
       if($residente->save()){
           return redirect()->route('vivienda.show',['id'=>$vivienda->id]);
       }
+    }
+
+    public function generarToken(Request $request)
+    {
+      $residente = Residente::findOrFail($request->id);
+      ContactoService::crearTokenRegistro($residente);
+      return redirect()->route('vivienda.show',['id'=>$residente->vivienda->id]);
     }
 }

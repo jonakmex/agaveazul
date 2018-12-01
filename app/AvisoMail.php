@@ -20,6 +20,12 @@ class AvisoMail extends Mailable implements ShouldQueue
       $this->template = $template;
     }
 
+    public static function newTokenRegistro($data) {
+        $obj = new AvisoMail($data,null,3);
+        // other initialization
+        return $obj;
+    }
+
     public static function newAvisoReciboGenerado($data) {
         $obj = new AvisoMail($data,null,2);
         // other initialization
@@ -31,6 +37,7 @@ class AvisoMail extends Mailable implements ShouldQueue
         // other initialization
         return $obj;
     }
+
 
     /**
     * Build the message.
@@ -60,6 +67,14 @@ class AvisoMail extends Mailable implements ShouldQueue
              ->view($template)
              ->with(['data'=>$this->data]);
          break;
+         case 3:
+           $subject = 'Token para registro';
+           $template = '_emails.tokenRegistro';
+           $this->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'))
+               ->subject($subject)
+               ->view($template)
+               ->with(['data'=>$this->data]);
+           break;
      }
 
 

@@ -24,12 +24,15 @@ Auth::routes();
 
 Route::get('/pdf', 'PagosController@pdf');
 
+Route::get('/registro/{token}', ['uses' =>'Auth\RegisterController@registro']);
+
 Route::group(['middleware' => ['auth']], function() {
     Route::get('/home',function(){
       return view('home');
     });
     Route::resource('vivienda', 'ViviendaController');
     Route::resource('residentes', 'ResidentesController');
+    Route::post('/residentes/token', ['uses' =>'ResidentesController@generarToken'])->name('residentes.generarToken');
     Route::resource('cuotas', 'CuotasController');
     Route::resource('recibosHeader', 'RecibosHeaderController');
     Route::resource('recibos', 'RecibosController');

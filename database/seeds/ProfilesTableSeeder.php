@@ -17,5 +17,10 @@ class ProfilesTableSeeder extends Seeder
           'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
           'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
       ]);
+      DB::table('profile')->insert([
+          'descripcion' => 'Residente',
+          'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+          'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+      ]);
     }
 }

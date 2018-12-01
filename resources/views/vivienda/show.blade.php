@@ -146,10 +146,12 @@
                       <td >
                         <a href="#editModal{{$residente->id}}" class="edit" data-toggle="modal"><ion-icon name="create" data-toggle="tooltip" title="Editar"></ion-icon></a>
                         <a href="#deleteModal{{$residente->id}}" class="delete" data-toggle="modal"><ion-icon name="trash" data-toggle="tooltip" title="Eliminar"></ion-icon></a>
+                        <a href="#tokenModal{{$residente->id}}" data-toggle="modal"><ion-icon name="person" data-toggle="tooltip" title="Token"></ion-icon></a>
                       </td>
                     </tr>
                     @include('contacto.modal.edit',['name'=>'editModal'.$residente->id])
                     @include('contacto.modal.delete',['name'=>'deleteModal'.$residente->id])
+                    @include('contacto.modal.token',['name'=>'tokenModal'.$residente->id])
 
                   @endforeach
 

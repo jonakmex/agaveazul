@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Profile;
+use App\RegisterToken;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -65,17 +66,28 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+      $token = RegisterToken::where(['token'=>$data['token']])->firstOrFail();
+      if($token->status == 1){
+        $token->status = 2;
+        $token->save();
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'profile_id' => $data['profile_id'],
         ]);
+      }
+
     }
 
     protected function showRegistrationForm()
     {
         $profiles = Profile::all();
         return view('auth.register')->with(['profiles'=>$profiles]);
+    }
+
+    public function registro($token){
+      $token = RegisterToken::where(['token'=>$token,'status'=>1])->firstOrFail();
+      return view('auth.register')->with(['token'=>$token]);
     }
 }

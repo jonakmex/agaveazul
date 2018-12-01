@@ -17,7 +17,7 @@
 
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    Staff
+    Residente
   </div>
   <!-- /.content-wrapper -->
 
