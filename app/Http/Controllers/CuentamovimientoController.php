@@ -8,10 +8,13 @@ use App\Cuentamovimiento;
 use Storage;
 use File;
 use \Datetime;
+use Illuminate\Support\Facades\Auth;
+
 class CuentamovimientoController extends Controller
 {
     public function create($id)
     {
+      Auth::user()->authorizeRoles(['Administrador']);
       $cuenta = Cuenta::findOrFail($id);
       $cuentas = Cuenta::where('estado',1)->whereNotIn('id',[$id])->get();
       return view('movimientos.create')->with(['cuenta'=>$cuenta,'cuentas'=>$cuentas]);
@@ -20,6 +23,7 @@ class CuentamovimientoController extends Controller
 
     public function store(Request $request)
     {
+      Auth::user()->authorizeRoles(['Administrador']);
       if($request->tipo == 1) //Ingreso
       {
         // validate form data

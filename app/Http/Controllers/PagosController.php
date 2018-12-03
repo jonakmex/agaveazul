@@ -14,6 +14,7 @@ use App\DTO\PagarReciboIn;
 use App\Service\Mapper\ReciboMapper;
 use App\Service\ReciboService;
 use App\Log;
+use Illuminate\Support\Facades\Auth;
 
 class PagosController extends Controller
 {
@@ -45,6 +46,7 @@ class PagosController extends Controller
      */
     public function store(Request $request)
     {
+      Auth::user()->authorizeRoles(['Administrador']);
       $this->validate($request,[
         //'importe' => 'required|numeric',
         'ajuste' => 'required|numeric',
@@ -81,6 +83,7 @@ class PagosController extends Controller
      */
     public function edit($id)
     {
+      Auth::user()->authorizeRoles(['Administrador']);
         return view('admin.pagos.edit');
     }
 
@@ -109,6 +112,7 @@ class PagosController extends Controller
 
     public function pdf()
     {
+      Auth::user()->authorizeRoles(['Administrador']);
       $pdf = PDF::loadView('table');
       return $pdf->download('invoice.pdf');
     }

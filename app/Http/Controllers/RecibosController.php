@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Recibos;
 use App\Cuenta;
+use Illuminate\Support\Facades\Auth;
+
 class RecibosController extends Controller
 {
     /**
@@ -46,6 +48,7 @@ class RecibosController extends Controller
      */
     public function show($id)
     {
+      Auth::user()->authorizeRoles(['Administrador']);
       $cuentas = Cuenta::where('estado',1)->paginate(10);
       return view('admin.recibos.show')->with('cuentas',$cuentas);
     }
@@ -58,6 +61,7 @@ class RecibosController extends Controller
      */
     public function edit($id)
     {
+      Auth::user()->authorizeRoles(['Administrador']);
         return view('admin.recibos.edit');
     }
 
@@ -86,6 +90,7 @@ class RecibosController extends Controller
 
     public function payAndBackToVivienda($id)
     {
+      Auth::user()->authorizeRoles(['Administrador']);
       $recibo = Recibos::findOrFail($id);
       $cuentas = Cuenta::where('estado',1)->paginate(10);
       $form = [
@@ -98,6 +103,7 @@ class RecibosController extends Controller
 
     public function payAndBackToRecibos($id)
     {
+      Auth::user()->authorizeRoles(['Administrador']);
       $recibo = Recibos::findOrFail($id);
       $cuentas = Cuenta::where('estado',1)->paginate(10);
       $form = [
@@ -109,6 +115,7 @@ class RecibosController extends Controller
     }
 
     public function getPdf($id){
+      Auth::user()->authorizeRoles(['Administrador']);
       $recibo = Recibos::findOrFail($id);
       $pdf = storage_path('app/public/rec_'.$recibo->id.'/emision_'.$recibo->id.'.pdf');
       return response()->file($pdf);

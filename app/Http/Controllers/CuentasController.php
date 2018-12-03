@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Exports\EstadoCuentaExport;
 use App\Cuenta;
 use App\Cuentamovimiento;
+use Illuminate\Support\Facades\Auth;
+
 class CuentasController extends Controller
 {
     /**
@@ -15,8 +17,15 @@ class CuentasController extends Controller
      */
     public function index()
     {
-        $cuentas = Cuenta::where('estado',1)->paginate(10);
+      Auth::user()->authorizeRoles(['Administrador','Residente']);
+      $cuentas = Cuenta::where('estado',1)->paginate(10);
+      if(Auth::user()->profile->descripcion ==='Administrador'){
         return view('cuentas.index')->with('cuentas',$cuentas);
+      }
+      else if(Auth::user()->profile->descripcion ==='Residente'){
+        return view('profiles.residente.finanzas.index')->with('cuentas',$cuentas);
+      }
+
     }
 
     /**
@@ -26,6 +35,7 @@ class CuentasController extends Controller
      */
     public function create()
     {
+      Auth::user()->authorizeRoles(['Administrador']);
         return view('cuentas.create');
     }
 
@@ -37,6 +47,7 @@ class CuentasController extends Controller
      */
     public function store(Request $request)
     {
+      Auth::user()->authorizeRoles(['Administrador']);
       // validate form data
       $this->validate($request,[
           'descripcion' => 'required|min:3|max:30'
@@ -64,14 +75,24 @@ class CuentasController extends Controller
      */
     public function show($id)
     {
+      Auth::user()->authorizeRoles(['Administrador','Residente']);
         $cuenta = Cuenta::findOrFail($id);
         $cuentas = Cuenta::where('estado',1)->get();
         $movimientos = Cuentamovimiento::where('cuenta_id',$cuenta->id)->orderBy('fecMov','desc')->orderBy('id','desc')->paginate(5);
-        return view('cuentas.show')->with(['selected'=>$cuenta,'cuentas'=>$cuentas,'movimientos'=>$movimientos] );
+
+
+        if(Auth::user()->profile->descripcion ==='Administrador'){
+          return view('cuentas.show')->with(['selected'=>$cuenta,'cuentas'=>$cuentas,'movimientos'=>$movimientos] );
+        }
+        else if(Auth::user()->profile->descripcion ==='Residente'){
+          return view('profiles.residente.finanzas.show')->with(['selected'=>$cuenta,'cuentas'=>$cuentas,'movimientos'=>$movimientos] );
+        }
+
     }
 
     public function exportar(Request $request)
     {
+      Auth::user()->authorizeRoles(['Administrador']);
       // validate form data
       $this->validate($request,[
           'fecInicio' => 'required',
@@ -90,6 +111,7 @@ class CuentasController extends Controller
      */
     public function edit($id)
     {
+      Auth::user()->authorizeRoles(['Administrador']);
         $cuenta = Cuenta::findOrFail($id);
         return view('cuentas.edit')->with('cuenta',$cuenta);
     }
@@ -103,6 +125,7 @@ class CuentasController extends Controller
      */
     public function update(Request $request, $id)
     {
+      Auth::user()->authorizeRoles(['Administrador']);
       $this->validate($request,[
           'descripcion' => 'required|min:3|max:30'
       ]);
@@ -128,6 +151,7 @@ class CuentasController extends Controller
      */
     public function destroy($id)
     {
+      Auth::user()->authorizeRoles(['Administrador']);
         $cuenta = Cuenta::findOrFail($id);
         $cuenta->estado = 0;
         if($cuenta->save()){

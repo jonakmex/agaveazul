@@ -8,6 +8,8 @@ use App\Residente;
 use App\Service\Mapper\ResidenteMapper;
 use App\Service\ContactoService;
 use \DB;
+use Illuminate\Support\Facades\Auth;
+
 class ResidentesController extends Controller
 {
     /**
@@ -17,6 +19,7 @@ class ResidentesController extends Controller
      */
     public function index()
     {
+      Auth::user()->authorizeRoles(['Administrador']);
         return view('admin.residentes.index');
     }
 
@@ -27,6 +30,7 @@ class ResidentesController extends Controller
      */
     public function create()
     {
+      Auth::user()->authorizeRoles(['Administrador']);
         return view('admin.residentes.create');
     }
 
@@ -39,6 +43,7 @@ class ResidentesController extends Controller
      */
     public function store(Request $request)
     {
+      Auth::user()->authorizeRoles(['Administrador']);
       // validate form data
       $this->validate($request,[
           'vivienda_id' => 'required',
@@ -87,6 +92,7 @@ class ResidentesController extends Controller
      */
     public function edit($id)
     {
+      Auth::user()->authorizeRoles(['Administrador']);
         $residente = Residente::findOrFail($id);
         return view('admin.residentes.edit')->with('residente',$residente);
     }
@@ -100,6 +106,7 @@ class ResidentesController extends Controller
      */
     public function update(Request $request, $id)
     {
+      Auth::user()->authorizeRoles(['Administrador']);
       // validate form data
       $this->validate($request,[
           'nombre' => 'required|min:3|max:100',
@@ -135,6 +142,7 @@ class ResidentesController extends Controller
      */
     public function destroy($id)
     {
+      Auth::user()->authorizeRoles(['Administrador']);
       $residente = Residente::findOrFail($id);
       $residente->estado = 0;
       $vivienda = $residente->vivienda;
@@ -145,6 +153,7 @@ class ResidentesController extends Controller
 
     public function generarToken(Request $request)
     {
+      Auth::user()->authorizeRoles(['Administrador']);
       $residente = Residente::findOrFail($request->id);
       ContactoService::crearTokenRegistro($residente);
       return redirect()->route('vivienda.show',['id'=>$residente->vivienda->id]);

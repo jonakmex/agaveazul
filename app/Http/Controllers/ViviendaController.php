@@ -9,6 +9,7 @@ use App\Cuenta;
 use App\Service\ViviendaService;
 use App\Service\Mapper\ViviendaMapper;
 use App\Exception\BusinessException;
+use Illuminate\Support\Facades\Auth;
 
 class ViviendaController extends Controller
 {
@@ -19,6 +20,7 @@ class ViviendaController extends Controller
      */
     public function index()
     {
+        Auth::user()->authorizeRoles(['Administrador']);
         $viviendas = Vivienda::where('estado',1)->paginate(5);
         return view('vivienda.index')->with('viviendas',$viviendas);
     }
@@ -30,6 +32,7 @@ class ViviendaController extends Controller
      */
     public function create()
     {
+        Auth::user()->authorizeRoles(['Administrador']);
         return view('vivienda.create');
     }
 
@@ -42,6 +45,7 @@ class ViviendaController extends Controller
     public function store(Request $request)
     {
       // validate form data
+      Auth::user()->authorizeRoles(['Administrador']);
       $this->validate($request,[
           'descripcion' => 'required|min:1|max:30',
           'clave' => 'required|min:1|max:10'
@@ -71,12 +75,22 @@ class ViviendaController extends Controller
      */
     public function show($id)
     {
+      Auth::user()->authorizeRoles(['Administrador','Residente']);
+
       // Use the model to get one record from DB
       $vivienda = Vivienda::findOrFail($id);
       $recibos = Recibos::where('vivienda_id',$id)->whereIn('estado',[1,2])->orderBy('fecLimite','desc')->paginate(10);
       $cuentas = Cuenta::where('estado',1)->paginate(10);
       //Show the view and pass the record
-      return view('vivienda.show')->with(['vivienda'=>$vivienda,'recibos'=>$recibos,'cuentas'=>$cuentas]);
+      switch(Auth::user()->profile->descripcion){
+        case 'Administrador':
+          return view('vivienda.show')->with(['vivienda'=>$vivienda,'recibos'=>$recibos,'cuentas'=>$cuentas]);
+        break;
+        case 'Residente':
+          return view('profiles.residente.vivienda.show')->with(['vivienda'=>$vivienda,'recibos'=>$recibos,'cuentas'=>$cuentas]);
+        break;
+      }
+
     }
 
     /**
@@ -87,6 +101,7 @@ class ViviendaController extends Controller
      */
     public function edit($id)
     {
+      Auth::user()->authorizeRoles(['Administrador']);
       // Use the model to get one record from DB
       $vivienda = Vivienda::findOrFail($id);
       //Show the view and pass the record
@@ -102,6 +117,7 @@ class ViviendaController extends Controller
      */
     public function update(Request $request, $id)
     {
+      Auth::user()->authorizeRoles(['Administrador']);
       // validate form data
       $this->validate($request,[
           'descripcion' => 'required|min:1|max:30',
@@ -128,6 +144,7 @@ class ViviendaController extends Controller
      */
     public function destroy($id)
     {
+      Auth::user()->authorizeRoles(['Administrador']);
       $vivienda = Vivienda::findOrFail($id);
       $vivienda->estado = 0;
       if($vivienda->save()){
@@ -137,6 +154,7 @@ class ViviendaController extends Controller
 
     public function crearResidente($id)
     {
+      Auth::user()->authorizeRoles(['Administrador']);
       $vivienda = Vivienda::findOrFail($id);
       return view('admin.residentes.create')->with('vivienda',$vivienda);
     }

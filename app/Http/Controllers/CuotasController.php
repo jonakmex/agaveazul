@@ -10,6 +10,7 @@ use App\Recibos;
 use App\Reciboheader;
 use Mail;
 use App\AvisoMail;
+use Illuminate\Support\Facades\Auth;
 
 class CuotasController extends Controller
 {
@@ -20,6 +21,7 @@ class CuotasController extends Controller
      */
     public function index()
     {
+      Auth::user()->authorizeRoles(['Administrador']);
       $cuotas = Cuota::where('estado',1)->paginate(10);
       return view('cuotas.index')->with('cuotas',$cuotas);
     }
@@ -31,6 +33,7 @@ class CuotasController extends Controller
      */
     public function create()
     {
+      Auth::user()->authorizeRoles(['Administrador']);
         $viviendas = Vivienda::where('estado',1)->get();
         return view('cuotas.create')->with('viviendas',$viviendas);
     }
@@ -43,6 +46,7 @@ class CuotasController extends Controller
      */
     public function store(Request $request)
     {
+      Auth::user()->authorizeRoles(['Administrador']);
       // validate form data
       $this->validate($request,[
           'descripcion' => 'required|min:3|max:30',
@@ -125,6 +129,7 @@ class CuotasController extends Controller
      */
     public function show($id)
     {
+      Auth::user()->authorizeRoles(['Administrador']);
       $cuota = Cuota::findOrFail($id);
       $cuotas = Cuota::where('estado',1)->paginate(10);
       return view('cuotas.show')->with(['selected'=>$cuota,'cuotas'=>$cuotas] );
@@ -138,6 +143,7 @@ class CuotasController extends Controller
      */
     public function edit($id)
     {
+      Auth::user()->authorizeRoles(['Administrador']);
       $cuota = Cuota::findOrFail($id);
       $viviendas = Vivienda::where('estado',1)->get();
 
@@ -164,6 +170,7 @@ class CuotasController extends Controller
      */
     public function update(Request $request, $id)
     {
+      Auth::user()->authorizeRoles(['Administrador']);
       $this->validate($request,[
           'descripcion' => 'required|min:3|max:30',
           'clave' => 'required|min:3|max:10',
@@ -222,6 +229,7 @@ class CuotasController extends Controller
      */
     public function destroy($id)
     {
+      Auth::user()->authorizeRoles(['Administrador']);
       $cuota = Cuota::findOrFail($id);
       $cuota->estado = 0;
       if($cuota->save()){

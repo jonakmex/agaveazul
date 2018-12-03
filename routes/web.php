@@ -27,9 +27,8 @@ Route::get('/pdf', 'PagosController@pdf');
 Route::get('/registro/{token}', ['uses' =>'Auth\RegisterController@registro']);
 
 Route::group(['middleware' => ['auth']], function() {
-    Route::get('/home',function(){
-      return view('home');
-    });
+    Route::get('/home',['uses' =>'HomeController@index']);
+
     Route::resource('vivienda', 'ViviendaController');
     Route::resource('residentes', 'ResidentesController');
     Route::post('/residentes/token', ['uses' =>'ResidentesController@generarToken'])->name('residentes.generarToken');

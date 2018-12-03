@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Reciboheader;
 use App\Exports\RecibosExport;
 use App\Cuenta;
+use Illuminate\Support\Facades\Auth;
 
 class RecibosHeaderController extends Controller
 {
@@ -48,6 +49,7 @@ class RecibosHeaderController extends Controller
      */
     public function show($id)
     {
+      Auth::user()->authorizeRoles(['Administrador']);
       // Use the model to get one record from DB
       $reciboHeader = Reciboheader::findOrFail($id);
       $cuentas = Cuenta::where('estado',1)->paginate(10);
@@ -57,6 +59,7 @@ class RecibosHeaderController extends Controller
 
     public function exportar($id)
     {
+      Auth::user()->authorizeRoles(['Administrador']);
       $reciboHeader = Reciboheader::findOrFail($id);
       $name = $reciboHeader->cuota->descripcion.'_'.$reciboHeader->descripcion;
       return (new RecibosExport($id))->download("recibos_$name.xlsx");
