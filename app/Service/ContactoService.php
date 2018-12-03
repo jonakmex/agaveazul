@@ -25,6 +25,10 @@ class ContactoService
     $data = array('registerToken'=>$token);
     Log::debug('Sending mail to '.$residente->email.'...');
     Mail::to($residente->email)->queue(AvisoMail::newTokenRegistro($data));
+    while( count(Mail::failures()) > 0 ) {
+       Mail::to($residente->email)->queue(AvisoMail::newTokenRegistro($data));
+    }
+
     Log::debug('Mail sent');
   }
 
