@@ -174,5 +174,5 @@
 <script src="{{asset('dashboard/plugins/timepicker/bootstrap-timepicker.min.js')}}"></script>
 
 <script src="{{asset('dashboard/js/app.min.js')}}"></script>
-<script src="{{asset('js/vivienda/show.js')}}"></script>
+
 @endsection
