@@ -15,7 +15,7 @@ class CreateTableRegiterToken extends Migration
     {
       Schema::create('registerTokens', function (Blueprint $table) {
           $table->bigIncrements('id');
-          $table->string('token')->index();
+          $table->string('token',10)->index();
           $table->integer('profile_id')->unsigned();
           $table->integer('status')->unsigned();
           $table->integer('residente_id')->unsigned();

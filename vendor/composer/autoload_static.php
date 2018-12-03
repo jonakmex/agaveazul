@@ -13,10 +13,10 @@ class ComposerStaticInit004d128a1565f4667c05fc05b48fc686
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
-        '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
-        '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
         'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
+        '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
+        '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -68,6 +68,10 @@ class ComposerStaticInit004d128a1565f4667c05fc05b48fc686
             'Psr\\Container\\' => 14,
             'PhpParser\\' => 10,
             'PhpOffice\\PhpSpreadsheet\\' => 25,
+        ),
+        'N' => 
+        array (
+            'NunoMaduro\\Collision\\' => 21,
         ),
         'M' => 
         array (
@@ -229,6 +233,10 @@ class ComposerStaticInit004d128a1565f4667c05fc05b48fc686
         'PhpOffice\\PhpSpreadsheet\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet',
+        ),
+        'NunoMaduro\\Collision\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nunomaduro/collision/src',
         ),
         'Monolog\\' => 
         array (
@@ -2187,6 +2195,21 @@ class ComposerStaticInit004d128a1565f4667c05fc05b48fc686
         'Monolog\\Processor\\UidProcessor' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Processor/UidProcessor.php',
         'Monolog\\Processor\\WebProcessor' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Processor/WebProcessor.php',
         'Monolog\\Registry' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Registry.php',
+        'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Laravel/CollisionServiceProvider.php',
+        'NunoMaduro\\Collision\\Adapters\\Laravel\\ExceptionHandler' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Laravel/ExceptionHandler.php',
+        'NunoMaduro\\Collision\\Adapters\\Laravel\\Inspector' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Laravel/Inspector.php',
+        'NunoMaduro\\Collision\\Adapters\\Phpunit\\Listener' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Phpunit/Listener.php',
+        'NunoMaduro\\Collision\\ArgumentFormatter' => __DIR__ . '/..' . '/nunomaduro/collision/src/ArgumentFormatter.php',
+        'NunoMaduro\\Collision\\Contracts\\Adapters\\Phpunit\\Listener' => __DIR__ . '/..' . '/nunomaduro/collision/src/Contracts/Adapters/Phpunit/Listener.php',
+        'NunoMaduro\\Collision\\Contracts\\ArgumentFormatter' => __DIR__ . '/..' . '/nunomaduro/collision/src/Contracts/ArgumentFormatter.php',
+        'NunoMaduro\\Collision\\Contracts\\Handler' => __DIR__ . '/..' . '/nunomaduro/collision/src/Contracts/Handler.php',
+        'NunoMaduro\\Collision\\Contracts\\Highlighter' => __DIR__ . '/..' . '/nunomaduro/collision/src/Contracts/Highlighter.php',
+        'NunoMaduro\\Collision\\Contracts\\Provider' => __DIR__ . '/..' . '/nunomaduro/collision/src/Contracts/Provider.php',
+        'NunoMaduro\\Collision\\Contracts\\Writer' => __DIR__ . '/..' . '/nunomaduro/collision/src/Contracts/Writer.php',
+        'NunoMaduro\\Collision\\Handler' => __DIR__ . '/..' . '/nunomaduro/collision/src/Handler.php',
+        'NunoMaduro\\Collision\\Highlighter' => __DIR__ . '/..' . '/nunomaduro/collision/src/Highlighter.php',
+        'NunoMaduro\\Collision\\Provider' => __DIR__ . '/..' . '/nunomaduro/collision/src/Provider.php',
+        'NunoMaduro\\Collision\\Writer' => __DIR__ . '/..' . '/nunomaduro/collision/src/Writer.php',
         'PHPUnit\\Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert.php',
         'PHPUnit\\Framework\\AssertionFailedError' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/AssertionFailedError.php',
