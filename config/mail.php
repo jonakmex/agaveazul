@@ -99,7 +99,7 @@ return [
     |
     */
 
-    'sendmail' => '/usr/sbin/sendmail -bs',
+    'sendmail' => env('MAIL_SENDMAIL', '/usr/sbin/sendmail -bs'),
 
     /*
     |--------------------------------------------------------------------------
@@ -117,6 +117,15 @@ return [
 
         'paths' => [
             resource_path('views/vendor/mail'),
+        ],
+    ],
+
+
+'stream' => [
+        'ssl' => [
+            'allow_self_signed' => true,
+            'verify_peer' => false,
+            'verify_peer_name' => false,
         ],
     ],
 
