@@ -39,11 +39,11 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/recibosHeader/export/{hdr_id}', ['uses' =>'RecibosHeaderController@exportar'])->name('recibosHeader.exportar');
     Route::get('/recibos/getPdf/{rec_id}', ['uses' =>'RecibosController@getPdf'])->name('recibos.getPdf');
     Route::post('/estadoCta/export', ['uses' =>'CuentasController@exportar'])->name('estadoCta.exportar');
-
     Route::resource('cuentas', 'CuentasController');
-
     Route::get('/movimientos/create/{cuenta_id}', ['uses' =>'CuentamovimientoController@create'])->name('movimientos.create');
     Route::resource('movimientos', 'CuentamovimientoController',['except' => ['create']]);
-
     Route::resource('pagos', 'PagosController');
+    //Comunicacion
+    Route::get('/comunicacion/', ['uses' =>'ComunicacionController@index'])->name('comunicacion.index');
+    Route::post('/comunicacion/send', ['uses' =>'ComunicacionController@send'])->name('comunicacion.send');
 });

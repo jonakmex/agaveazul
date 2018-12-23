@@ -59,9 +59,7 @@
                     <tr>
                       <td><a href="{{route('cuentas.show',['id'=>$cuenta->id])}}">{{$cuenta->descripcion}}</a></td>
                       <td width="10%">${{ number_format($cuenta->saldo, 2, ',', '.')}}</td>
-
                     </tr>
-
                     @endforeach
                   </tbody>
                 </table>
@@ -94,7 +92,7 @@
                   <tr>
                     <td>
                       @if($movimiento->comprobante != null)
-                        <a href="{{asset($movimiento->comprobante)}}" target="_blank">{{$movimiento->descripcion}}</a>
+                        <a href="{{asset($movimiento->comprobante)}}" target="_blank">{{$movimiento->publicDescription()}}</a>
                       @else
                         {{$movimiento->descripcion}}
                       @endif

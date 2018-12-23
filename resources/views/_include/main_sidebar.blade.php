@@ -41,6 +41,16 @@
           <li><a href="{{route('cuotas.index')}}">Cuotas</a></li>
         </ul>
       </li>
+      <li class="treeview">
+        <a href="#"><ion-icon class="fa fa-mail" name="mail"></ion-icon> <span>Comunicación</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="{{route('comunicacion.index')}}">Comunicado</a></li>
+        </ul>
+      </li>
     </ul>
     <!-- /.sidebar-menu -->
   </section>

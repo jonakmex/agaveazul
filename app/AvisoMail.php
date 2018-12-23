@@ -12,12 +12,20 @@ class AvisoMail extends Mailable implements ShouldQueue
     use Queueable, SerializesModels;
     protected $data;
     protected $file;
+    protected $asunto;
     protected $template;
 
-    public function __construct($data,$file,$template){
+    public function __construct($data,$file,$template,$asunto=null){
       $this->data = $data;
       $this->file = $file;
       $this->template = $template;
+      $this->asunto = $asunto;
+    }
+
+    public static function newComunicado($subject,$data,$file) {
+        $obj = new AvisoMail($data,$file,4,$subject);
+        // other initialization
+        return $obj;
     }
 
     public static function newTokenRegistro($data) {
@@ -37,6 +45,8 @@ class AvisoMail extends Mailable implements ShouldQueue
         // other initialization
         return $obj;
     }
+
+
 
 
     /**
@@ -75,6 +85,15 @@ class AvisoMail extends Mailable implements ShouldQueue
                ->view($template)
                ->with(['data'=>$this->data]);
            break;
+           case 4: //Comunicado
+             $asunto = $this->asunto;
+             $template = '_emails.comunicado';
+             $this->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'))
+                 ->subject($asunto)
+                 ->view($template)
+                 ->with(['data'=>$this->data])
+                 ->attach($this->file);
+             break;
      }
 
 
