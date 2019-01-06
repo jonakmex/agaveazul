@@ -1,4 +1,4 @@
 RewriteEngine On
-RewriteRule !\.(js|gif|jpg|png|css|txt|mp4)$ public/index.php [L]
+RewriteRule !\.(js|gif|jpg|png|css|txt|mp4|pdf)$ public/index.php [L]
 RewriteCond %{REQUEST_URI} !^/public/
 RewriteRule ^(.*)$ public/$1 [NC,L]
