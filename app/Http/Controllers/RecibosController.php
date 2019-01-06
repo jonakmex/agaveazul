@@ -115,7 +115,7 @@ class RecibosController extends Controller
     }
 
     public function getPdf($id){
-      Auth::user()->authorizeRoles(['Administrador']);
+      Auth::user()->authorizeRoles(['Administrador','Residente']);
       $recibo = Recibos::findOrFail($id);
       $pdf = storage_path('app/public/rec_'.$recibo->id.'/emision_'.$recibo->id.'.pdf');
       return response()->file($pdf);
