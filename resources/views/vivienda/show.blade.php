@@ -52,6 +52,9 @@
                 <li class="list-group-item">
                   <b>Estatus</b> <a class="pull-right"><span class="label label-{{$vivienda->estado() == 1 ? 'success':'danger' }}">{{$vivienda->estado() == 1 ? 'Corriente':'Mora' }}</span></a>
                 </li>
+                <li class="list-group-item">
+                  <b>Referencia</b> <a class="pull-right">{{$vivienda->referencia}}</a>
+                </li>
               </ul>
 
             </div>

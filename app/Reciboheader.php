@@ -17,4 +17,11 @@ class Reciboheader extends Model
   {
       return $this->hasMany('App\Recibos');
   }
+
+  public function estado(){
+    //Calculamos porcentaje de avance de cobro
+    $total = $this->recibos()->sum('importe');
+    $cobrado = $this->saldo;
+    return ($cobrado * 100) / $total;
+  }
 }

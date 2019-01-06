@@ -9,6 +9,7 @@ class ViviendaMapper
   {
     $vivienda->descripcion = $request->descripcion;
     $vivienda->clave = $request->clave;
+    $vivienda->referencia = $request->referencia;
 
   }
 }

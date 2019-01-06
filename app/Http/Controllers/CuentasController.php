@@ -17,15 +17,9 @@ class CuentasController extends Controller
      */
     public function index()
     {
-      Auth::user()->authorizeRoles(['Administrador','Residente']);
+      Auth::user()->authorizeRoles(['Administrador']);
       $cuentas = Cuenta::where('estado',1)->paginate(10);
-      if(Auth::user()->profile->descripcion ==='Administrador'){
-        return view('cuentas.index')->with('cuentas',$cuentas);
-      }
-      else if(Auth::user()->profile->descripcion ==='Residente'){
-        return view('profiles.residente.finanzas.index')->with('cuentas',$cuentas);
-      }
-
+      return view('cuentas.index')->with('cuentas',$cuentas);
     }
 
     /**
