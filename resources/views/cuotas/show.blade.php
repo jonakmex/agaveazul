@@ -83,7 +83,8 @@
                   <tr>
                     <th>Nombre</th>
                     <th>Importe</th>
-                    <th>Recaudacion</th>
+                    <th>Estado</th>
+
                   </tr>
                 </thead>
                 <tbody>
@@ -92,7 +93,11 @@
                   <tr>
                     <td><a href="{{route('recibosHeader.show',['id'=>$header->id])}}">{{$header->descripcion}}</a></td>
                     <td width="10%">${{number_format($header->importe+$header->ajuste, 2, '.', ',')}}</td>
-                    <td>${{number_format($header->saldo, 2, '.', ',')}}</td>
+                    <td>
+                      <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: {{$header->estado()}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{$header->estado()}}%</div>
+                      </div>
+                    </td>
                   </tr>
                   @endforeach
                 </tbody>

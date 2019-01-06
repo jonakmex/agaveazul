@@ -380,6 +380,7 @@ class ComposerStaticInit004d128a1565f4667c05fc05b48fc686
         'App\\Http\\Controllers\\Auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/LoginController.php',
         'App\\Http\\Controllers\\Auth\\RegisterController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/RegisterController.php',
         'App\\Http\\Controllers\\Auth\\ResetPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ResetPasswordController.php',
+        'App\\Http\\Controllers\\ComunicacionController' => __DIR__ . '/../..' . '/app/Http/Controllers/ComunicacionController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\CuentamovimientoController' => __DIR__ . '/../..' . '/app/Http/Controllers/CuentamovimientoController.php',
         'App\\Http\\Controllers\\CuentasController' => __DIR__ . '/../..' . '/app/Http/Controllers/CuentasController.php',

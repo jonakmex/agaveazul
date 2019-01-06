@@ -1,7 +1,7 @@
 @extends('_template.dashboard')
 
 @section('title')
-  <title>Recibos X</title>
+  <title>Recibos</title>
 @endsection
 
 @section('styles')
