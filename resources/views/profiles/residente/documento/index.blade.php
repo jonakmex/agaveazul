@@ -1,4 +1,4 @@
-@extends('_template.dashboard')
+@extends('_template.profiles.residente.dashboard')
 
 @section('title')
   <title>Home</title>

@@ -17,6 +17,13 @@
 			 	<span class="help-block">{{ $errors->first('descripcion') }}</span>
 			 @endif
 		</div>
+    <div class="form-group @php($err_referencia = $errors->has('referencia')?'has-error':'') {{$err_referencia}}">
+			<label for="referencia">Referencia</label>
+			 <input type="text" value="{{ $vivienda->referencia }}" name="referencia" id="referencia" class="form-control"/ required>
+       @if ($errors->has('referencia'))
+			 	<span class="help-block">{{ $errors->first('referencia') }}</span>
+			 @endif
+		</div>
     <div class="form-group @php($err_clave = $errors->has('clave')?'has-error':'') {{$err_clave}}">
 			<label for="clave">Clave</label>
 			 <input type="text" value="{{$vivienda->clave}}" name="clave" id="clave" class="form-control"/ required>

@@ -48,6 +48,30 @@
                 <li class="list-group-item">
                   <b>Estatus</b> <a class="pull-right"><span class="label label-{{$vivienda->estado() == 1 ? 'success':'danger' }}">{{$vivienda->estado() == 1 ? 'Corriente':'Mora' }}</span></a>
                 </li>
+                <li class="list-group-item">
+                  <b>Referencia</b> <a class="pull-right">{{$vivienda->referencia}}</a>
+                </li>
+              </ul>
+
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+          <div class="box box-primary">
+            <div class="box-body box-profile">
+              <h3 class="profile-username text-center">Información</h3>
+              <p class="text-muted text-center">Referencias de pago</p>
+              <ul class="list-group list-group-unbordered">
+                <li class="list-group-item">
+                  <b>Banco</b> <a class="pull-right">XXXX</a>  
+                </li>
+                <li class="list-group-item">
+                  <b>Cuenta</b> <a class="pull-right">#### #### #### ####</a>
+                </li>
+                <li class="list-group-item">
+                  <b>Beneficiario</b> <a class="pull-right">XXXXXX XXXXX XXXX</a>
+                </li>
               </ul>
 
             </div>

@@ -48,7 +48,8 @@ class ViviendaController extends Controller
       Auth::user()->authorizeRoles(['Administrador']);
       $this->validate($request,[
           'descripcion' => 'required|min:1|max:30',
-          'clave' => 'required|min:1|max:10'
+          'clave' => 'required|min:1|max:10',
+          'referencia' => 'required|min:1|max:30'
       ]);
       //Process de data and submit it
       $vivienda = Vivienda::find($request->id);
@@ -121,7 +122,8 @@ class ViviendaController extends Controller
       // validate form data
       $this->validate($request,[
           'descripcion' => 'required|min:1|max:30',
-          'clave' => 'required|min:1|max:10'
+          'clave' => 'required|min:1|max:10',
+          'referencia' => 'required|min:1|max:30'
       ]);
       //Process de data and submit it
       $vivienda = Vivienda::findOrFail($id);
