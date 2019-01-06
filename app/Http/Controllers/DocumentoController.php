@@ -26,7 +26,7 @@ class DocumentoController extends Controller
           return view('documento.index')->with('documentos',$documentos);
         }
         else if(Auth::user()->profile->descripcion ==='Residente'){
-          //return view('profiles.residente.documentos.index')->with('documentos',$documentos);
+          return view('profiles.residente.documento.index')->with('documentos',$documentos);
         }
     }
 

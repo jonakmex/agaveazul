@@ -45,7 +45,6 @@
                       <th>Titulo</th>
                       <th>Archivo</th>
                       <th>Descripcion</th>
-                      <th>Acciones</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -54,13 +53,9 @@
                       <td>{{ $documento->titulo }}</a></td>
                       <td><a href="{{$documento->url()}}" download>{{ $documento->archivo }}</a></td>
                       <td>{{ $documento->descripcion }}</a></td>
-                      <td>
-                        <a href="#editDocumentoModal{{$documento->id}}" class="edit" data-toggle="modal"><ion-icon  name="create" data-toggle="tooltip" title="Edit"></i></a>
-                        <a href="#deletedocumentoModal{{$documento->id}}" class="delete" data-toggle="modal"><ion-icon name="trash" data-toggle="tooltip" title="Delete"></i></a>
-                      </td>
+
                     </tr>
-                    @include('documento.modal.edit',['name'=>'editDocumentoModal'.$documento->id])
-                    @include('documento.modal.delete',['name'=>'deletedocumentoModal'.$documento->id])
+
                     @endforeach
                   </tbody>
                 </table>
@@ -79,7 +74,7 @@
   </section>
   <!-- /.content -->
 </div>
-@include('documento.modal.add',['name'=>'addDocumentoModal'])
+
 <!-- /.content-wrapper -->
 @endsection
 @section('scripts')
@@ -88,5 +83,5 @@
 <script src="{{asset('dashboard/plugins/datatables/dataTables.bootstrap.min.js')}}"></script>
 <script src="https://unpkg.com/ionicons@4.4.4/dist/ionicons.js"></script>
 <script src="{{asset('dashboard/js/app.min.js')}}"></script>
-<script src="{{asset('js/documento/index.js')}}"></script>
+<script src="{{asset('js/profiles/residente/documento/index.js')}}"></script>
 @endsection
