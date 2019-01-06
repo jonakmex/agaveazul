@@ -64,13 +64,16 @@
               <p class="text-muted text-center">Referencias de pago</p>
               <ul class="list-group list-group-unbordered">
                 <li class="list-group-item">
-                  <b>Banco</b> <a class="pull-right">XXXX</a>  
+                  <b>Banco</b> <a class="pull-right">Scotiabank</a>
                 </li>
                 <li class="list-group-item">
-                  <b>Cuenta</b> <a class="pull-right">#### #### #### ####</a>
+                  <b>Cuenta</b> <a class="pull-right">2560000920</a>
                 </li>
                 <li class="list-group-item">
-                  <b>Beneficiario</b> <a class="pull-right">XXXXXX XXXXX XXXX</a>
+                  <b>CLABE</b> <a class="pull-right">044685256000092609</a>
+                </li>
+                <li class="list-group-item">
+                  <b>Beneficiario</b> <a class="pull-right">Agave Azul V A.C.</a>
                 </li>
               </ul>
 
