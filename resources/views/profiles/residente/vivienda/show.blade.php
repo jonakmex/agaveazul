@@ -67,7 +67,7 @@
                   <b>Banco</b> <a class="pull-right">Scotiabank</a>
                 </li>
                 <li class="list-group-item">
-                  <b>Cuenta</b> <a class="pull-right">2560000920</a>
+                  <b>Cuenta</b> <a class="pull-right">25600009260</a>
                 </li>
                 <li class="list-group-item">
                   <b>CLABE</b> <a class="pull-right">044685256000092609</a>
