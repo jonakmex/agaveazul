@@ -119,6 +119,7 @@
                   </tbody>
                 </table>
                 {{ $recibos->links('_template.paginator', ['results' => $recibos]) }}
+                @include('vivienda.modal.addRecibo',['name'=>'addModalRecibo'])
               </div>
               <!-- /.tab-pane -->
               <div class="tab-pane table-responsive" id="timeline">

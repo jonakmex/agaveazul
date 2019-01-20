@@ -47,4 +47,5 @@ Route::group(['middleware' => ['auth']], function() {
     //Comunicacion
     Route::get('/comunicacion/', ['uses' =>'ComunicacionController@index'])->name('comunicacion.index');
     Route::post('/comunicacion/send', ['uses' =>'ComunicacionController@send'])->name('comunicacion.send');
+    Route::post('/vivienda/generarRecibo', ['uses' =>'ViviendaController@generarRecibo'])->name('vivienda.generarRecibo');
 });

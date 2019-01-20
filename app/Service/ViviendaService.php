@@ -3,8 +3,10 @@ namespace App\Service;
 
 use App\Vivienda;
 use App\Recibos;
+use App\Cuota;
 use App\BusinessException;
 use \Datetime;
+use App\Service\ReciboService;
 
 class ViviendaService
 {
@@ -38,4 +40,13 @@ class ViviendaService
       return $estado;
     }
 
+    public static function generarSiguienteRecibo(Vivienda $vivienda,Cuota $cuota){
+      // Obtener ultimo recibo header de la cuota
+      $ultimoReciboHeader = $cuota->recibosHeader()->orderBy('id','desc')->first();
+      // Generar el siguiente recibo header
+      $fechaSiguienteHeader = ReciboService::siguienteFechaPago($cuota,$ultimoReciboHeader->fecVence);
+      $reciboHeader = ReciboService::generarHeaderRecibo($cuota,$fechaSiguienteHeader);
+      // Generar el recibo
+      return ReciboService::generarReciboVivienda($reciboHeader,$vivienda);
+    }
 }

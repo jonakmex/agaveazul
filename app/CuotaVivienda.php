@@ -11,4 +11,8 @@ class CuotaVivienda extends Model
     public function vivienda(){
       return $this->belongsTo('App\Vivienda');
     }
+
+    public function cuota(){
+      return $this->belongsTo('App\Cuota');
+    }
 }

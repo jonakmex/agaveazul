@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Vivienda;
 use App\Recibos;
 use App\Cuenta;
+use App\Cuota;
 use App\Service\ViviendaService;
 use App\Service\Mapper\ViviendaMapper;
 use App\Exception\BusinessException;
@@ -159,5 +160,12 @@ class ViviendaController extends Controller
       Auth::user()->authorizeRoles(['Administrador']);
       $vivienda = Vivienda::findOrFail($id);
       return view('admin.residentes.create')->with('vivienda',$vivienda);
+    }
+
+    public function generarRecibo(Request $request){
+      $vivienda = Vivienda::findOrFail($request->vivienda_id);
+      $cuota = Cuota::findOrFail($request->cuota_id);
+      ViviendaService::generarSiguienteRecibo($vivienda,$cuota);
+      return redirect()->route('vivienda.show',$vivienda->id);
     }
 }
