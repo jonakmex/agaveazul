@@ -46,6 +46,18 @@ $(document).ready(function(){
 	});
 	$("div.toolbar").html('<button data-target="#addModal" data-toggle="modal" class="btn btn-sm btn-success"><ion-icon name="add"></ion-icon></button> ');
 
+  $('#tblRecibos').DataTable( {
+		"paging": false,
+		"lengthChange": false,
+		"searching": false,
+		"ordering": false,
+		"info": false,
+		"autoWidth": false,
+		"dom": '<"toolbar">frtip'
+	});
+	$("div.toolbar").html('<button data-target="#addModalRecibo" data-toggle="modal" class="btn btn-sm btn-success"><ion-icon name="add"></ion-icon></button> ');
+
+
 	var date = new Date();
   		var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
       $('.fechas').datepicker({
