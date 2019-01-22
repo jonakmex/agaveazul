@@ -28,7 +28,7 @@ class Vivienda extends Model
     }
 
     public function cuotas(){
-      return $this->hasMany('App\CuotaVivienda');
+      return $this->hasMany('App\CuotaVivienda')->join('cuotas','cuota_id','cuotas.id')->where('cuotas.estado',1);
     }
 
     public function saldo(){
