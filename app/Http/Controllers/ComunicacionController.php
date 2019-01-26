@@ -25,10 +25,13 @@ class ComunicacionController extends Controller
       if(!is_array($viviendas)){
          return redirect()->route('comunicacion.index')->withErrors(['vivienda'=>'Debe Seleccionar una vivienda']);
       }
-      $file = $request->file('attachment');
-      $request->file('attachment')->move(public_path(), 'Comunicado.'.$file->getClientOriginalExtension());
-      $route = public_path().'/Comunicado.'.$file->getClientOriginalExtension();
-      /**/
+      $route = null;
+      if($request->hasFile('attachment')){
+        $file = $request->file('attachment');
+        $request->file('attachment')->move(public_path(), 'Comunicado.'.$file->getClientOriginalExtension());
+        $route = public_path().'/Comunicado.'.$file->getClientOriginalExtension();
+      }
+
       $data = array('compose'=>$compose);
       foreach($viviendas as $vivienda){
         $oVivienda = Vivienda::findOrFail($vivienda);

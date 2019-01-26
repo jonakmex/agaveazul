@@ -91,8 +91,11 @@ class AvisoMail extends Mailable implements ShouldQueue
              $this->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'))
                  ->subject($asunto)
                  ->view($template)
-                 ->with(['data'=>$this->data])
-                 ->attach($this->file);
+                 ->with(['data'=>$this->data]);
+             if($this->file != null){
+               $this->attach($this->file);
+             }
+
              break;
      }
 
