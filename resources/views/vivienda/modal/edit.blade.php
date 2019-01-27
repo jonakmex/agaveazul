@@ -1,7 +1,7 @@
 @extends('_template.modal')
 
 @section('modalbody')
-<form action="{{ route('vivienda.update',['id'=>$vivienda->id]) }}" method="POST">
+<form action="{{ route('vivienda.update',['id'=>$vivienda->id]) }}" method="POST" onsubmit="return checkForm(this);">
                     {{ csrf_field () }}
                     {{ method_field('PUT') }}
 	<div class="modal-header">
@@ -34,8 +34,18 @@
 	</div>
 	<div class="modal-footer">
     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
-		<input type="submit" class="btn btn-success" value="Guardar">
+		<input type="submit" class="btn btn-success" name="guardar" value="Guardar" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Processing Order">
 	</div>
 </form>
+@overwrite
 
+@section('modalscripts')
+<script>
+function checkForm(form)
+  {
+
+    form.guardar. = true;
+    return true;
+  }
+</script>
 @overwrite

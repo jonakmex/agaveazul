@@ -74,7 +74,7 @@
              <!-- /.box-body -->
              <div class="box-footer">
                <div class="pull-right">
-                 <button type="submit" class="btn btn-primary"><i class="fa fa-envelope-o"></i> Enviar</button>
+                 <button type="submit" class="btn btn-primary" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Processing Order"><i class="fa fa-envelope-o"></i> Enviar</button>
                </div>
              </div>
              <!-- /.box-footer -->
@@ -144,6 +144,12 @@
   $(function () {
     //Add text editor
     $("#compose-textarea").wysihtml5();
+
+    $('.btn').on('click', function() {
+      var $this = $(this);
+      $this.button('loading');
+    });
+
   });
 </script>
 @endsection

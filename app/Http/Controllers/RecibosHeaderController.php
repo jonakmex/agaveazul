@@ -52,7 +52,7 @@ class RecibosHeaderController extends Controller
       Auth::user()->authorizeRoles(['Administrador']);
       // Use the model to get one record from DB
       $reciboHeader = Reciboheader::findOrFail($id);
-      $cuentas = Cuenta::where('estado',1)->paginate(10);
+      $cuentas = Cuenta::where('estado',1);
       //Show the view and pass the record
       return view('recibos.header.show')->with(['reciboHeader'=>$reciboHeader,'cuentas'=>$cuentas]);
     }
