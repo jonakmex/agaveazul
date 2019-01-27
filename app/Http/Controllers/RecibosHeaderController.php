@@ -54,6 +54,7 @@ class RecibosHeaderController extends Controller
       // Use the model to get one record from DB
       $reciboHeader = Reciboheader::findOrFail($id);
       $cuentas = Cuenta::where('estado',1);
+      info('Cuentas:'.$cuentas->count());
       //Show the view and pass the record
       info('Returning view.');
       return view('recibos.header.show')->with(['reciboHeader'=>$reciboHeader,'cuentas'=>$cuentas]);
