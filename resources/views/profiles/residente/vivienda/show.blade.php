@@ -127,7 +127,10 @@
                       <td>
                         @if($recibo->estado != 1)
                           <a href="{{route('recibos.getPdf',['rec_id'=>$recibo->id])}}" target="_blank" ><ion-icon name="document" title="Recibo"></ion-icon></a>
-                          <a href="{{asset($recibo->comprobante)}}" target="_blank" ><ion-icon name="eye" title="Comprobante"></ion-icon></a>
+                          @if($recibo->comprobante != null)
+                            <a href="{{asset($recibo->comprobante)}}" target="_blank" ><ion-icon name="eye" title="Comprobante"></ion-icon></a>
+                          @endif
+
                         @endif
                       </td>
                     </tr>

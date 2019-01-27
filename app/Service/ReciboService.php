@@ -32,7 +32,10 @@ class ReciboService
     $movimiento->ingreso = $recibo->importe+$recibo->ajuste;;
     $movimiento->egreso = 0 ;
     $movimiento->fecha = $recibo->fecPago;
-    $movimiento->comprobante = $recibo->dir().'/'.$pagarReciboIn->comprobante->getClientOriginalName();;
+    if($movimiento->comprobante != null){
+        $movimiento->comprobante = $recibo->dir().'/'.$pagarReciboIn->comprobante->getClientOriginalName();;
+    }
+
     CuentaService::movimiento($movimiento);
 
     if($recibo->reciboheader != null){
@@ -42,7 +45,9 @@ class ReciboService
     }
 
     //Subir archivo
-    Storage::disk('public')->put($recibo->storage().'/'.$pagarReciboIn->comprobante->getClientOriginalName(),File::get($pagarReciboIn->comprobante));
+    if($movimiento->comprobante != null){
+      Storage::disk('public')->put($recibo->storage().'/'.$pagarReciboIn->comprobante->getClientOriginalName(),File::get($pagarReciboIn->comprobante));
+    }
     //Generar PDF
     $pdf = PDF::loadView('_pdf.recibo', compact('recibo'));
     Storage::disk('public')->put($recibo->storage().'/'.'emision_'.$recibo->id.'.pdf', $pdf->output());

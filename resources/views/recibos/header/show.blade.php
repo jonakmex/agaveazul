@@ -88,13 +88,17 @@
                             <a href="#payModal{{$rec->id}}" data-toggle="modal"><ion-icon name="card" title="Pagar"></ion-icon></a>
                           @elseif($rec->estado == 2)
                             <a href="{{route('recibos.getPdf',['rec_id'=>$rec->id])}}" target="_blank" ><ion-icon name="document" title="Recibo"></ion-icon></a>
-                            <a href="{{asset($rec->comprobante)}}" target="_blank"><ion-icon name="eye" title="Comprobante"></ion-icon></a>
+                            @if($rec->comprobante != null)
+                              <a href="{{asset($rec->comprobante)}}" target="_blank"><ion-icon name="eye" title="Comprobante"></ion-icon></a>
+                            @endif
                           @elseif($rec->estado == 3)
-                            <a href="{{asset($rec->comprobante)}}" class="edit"><ion-icon name="card" title="Pagar"></ion-icon></a>
+                            @if($rec->comprobante != null)
+                              <a href="{{asset($rec->comprobante)}}" class="edit"><ion-icon name="card" title="Pagar"></ion-icon></a>
+                            @endif
                           @endif
                         </td>
                       </tr>
-                      @include('recibos.modal.pay',['name'=>'payModal'.$rec->id,'recibo'=>$rec,'cuentas'=>$cuentas])
+                      @include('recibos.modal.pay',['name'=>'payModal'.$rec->id,'recibo'=>$rec,'cuentas'=>$cuentas,'origen'=>'recibos','_id'=>$reciboHeader->id])
                       @endforeach
                     @endif
                   </tbody>
@@ -129,4 +133,5 @@
 
 <script src="{{asset('dashboard/js/app.min.js')}}"></script>
 <script src="{{asset('js/recibos/header/show.js')}}"></script>
+<script src="{{asset('js/recibos/modal/pay.js')}}"></script>
 @endsection

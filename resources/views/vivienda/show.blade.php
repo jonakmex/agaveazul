@@ -109,11 +109,14 @@
                           <a href="#payModal{{$recibo->id}}" data-toggle="modal"><ion-icon name="card" title="Pagar"></ion-icon></a>
                         @else
                           <a href="{{route('recibos.getPdf',['rec_id'=>$recibo->id])}}" target="_blank" ><ion-icon name="document" title="Recibo"></ion-icon></a>
-                          <a href="{{asset($recibo->comprobante)}}" target="_blank" ><ion-icon name="eye" title="Comprobante"></ion-icon></a>
+                          @if($recibo->comprobante != null)
+                            <a href="{{asset($recibo->comprobante)}}" target="_blank" ><ion-icon name="eye" title="Comprobante"></ion-icon></a>
+                          @endif
+
                         @endif
                       </td>
                     </tr>
-                    @include('recibos.modal.pay',['name'=>'payModal'.$recibo->id,'recibo'=>$recibo,'cuentas'=>$cuentas])
+                    @include('recibos.modal.pay',['name'=>'payModal'.$recibo->id,'recibo'=>$recibo,'cuentas'=>$cuentas,'origen'=>'vivienda','_id'=>$vivienda->id])
                     @endforeach
 
                   </tbody>

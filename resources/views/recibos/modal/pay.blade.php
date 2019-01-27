@@ -3,7 +3,9 @@
 @section('modalbody')
 <form action="{{ route('pagos.store') }}" method="POST" enctype="multipart/form-data">
               {{ csrf_field () }}
-		<input name="rec_id" id="rec_id" value="{{$recibo->id}}" hidden/>
+		<input name="origen" id="origen" value="{{$origen}}" hidden/>
+    <input name="_id" id="_id" value="{{$_id}}" hidden/>
+    <input name="rec_id" id="rec_id" value="{{$recibo->id}}" hidden/>
 		<div class="modal-header">
 			<h4 class="modal-title">Pagar Recibo</h4>
 
@@ -74,8 +76,12 @@
 		</div>
 		<div class="modal-footer">
       <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
-			<input type="submit" class="btn btn-success" value="Pagar">
+			<button id="btnSubmit{{$recibo->id}}" type="submit" class="btn btn-success" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Procesando...">Pagar</button>
 		</div>
 	</form>
 
 @overwrite
+
+@section('modalscripts')
+
+@endsection

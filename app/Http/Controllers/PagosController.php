@@ -54,13 +54,19 @@ class PagosController extends Controller
         'timeIngreso' => 'required',
         'rec_id' => 'required',
         'cuenta_id' => 'required',
-        'comprobante' => 'required|Image',
+        'comprobante' => 'Image',
       ]);
 
       $pagarReciboIn = ReciboMapper::getPagarReciboIn($request);
       ReciboService::pagar($pagarReciboIn);
+      switch($request->origen){
+        case 'recibos':
+          return redirect()->route('recibosHeader.show',['id' => $request->_id]);
+        break;
+        default:
+        return redirect()->route('vivienda.show',['id' => $request->_id]);
+      }
 
-      return redirect()->route('vivienda.show',['id' => $pagarReciboIn->recibo->vivienda->id]);
 
     }
 
