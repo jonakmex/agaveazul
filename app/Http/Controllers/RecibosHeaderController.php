@@ -49,14 +49,11 @@ class RecibosHeaderController extends Controller
      */
     public function show($id)
     {
-      info('Running Recibos Header Show...');
       Auth::user()->authorizeRoles(['Administrador']);
       // Use the model to get one record from DB
       $reciboHeader = Reciboheader::findOrFail($id);
       $cuentas = Cuenta::where('estado',1)->get();
-      info('Cuentas:'.$cuentas->count());
       //Show the view and pass the record
-      info('Returning view.');
       return view('recibos.header.show')->with(['reciboHeader'=>$reciboHeader,'cuentas'=>$cuentas]);
     }
 
