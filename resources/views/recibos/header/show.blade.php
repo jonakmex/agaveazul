@@ -65,7 +65,7 @@
                   </thead>
                   <tbody>
                     @if($reciboHeader != null)
-                      @php($recibos = $reciboHeader->recibos())
+                      @php($recibos = $reciboHeader->recibos()->paginate(10))
                       @foreach($recibos as $rec)
                       <tr>
                         <td>{{$rec->vivienda->descripcion}}</td>
@@ -99,7 +99,7 @@
                     @endif
                   </tbody>
                 </table>
-                
+                {{$recibos->links()}}
                </div>
            </div>
            <!-- /.box-body -->
