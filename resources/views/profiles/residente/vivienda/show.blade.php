@@ -134,7 +134,7 @@
                         @endif
                       </td>
                     </tr>
-                    @include('recibos.modal.pay',['name'=>'payModal'.$recibo->id,'recibo'=>$recibo,'cuentas'=>$cuentas])
+                    
                     @endforeach
 
                   </tbody>
