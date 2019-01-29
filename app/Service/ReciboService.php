@@ -17,6 +17,7 @@ use Storage;
 use File;
 use Log;
 use DB;
+use Carbon\Carbon;
 
 class ReciboService
 {
@@ -67,21 +68,19 @@ class ReciboService
 
   public static function generarRecibos(){
     info('Running Service...');
-    $today = date('Y-m-d H:i:s');
-    $cuotasVigentes = Cuota::where('estado',1)->whereNotNull('periodicidad')->where('fecPago','<',$today)->get();
+    $today = date('Y-m-d');
+    $cuotasVigentes = Cuota::where('estado',1)->whereNotNull('periodicidad')->whereDate('fecPago','<=',Carbon::today()->toDateString())->get();
+    info('Cuentas vigentes:'.$cuotasVigentes->count());
     foreach($cuotasVigentes as $cuota){
       if(ReciboService::esActiva($cuota)){
         $headersPorGenerar = ReciboService::obtenerHeadersPorGenerar($cuota);
-        info($cuota->descripcion.' Por Generar '.count($headersPorGenerar));
         foreach($headersPorGenerar as $fechaPorGenerar){
           ReciboService::generarHeaderRecibo($cuota,$fechaPorGenerar);
         }
         $headersPorProcesar = ReciboService::consultarRecibosHeaderPorProcesar($cuota);
-        info('Por Procesar '.count($headersPorProcesar));
         foreach($headersPorProcesar as $reciboHeader){
           ReciboService::generarRecibosVivienda($reciboHeader);
         }
-
         info($cuota->descripcion.' ['.count($headersPorGenerar).' Recibos generados]');
       }
     }
@@ -90,7 +89,10 @@ class ReciboService
 
   private static function esActiva(Cuota $cuota)
   {
-    return $cuota->periodicidad != null && ($cuota->nPeriodos == 0 || count($cuota->recibosHeader) < $cuota->nPeriodos);
+    $today = date('Y-m-d H:i:s');
+    return $cuota->periodicidad != null
+          && ($cuota->nPeriodos == 0 || count($cuota->recibosHeader) < $cuota->nPeriodos)
+           ;
   }
 
   private static function obtenerHeadersPorGenerar(Cuota $cuota){
@@ -111,14 +113,16 @@ class ReciboService
 
   private static function consultarRecibosHeaderPorProcesar(Cuota $cuota){
     $resultado = array();
-    $numeroViviendas = $cuota->viviendas()->count();
-    info('Viviendas :'.$numeroViviendas);
-    foreach($cuota->recibosHeader as $reciboHeader){
-      info('Recibos :'.$reciboHeader->recibos->count());
-      if($reciboHeader->recibos->count() < $numeroViviendas){
-        array_push($resultado,$reciboHeader);
+      $numeroViviendas = $cuota->viviendas()->count();
+      $headers = $cuota->recibosHeader()->get();
+      foreach($headers as $reciboHeader){
+        if($reciboHeader->recibos->count() < $numeroViviendas
+        && Carbon::now()>=$reciboHeader->fecVence){
+            info('True');
+            array_push($resultado,$reciboHeader);
+        }
       }
-    }
+
     return $resultado;
   }
 
