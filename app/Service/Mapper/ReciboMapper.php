@@ -20,14 +20,16 @@ class ReciboMapper
     if($request->hasFile('comprobante')){
       $recibo->comprobante = $recibo->dir().'/'.$request->file('comprobante')->getClientOriginalName();
     }
-
     $recibo->emision = $recibo->dir().'/emision_'.$recibo->id.'.pdf';
+    $recibo->tipo_pago = $request->tipo_pago;
     $pagarReciboIn->recibo = $recibo;
     // $cuenta;
     $pagarReciboIn->cuenta = Cuenta::findOrFail($request->cuenta_id);
 
     // $comprobante;
     $pagarReciboIn->comprobante = $request->file('comprobante');
+
+
 
     return $pagarReciboIn;
 

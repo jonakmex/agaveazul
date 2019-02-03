@@ -145,12 +145,13 @@ class ReciboService
 
   private static function obtenerDescripcion(Cuota $cuota,$fechaPago){
     $resultado = "";
+    setlocale(LC_ALL,"es_MX.UTF-8");
     switch($cuota->periodicidad){
         case 1:
-          $resultado = ''.strtoupper(date("M", strtotime($fechaPago))).' '.strtoupper(date("Y", strtotime($fechaPago)));
+          $resultado = ''.strtoupper(strftime("%b", strtotime($fechaPago))).' '.strtoupper(strftime("%Y", strtotime($fechaPago)));
         break;
         case 2:
-          $resultado = ''.strtoupper(date("Y", strtotime($fechaPago)));
+          $resultado = ''.strtoupper(strftime("%Y", strtotime($fechaPago)));
         break;
         default:
           $resultado = $cuota->descripcion;

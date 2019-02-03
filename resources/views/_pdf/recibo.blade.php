@@ -46,9 +46,9 @@
   </tr>
   <tr>
     <td colspan="3">San Juan del Río, QRO</td>
-    <td><span class="emision">{{date("d",strtotime($recibo->fecPago))}}</span></td>
-    <td colspan="2"><span class="emision">{{date("m",strtotime($recibo->fecPago))}}</span></td>
-    <td><span class="emision">{{date("Y",strtotime($recibo->fecPago))}}</span></td>
+    <td><span class="emision">{{date("d",time())}}</span></td>
+    <td colspan="2"><span class="emision">{{date("m",time())}}</span></td>
+    <td><span class="emision">{{date("Y",time())}}</span></td>
     <td colspan="2"><span class="casa"><strong>{{$recibo->vivienda->clave}}</strong></span></td>
   </tr>
   <tr>
@@ -68,7 +68,19 @@
     <td  colspan="9"><span class="title">NOMBRE DEL PROPIETARIO</span></td>
   </tr>
   <tr>
-    <td rowspan="2" colspan="3"><span class="green">TRANSFERENCIA</span></td>
+    <td rowspan="2" colspan="3"><span class="green">
+    @switch($recibo->tipo_pago)
+    @case(1)
+      TRANSFERENCIA
+      @break
+    @case(2)
+      DEPÓSITO
+      @break
+    @case(3)
+      EFECTIVO
+    @endswitch
+    </span></td>
+
     <td colspan="3"><span class="green"><strong>${{number_format($recibo->importe + $recibo->ajuste, 2, '.', ',')}}</strong></span></td>
     <td colspan="4"><span class="concepto">{{$recibo->reciboHeader->cuota->descripcion}}</span></td>
     <td colspan="2"><span class="concepto">{{$recibo->reciboHeader->descripcion}}</span></td>
@@ -79,8 +91,8 @@
     <td><span class="title-min">EXT / ESP</span></td>
     <td><span class="title-min">ANUAL</span></td>
     <td><span class="title-min">MNTO</span></td>
-    <td>MT007</td>
-    <td>18</td>
+    <td></td>
+    <td></td>
   </tr>
   <tr>
     <td colspan="3"><span class="title">TIPO DE TRANSACCIÓN</span></td>

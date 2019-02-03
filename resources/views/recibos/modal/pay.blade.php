@@ -55,6 +55,17 @@
 				 <!-- /.form group -->
 			 </div>
 			</div>
+      <div class="form-group">
+				<label for="cuenta_id">Tipo Pago</label>
+				<select class="form-control select2" id="tipo_pago" name="tipo_pago">
+				 		<option value="1">Transferencia</option>
+            <option value="2">Depósito</option>
+            <option value="3">Efectivo</option>
+				</select>
+				 @if ($errors->has('tipo_pago'))
+						 <div class="error">{{ $errors->first('tipo_pago') }}</div>
+				 @endif
+			</div>
 			<div class="form-group">
 				<label for="cuenta_id">Cuenta</label>
 				<select class="form-control select2" id="cuenta_id" name="cuenta_id">

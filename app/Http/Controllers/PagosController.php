@@ -54,6 +54,7 @@ class PagosController extends Controller
         'timeIngreso' => 'required',
         'rec_id' => 'required',
         'cuenta_id' => 'required',
+        'tipo_pago' => 'required',
         'comprobante' => 'Image',
       ]);
 
