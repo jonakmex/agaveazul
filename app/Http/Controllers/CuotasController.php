@@ -108,7 +108,7 @@ class CuotasController extends Controller
 
               foreach($oVivienda->residentes as $residente){
                 $data = array('recibo'=>$recibo);
-                Mail::to($residente->email)->queue(new AvisoMail($data));
+                Mail::to($residente->email)->queue(new AvisoMail($data,null,2));
               }
 
             }
