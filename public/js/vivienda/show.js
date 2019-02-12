@@ -44,7 +44,7 @@ $(document).ready(function(){
 		"autoWidth": false,
 		"dom": '<"toolbar">frtip'
 	});
-	$("div.toolbar").html('<button data-target="#addModal" data-toggle="modal" class="btn btn-sm btn-success"><ion-icon name="add"></ion-icon></button> ');
+	$("#tblContactos_wrapper div.toolbar").html('<button data-target="#addModal" data-toggle="modal" class="btn btn-sm btn-success"><ion-icon name="add"></ion-icon></button> ');
 
   $('#tblRecibos').DataTable( {
 		"paging": false,
@@ -55,7 +55,7 @@ $(document).ready(function(){
 		"autoWidth": false,
 		"dom": '<"toolbar">frtip'
 	});
-	$("div.toolbar").html('<button data-target="#addModalRecibo" data-toggle="modal" class="btn btn-sm btn-success"><ion-icon name="add"></ion-icon></button> ');
+	$("#tblRecibos_wrapper div.toolbar").html('<button data-target="#addModalRecibo" data-toggle="modal" class="btn btn-sm btn-success"><ion-icon name="add"></ion-icon></button> ');
 
 
 	var date = new Date();
