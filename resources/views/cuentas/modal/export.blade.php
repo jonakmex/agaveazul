@@ -32,7 +32,7 @@
 </div>
 <div class="modal-footer">
   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-  <input type="submit" class="btn btn-primary" value="Enviar">
+  <button type="submit" class="btn btn-primary enviar" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Procesando...">Enviar</button>
 </div>
 </form>
 

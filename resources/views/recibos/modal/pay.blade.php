@@ -87,7 +87,7 @@
 		</div>
 		<div class="modal-footer">
       <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
-			<button id="btnSubmit{{$recibo->id}}" type="submit" class="btn btn-success" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Procesando...">Pagar</button>
+			<button id="btnSubmit{{$recibo->id}}" type="submit" class="btn btn-success enviar" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Procesando...">Pagar</button>
 		</div>
 	</form>
 

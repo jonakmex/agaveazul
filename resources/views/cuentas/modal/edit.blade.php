@@ -19,7 +19,7 @@
 					</div>
 					<div class="modal-footer">
                         <a href="{{route('cuentas.index')}}" class="btn btn-default">Cancelar</a>
-						<input type="submit" class="btn btn-success" value="Guardar">
+						<button type="submit" class="btn btn-success enviar" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Procesando..."><Guardar/button>
 					</div>
 				</form>
 

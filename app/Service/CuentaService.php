@@ -2,6 +2,7 @@
 namespace App\Service;
 use App\DTO\AddMovimientoIn;
 use App\Cuentamovimiento;
+use App\Cuenta;
 
 class CuentaService
 {
@@ -21,15 +22,18 @@ class CuentaService
     $cuenta->saldo += $movimiento->ingreso;
     $cuenta->save();
 
-    $recalculate = Cuentamovimiento::where('cuenta_id','=',$cuenta->id)->where('fecMov','>=',$in->fecha)->orderBy('fecMov','desc')->orderBy('id','desc')->get();
-    $saldo = $cuenta->saldo;
-    foreach($recalculate as $item){
-      $item->saldo = $saldo;
-      $item->save();
-      $saldo += ($item->egreso - $item->ingreso);
-    }
+    CuentaService::recalcularSaldo($cuenta);
 
   }
 
+  public static function recalcularSaldo(Cuenta $cuenta){
+    $recalculate = Cuentamovimiento::where('cuenta_id','=',$cuenta->id)->orderBy('fecMov','asc')->orderBy('id','asc')->get();
+    $saldo = 0;
+    foreach($recalculate as $item){
+      $saldo += ($item->ingreso - $item->egreso);
+      $item->saldo = $saldo;
+      $item->save();
 
+    }
+  }
 }

@@ -74,7 +74,7 @@
              <!-- /.box-body -->
              <div class="box-footer">
                <div class="pull-right">
-                 <button id="btnEnviar" type="submit" class="btn btn-primary" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Procesando..."><i class="fa fa-envelope-o"></i> Enviar</button>
+                 <button id="btnEnviar" type="submit" class="btn btn-primary enviar" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Procesando..."><i class="fa fa-envelope-o"></i> Enviar</button>
                </div>
              </div>
              <!-- /.box-footer -->
@@ -140,18 +140,5 @@
 <!-- Bootstrap WYSIHTML5 -->
 <script src="{{asset('dashboard/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js')}}"></script>
 <script src="{{asset('js/comunicado/index.js')}}"></script>
-<script>
-  $(function () {
-    //Add text editor
-    $("#compose-textarea").wysihtml5();
 
-    $('#btnEnviar').on('click', function() {
-      
-      var $this = $(this);
-
-      $this.button('loading');
-    });
-
-  });
-</script>
 @endsection

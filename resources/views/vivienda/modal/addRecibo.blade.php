@@ -23,7 +23,7 @@
 	</div>
 	<div class="modal-footer">
     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
-		<input type="submit" class="btn btn-success" value="Generar">
+		<input type="submit" class="btn btn-success enviar" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Procesando..." value="Generar">
 	</div>
 </form>
 

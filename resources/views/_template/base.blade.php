@@ -10,6 +10,7 @@
 
     <!-- Bootstrap core CSS -->
     <link href="{{asset('bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{asset('css/functional.css')}}" rel="stylesheet">
 
     @yield('styles')
     @yield('title')
@@ -28,6 +29,7 @@
     <script src="{{asset('js/popper.min.js')}}"></script>
     <script src="{{asset('bootstrap/js/bootstrap.min.js')}}"></script>
     <script src="https://unpkg.com/ionicons@4.4.4/dist/ionicons.js"></script>
+    
     @yield('scripts')
   </body>
 </html>

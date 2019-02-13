@@ -133,5 +133,4 @@
 
 <script src="{{asset('dashboard/js/app.min.js')}}"></script>
 <script src="{{asset('js/recibos/header/show.js')}}"></script>
-<script src="{{asset('js/recibos/modal/pay.js')}}"></script>
 @endsection

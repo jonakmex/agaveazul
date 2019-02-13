@@ -8,6 +8,7 @@ use App\Cuentamovimiento;
 use Storage;
 use File;
 use \Datetime;
+use App\Service\CuentaService;
 use Illuminate\Support\Facades\Auth;
 
 class CuentamovimientoController extends Controller
@@ -51,13 +52,7 @@ class CuentamovimientoController extends Controller
         $cuenta->saldo = $cuenta->saldo + $movimiento->ingreso;
         $cuenta->save();
 
-        $recalculate = Cuentamovimiento::where('cuenta_id','=',$cuenta->id)->where('fecMov','>=',$hrMov)->orderBy('fecMov','desc')->orderBy('id','desc')->get();
-        $saldo = $cuenta->saldo;
-        foreach($recalculate as $item){
-          $item->saldo = $saldo;
-          $item->save();
-          $saldo += ($item->egreso - $item->ingreso);
-        }
+        CuentaService::recalcularSaldo($cuenta);
 
         return redirect()->route('cuentas.show',['id' => $cuenta->id]);
       }
@@ -88,13 +83,7 @@ class CuentamovimientoController extends Controller
         $cuenta->saldo = $cuenta->saldo - $movimiento->egreso;
         $cuenta->save();
 
-        $recalculate = Cuentamovimiento::where('cuenta_id','=',$cuenta->id)->where('fecMov','>=',$hrMov)->orderBy('fecMov','desc')->orderBy('id','desc')->get();
-        $saldo = $cuenta->saldo;
-        foreach($recalculate as $item){
-          $item->saldo = $saldo;
-          $item->save();
-          $saldo += ($item->egreso - $item->ingreso);
-        }
+        CuentaService::recalcularSaldo($cuenta);
 
         return redirect()->route('cuentas.show',['id' => $cuenta->id]);
       }
@@ -123,13 +112,7 @@ class CuentamovimientoController extends Controller
         $ctaOrigen->movimientos()->save($movOrigen);
         $ctaOrigen->save();
 
-        $recalculate = Cuentamovimiento::where('cuenta_id','=',$ctaOrigen->id)->where('fecMov','>=',$hrMov)->orderBy('fecMov','desc')->orderBy('id','desc')->get();
-        $saldo = $ctaOrigen->saldo;
-        foreach($recalculate as $item){
-          $item->saldo = $saldo;
-          $item->save();
-          $saldo += ($item->egreso - $item->ingreso);
-        }
+        CuentaService::recalcularSaldo($ctaOrigen);
 
         $movDestino = new Cuentamovimiento();
         $movDestino->descripcion = 'TRANSFER de '.$ctaOrigen->descripcion;
@@ -140,13 +123,7 @@ class CuentamovimientoController extends Controller
         $ctaDestino->movimientos()->save($movDestino);
         $ctaDestino->save();
 
-        $recalculate = Cuentamovimiento::where('cuenta_id','=',$ctaDestino->id)->where('fecMov','>=',$hrMov)->orderBy('fecMov','desc')->orderBy('id','desc')->get();
-        $saldo = $ctaDestino->saldo;
-        foreach($recalculate as $item){
-          $item->saldo = $saldo;
-          $item->save();
-          $saldo += ($item->egreso - $item->ingreso);
-        }
+        CuentaService::recalcularSaldo($ctaDestino);
 
         return redirect()->route('cuentas.show',['id' => $ctaOrigen->id]);
       }

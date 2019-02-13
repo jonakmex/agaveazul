@@ -14,7 +14,7 @@
   </div>
   <div class="modal-footer">
     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
-    <input type="submit" class="btn btn-danger" value="Eliminar">
+    <button type="submit" class="btn btn-danger enviar" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Procesando..." >Eliminar</button>
   </div>
 </form>
 @overwrite

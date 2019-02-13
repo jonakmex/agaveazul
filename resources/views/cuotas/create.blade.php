@@ -82,7 +82,7 @@
                 </div>
                 <!-- /.input group -->
               </div>
-              
+
               <!-- /.form group -->
               <div class="form-group">
                 <span class="custom-checkbox">
@@ -140,7 +140,7 @@
         </div>
 					<div class="modal-footer">
                         <a href="{{route('cuotas.index')}}" class="btn btn-default">Cancelar</a>
-						<input type="submit" class="btn btn-success" value="Guardar">
+						<button type="submit" class="btn btn-success enviar" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Procesando...">Guardar</button>
 					</div>
 				</form>
       </div>

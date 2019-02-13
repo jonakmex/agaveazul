@@ -198,4 +198,5 @@
 
 <script src="{{asset('dashboard/js/app.min.js')}}"></script>
 <script src="{{asset('js/vivienda/show.js')}}"></script>
+
 @endsection
