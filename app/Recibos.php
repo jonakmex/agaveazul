@@ -28,8 +28,8 @@ class Recibos extends Model
 
   public function folio(){
     $cuota = $this->reciboHeader->cuota;
-    $month = date('m',strtotime($cuota->fecPago));
-    $year =  date('y',strtotime($cuota->fecPago));
+    $month = date('m',strtotime($this->reciboHeader->fecVence));
+    $year =  date('y',strtotime($this->reciboHeader->fecVence));
     return $this->vivienda->clave.$cuota->clave.$month.$year;
   }
 

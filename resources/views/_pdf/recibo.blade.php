@@ -100,7 +100,7 @@
     <td colspan="6"><span class="title">CONCEPTO</span></td>
   </tr>
   <tr>
-    <td colspan="3">5579 2091 1421 3975</td>
+    <td colspan="3">25600009260</td>
     <td colspan="3">María de los Angeles Maya Pérez</td>
     <td colspan="4">Adriana Villalobos Alvarez</td>
     <td rowspan="2" colspan="2">{{$recibo->folio()}}</td>

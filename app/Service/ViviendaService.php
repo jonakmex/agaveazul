@@ -42,7 +42,8 @@ class ViviendaService
 
     public static function generarSiguienteRecibo(Vivienda $vivienda,Cuota $cuota){
       // Obtener ultimo recibo header de la cuota
-      $ultimoReciboHeader = $cuota->recibosHeader()->orderBy('id','desc')->first();
+      $ultimoRecibo = Recibos::where('estado',1)->where('vivienda_id',$vivienda->id)->orderBy('id','desc')->first();
+      $ultimoReciboHeader = $ultimoRecibo->reciboheader;
       // Generar el siguiente recibo header
       $fechaSiguienteHeader = ReciboService::siguienteFechaPago($cuota,$ultimoReciboHeader->fecVence);
       $reciboHeader = ReciboService::generarHeaderRecibo($cuota,$fechaSiguienteHeader);
