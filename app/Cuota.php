@@ -10,6 +10,10 @@ class Cuota extends Model
     return $this->hasMany('App\Reciboheader');
   }
 
+  public function recibos(){
+    return $this->hasManyThrough('App\Recibos', 'App\Reciboheader');
+  }
+
   public function viviendas(){
     return $this->hasMany('App\CuotaVivienda');
   }

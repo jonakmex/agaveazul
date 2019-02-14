@@ -160,17 +160,20 @@ class ReciboService
   }
 
   public static function siguienteFechaPago(Cuota $cuota,$fechaPagoInicial){
-    $resultado = date('Y-m-d H:i:s');
-    switch($cuota->periodicidad){
-            case 1:
-              $resultado = date('Y-m-d', strtotime("+1 months", strtotime($fechaPagoInicial)));
-            break;
-            case 2:
-              $resultado = date('Y-m-d', strtotime("+1 years", strtotime($fechaPagoInicial)));
-            break;
-            default:
-              $resultado = date('Y-m-d', strtotime("+1 days", strtotime($fechaPagoInicial)));
-        }
+    $resultado = $cuota->fecPago;
+    if($fechaPagoInicial != null){
+      switch($cuota->periodicidad){
+              case 1:
+                $resultado = date('Y-m-d', strtotime("+1 months", strtotime($fechaPagoInicial)));
+              break;
+              case 2:
+                $resultado = date('Y-m-d', strtotime("+1 years", strtotime($fechaPagoInicial)));
+              break;
+              default:
+                $resultado = date('Y-m-d', strtotime("+1 days", strtotime($fechaPagoInicial)));
+          }
+    }
+
     return $resultado;
   }
 
