@@ -85,34 +85,6 @@ class CuotasController extends Controller
             $cuotavivienda = new CuotaVivienda();
             $cuotavivienda->vivienda_id = $vivienda;
             $cuota->viviendas()->save($cuotavivienda);
-            if($request->chkRpt != "on")
-            {
-              $reciboHeader = new Reciboheader();
-              $reciboHeader->cuota_id = $cuota->id;
-              $reciboHeader->descripcion = $cuota->descripcion;
-              $reciboHeader->importe = $cuota->importe;
-              $reciboHeader->saldo = 0;
-              $reciboHeader->fecVence = $cuota->fecPago;
-              $reciboHeader->fecLimite = date_add(date_create($cuota->fecPago), date_interval_create_from_date_string($cuota->periodoGracia.' days'));
-              $reciboHeader->estado = 1;
-              $reciboHeader->save();
-
-              $recibo = new Recibos();
-              $recibo->vivienda_id = $vivienda;
-              $recibo->descripcion = $request->descripcion;
-              $recibo->fecLimite = $cuota->fecPago;
-              $recibo->importe = $cuota->importe;
-              $recibo->estado = 1;
-              $recibo->saldo = 0;
-              $reciboHeader->recibos()->save($recibo);
-
-              foreach($oVivienda->residentes as $residente){
-                $data = array('recibo'=>$recibo);
-                Mail::to($residente->email)->queue(new AvisoMail($data,null,2));
-              }
-
-            }
-
         }
         return redirect()->route('cuotas.index',['id' => $cuota->id]);
       }

@@ -56,7 +56,7 @@ class ReciboService
     $data = array('recibo'=>$recibo);
     $file = storage_path('app/public/rec_'.$recibo->id.'/emision_'.$recibo->id.'.pdf');
     Log::debug('Sending to .'.$recibo->vivienda->contactoPrincipal()->email);
-    Mail::to($recibo->vivienda->contactoPrincipal()->email)->queue(AvisoMail::newAvisoPagoExitoso($data,$file));
+    //Mail::to($recibo->vivienda->contactoPrincipal()->email)->queue(AvisoMail::newAvisoPagoExitoso($data,$file));
 
   }
 
@@ -100,13 +100,8 @@ class ReciboService
     $resultado = array();
     $headers = $cuota->recibosHeader;
     $fechaPago = $cuota->fecPago;
-    if($cuota->periodicidad === null){
-      if(!ReciboService::existeHeader($headers,$fechaPago))
-      {
-        array_push($resultado,$fechaPago);
-      }
-    }
-    else{
+    if($cuota->periodicidad != null){
+      info('Repetible');
       while(ReciboService::existenRecibosPorGenerar($cuota,$fechaPago,count($headers)+count($resultado))){
         if(!ReciboService::existeHeader($headers,$fechaPago))
         {
@@ -115,6 +110,14 @@ class ReciboService
 
         $fechaPago = ReciboService::siguienteFechaPago($cuota,$fechaPago);
       }
+    }
+    else{
+      info('Unica '.$cuota->id);
+      if(!ReciboService::existeHeader($headers,$fechaPago))
+      {
+        array_push($resultado,$fechaPago);
+      }
+      info('--->'.count($resultado));
     }
 
     return $resultado;
@@ -235,6 +238,6 @@ class ReciboService
 
   private static function avisoReciboVivienda(Recibos $recibo){
     $data = array('recibo'=>$recibo);
-    Mail::to($recibo->vivienda->contactoPrincipal()->email)->queue(AvisoMail::newAvisoReciboGenerado($data));
+    //Mail::to($recibo->vivienda->contactoPrincipal()->email)->queue(AvisoMail::newAvisoReciboGenerado($data));
   }
 }
