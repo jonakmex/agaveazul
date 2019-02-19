@@ -65,7 +65,7 @@
                   </thead>
                   <tbody>
                     @if($reciboHeader != null)
-                      @php($recibos = $reciboHeader->recibos()->paginate(10))
+                      @php($recibos = $reciboHeader->recibos()->orderBy('vivienda_id')->paginate(10))
                       @foreach($recibos as $rec)
                       <tr>
                         <td>{{$rec->vivienda->descripcion}}</td>
