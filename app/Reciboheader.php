@@ -21,8 +21,8 @@ class Reciboheader extends Model
   public function estado(){
     //Calculamos porcentaje de avance de cobro
     $total = $this->recibos()->sum('importe');
-    $total = $total == 0 ? 1 : $total; 
-    $cobrado = $this->saldo;
+    $total = $total == 0 ? 1 : $total;
+    $cobrado = $this->recibos()->where('estado',2)->sum('importe');
     return ($cobrado * 100) / $total;
   }
 }
