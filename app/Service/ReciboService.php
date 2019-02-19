@@ -69,7 +69,7 @@ class ReciboService
   public static function generarRecibos(){
     info('Running Service...');
     $today = date('Y-m-d');
-    $cuotasVigentes = Cuota::where('estado',1)->whereNotNull('periodicidad')->whereDate('fecPago','<=',Carbon::today()->toDateString())->get();
+    $cuotasVigentes = Cuota::where('estado',1)->whereDate('fecPago','<=',Carbon::today()->toDateString())->get();
     info('Cuentas vigentes:'.$cuotasVigentes->count());
     foreach($cuotasVigentes as $cuota){
       if(ReciboService::esActiva($cuota)){
@@ -90,8 +90,9 @@ class ReciboService
   private static function esActiva(Cuota $cuota)
   {
     $today = date('Y-m-d H:i:s');
-    return $cuota->periodicidad != null
-          && ($cuota->nPeriodos == 0 || count($cuota->recibosHeader) < $cuota->nPeriodos)
+    return $cuota->periodicidad === null ||
+          ($cuota->periodicidad != null
+          && ($cuota->nPeriodos == 0 || count($cuota->recibosHeader) < $cuota->nPeriodos))
            ;
   }
 
@@ -99,15 +100,23 @@ class ReciboService
     $resultado = array();
     $headers = $cuota->recibosHeader;
     $fechaPago = $cuota->fecPago;
-
-    while(ReciboService::existenRecibosPorGenerar($cuota,$fechaPago,count($headers)+count($resultado))){
+    if($cuota->periodicidad === null){
       if(!ReciboService::existeHeader($headers,$fechaPago))
       {
         array_push($resultado,$fechaPago);
       }
-
-      $fechaPago = ReciboService::siguienteFechaPago($cuota,$fechaPago);
     }
+    else{
+      while(ReciboService::existenRecibosPorGenerar($cuota,$fechaPago,count($headers)+count($resultado))){
+        if(!ReciboService::existeHeader($headers,$fechaPago))
+        {
+          array_push($resultado,$fechaPago);
+        }
+
+        $fechaPago = ReciboService::siguienteFechaPago($cuota,$fechaPago);
+      }
+    }
+
     return $resultado;
   }
 
