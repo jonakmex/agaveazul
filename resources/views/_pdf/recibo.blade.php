@@ -108,7 +108,7 @@
   <tr>
     <td colspan="3">Scotiabank</td>
     <td colspan="3"><span class="title">Representante de A.C.</span></td>
-    <td colspan="4"><span class="title">Terorera</span></td>
+    <td colspan="4"><span class="title">Tesorera</span></td>
   </tr>
   <tr>
     <td colspan="3"><span class="title">CUENTA RECEPTORA</span></td>

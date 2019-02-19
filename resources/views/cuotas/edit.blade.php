@@ -139,5 +139,6 @@
 <script src="{{asset('dashboard/plugins/iCheck/icheck.min.js')}}"></script>
 <!-- InputMask -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.2.6/jquery.inputmask.bundle.min.js"></script>
+<script src="{{asset('dashboard/js/app.min.js')}}"></script>
 <script src="{{asset('js/cuotas/edit.js')}}"></script>
 @endsection

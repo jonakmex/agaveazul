@@ -29,5 +29,5 @@
 <script src="{{asset('dashboard/plugins/datatables/dataTables.bootstrap.min.js')}}"></script>
 <script src="https://unpkg.com/ionicons@4.4.4/dist/ionicons.js"></script>
 <script src="{{asset('dashboard/js/app.min.js')}}"></script>
-<script src="{{asset('js/vivienda/show.js')}}"></script>
+<script src="{{asset('js/home.js')}}"></script>
 @endsection
