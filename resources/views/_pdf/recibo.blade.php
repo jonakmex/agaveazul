@@ -39,6 +39,7 @@
   </style>
 </head>
 <body>
+  {{date_default_timezone_set('America/Mexico_City')}}
 <table border="1">
   <tr>
     <td rowspan="3" colspan="3"><img height="100" src="{{public_path('img/recibo/header.png')}}" /></td>
