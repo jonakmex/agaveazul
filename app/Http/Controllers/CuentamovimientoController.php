@@ -30,7 +30,7 @@ class CuentamovimientoController extends Controller
         // validate form data
         $this->validate($request,[
             'cuenta_id' => 'required|numeric',
-            'descIngreso' => 'required|min:3|max:30',
+            'descIngreso' => 'required|min:3|max:100',
             'ingresoImporte' => 'required|numeric',
             'fecIngreso' => 'required|date',
             'timeIngreso' => 'required',
@@ -61,7 +61,7 @@ class CuentamovimientoController extends Controller
         // validate form data
         $this->validate($request,[
             'cuenta_id' => 'required|numeric',
-            'descEgreso' => 'required|min:3|max:30',
+            'descEgreso' => 'required|min:3|max:100',
             'egresoImporte' => 'required|numeric',
             'fecEgreso' => 'required|date',
             'timeEgreso' => 'required',
