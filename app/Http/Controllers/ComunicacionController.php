@@ -57,7 +57,7 @@ class ComunicacionController extends Controller
                 ->where('cuotas.estado',1)
                 ->where('recibos.fecLimite','<=',Carbon::today())
                 ->where('recibos.estado','!=',2)
-                ->groupBy('vivienda.id')
+                ->groupBy('vivienda.id','vivienda.descripcion')
                 ->get();
       return view('comunicacion.mora')->with('viviendas',$morosos);
     }
