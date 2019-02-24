@@ -35,5 +35,7 @@ class CuentaService
       $item->save();
 
     }
+    $cuenta->saldo = $saldo;
+    $cuenta->save();
   }
 }
