@@ -42,10 +42,10 @@
                 <table id="tblDocumentos" class="table table-striped table-hover">
                   <thead>
                     <tr>
-                      <th>Titulo</th>
-                      <th>Archivo</th>
-                      <th>Descripcion</th>
-                      <th>Acciones</th>
+                      <th width="30%">Titulo</th>
+                      <th width="30%">Archivo</th>
+                      <th width="30%">Descripcion</th>
+                      <th width="10%">Acciones</th>
                     </tr>
                   </thead>
                   <tbody>

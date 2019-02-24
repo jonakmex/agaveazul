@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 use App\Vivienda;
 use Mail;
 use App\AvisoMail;
-
+use DB;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class ComunicacionController extends Controller
 {
@@ -40,5 +41,24 @@ class ComunicacionController extends Controller
 
       /**/
       return redirect()->route('home');
+    }
+
+    public function mora(){
+      Vivienda::whereIn('id',function($query){
+
+      });
+      $morosos = DB::table('vivienda')
+                ->select('vivienda.id','vivienda.descripcion', DB::raw('count(recibos.id) as recs'),DB::raw('sum(recibos.importe) as total'))
+                ->havingRaw('count(recibos.id) > 1')
+                ->join('recibos', 'recibos.vivienda_id', '=', 'vivienda.id')
+                ->join('reciboheader', 'reciboheader.id', '=', 'recibos.reciboheader_id')
+                ->join('cuotas', 'cuotas.id', '=', 'reciboheader.cuota_id')
+                ->where('vivienda.estado',1)
+                ->where('cuotas.estado',1)
+                ->where('recibos.fecLimite','<=',Carbon::today())
+                ->where('recibos.estado','!=',2)
+                ->groupBy('vivienda.id')
+                ->get();
+      return view('comunicacion.mora')->with('viviendas',$morosos);
     }
 }

@@ -42,9 +42,9 @@
                 <table id="tblDocumentos" class="table table-striped table-hover">
                   <thead>
                     <tr>
-                      <th>Titulo</th>
-                      <th>Archivo</th>
-                      <th>Descripcion</th>
+                      <th width="30%">Titulo</th>
+                      <th width="30%">Archivo</th>
+                      <th width="40%">Descripcion</th>
                     </tr>
                   </thead>
                   <tbody>

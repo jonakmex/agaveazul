@@ -46,6 +46,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('documento', 'DocumentoController');
     //Comunicacion
     Route::get('/comunicacion/', ['uses' =>'ComunicacionController@index'])->name('comunicacion.index');
+    Route::get('/reportes/mora/', ['uses' =>'ComunicacionController@mora'])->name('comunicacion.mora');
     Route::post('/comunicacion/send', ['uses' =>'ComunicacionController@send'])->name('comunicacion.send');
     Route::post('/vivienda/generarRecibo', ['uses' =>'ViviendaController@generarRecibo'])->name('vivienda.generarRecibo');
 });

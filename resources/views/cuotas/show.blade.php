@@ -82,6 +82,7 @@
                 <thead>
                   <tr>
                     <th>Nombre</th>
+                    <th>Total</th>
                     <th>Importe</th>
                     <th>Estado</th>
 
@@ -92,10 +93,11 @@
                   @foreach($headers as $header)
                   <tr>
                     <td><a href="{{route('recibosHeader.show',['id'=>$header->id])}}">{{$header->descripcion}}</a></td>
+                    <td width="10%">${{number_format($header->total(), 2, '.', ',')}}</td>
                     <td width="10%">${{number_format($header->importe+$header->ajuste, 2, '.', ',')}}</td>
                     <td>
                       <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: {{$header->estado()}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{$header->estado()}}%</div>
+                        <div class="progress-bar" role="progressbar" style="width: {{$header->estado()}}%;" aria-valuenow="{{$header->estado()}}" aria-valuemin="0" aria-valuemax="100">{{$header->estado()}}%</div>
                       </div>
                     </td>
                   </tr>

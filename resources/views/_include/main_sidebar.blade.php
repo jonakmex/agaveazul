@@ -51,7 +51,16 @@
           <li><a href="{{route('comunicacion.index')}}">Comunicado</a></li>
         </ul>
         <ul class="treeview-menu">
-          <li><a href="{{route('documento.index')}}">Documentos</a></li>
+          <li>
+              <a href="#"><i class="fa fa-circle-o"></i> Reportes
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="{{route('comunicacion.mora')}}"><i class="fa fa-calendar"></i> Inquilinos en Mora</a></li>
+              </ul>
+            </li>
         </ul>
       </li>
     </ul>
