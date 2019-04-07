@@ -29,4 +29,8 @@ class Reciboheader extends Model
   public function total(){
     return round(count($this->cuota->viviendas) * $this->cuota->importe);
   }
+
+  public function cobrado(){
+    return $this->recibos()->where('estado',2)->sum('importe');
+  }
 }
