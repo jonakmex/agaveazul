@@ -27,7 +27,20 @@
           </span>
         </a>
         <ul class="treeview-menu">
-          <li><a href="{{route('documento.index')}}">Documentos</a></li>
+          <li><a href="{{route('documento.index')}}"><i class="fa fa-circle-o"></i>Documentos</a></li>
+        </ul>
+        <ul class="treeview-menu">
+          <li>
+              <a href="#"><i class="fa fa-calendar"></i>Reportes
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="{{route('comunicacion.mora')}}"><i class="fa fa-circle-o"></i>Inquilinos en Mora</a></li>
+                <li><a href="{{route('cuotas.index')}}"><i class="fa fa-circle-o"></i>Cuotas</a></li>
+              </ul>
+            </li>
         </ul>
       </li>
 

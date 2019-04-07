@@ -7,6 +7,7 @@ use App\AvisoMail;
 use DB;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class ComunicacionController extends Controller
 {
@@ -44,6 +45,7 @@ class ComunicacionController extends Controller
     }
 
     public function mora(){
+      Auth::user()->authorizeRoles(['Administrador','Residente']);
       Vivienda::whereIn('id',function($query){
 
       });
@@ -59,6 +61,13 @@ class ComunicacionController extends Controller
                 ->where('recibos.estado','!=',2)
                 ->groupBy('vivienda.id','vivienda.descripcion')
                 ->get();
-      return view('comunicacion.mora')->with('viviendas',$morosos);
+      switch(Auth::user()->profile->descripcion){
+        case 'Administrador':
+          return view('comunicacion.mora')->with('viviendas',$morosos);
+        break;
+        case 'Residente':
+          return view('profiles.residente.reportes.mora')->with('viviendas',$morosos);
+        break;
+      }
     }
 }

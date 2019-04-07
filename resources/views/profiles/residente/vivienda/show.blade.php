@@ -25,9 +25,7 @@
         {{$vivienda->descripcion}}
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">Examples</a></li>
-        <li class="active">User profile</li>
+        <li>La información se actualiza los días 12 de cada mes.</li>
       </ol>
     </section>
 
@@ -134,7 +132,7 @@
                         @endif
                       </td>
                     </tr>
-                    
+
                     @endforeach
 
                   </tbody>

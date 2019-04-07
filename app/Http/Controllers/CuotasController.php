@@ -21,9 +21,17 @@ class CuotasController extends Controller
      */
     public function index()
     {
-      Auth::user()->authorizeRoles(['Administrador']);
+      Auth::user()->authorizeRoles(['Administrador','Residente']);
       $cuotas = Cuota::where('estado',1)->paginate(10);
-      return view('cuotas.index')->with('cuotas',$cuotas);
+      switch(Auth::user()->profile->descripcion){
+        case 'Administrador':
+          return view('cuotas.index')->with('cuotas',$cuotas);
+        break;
+        case 'Residente':
+          return view('profiles.residente.cuotas.index')->with('cuotas',$cuotas);
+        break;
+      }
+
     }
 
     /**
@@ -101,10 +109,18 @@ class CuotasController extends Controller
      */
     public function show($id)
     {
-      Auth::user()->authorizeRoles(['Administrador']);
+      Auth::user()->authorizeRoles(['Administrador','Residente']);
       $cuota = Cuota::findOrFail($id);
       $cuotas = Cuota::where('estado',1)->paginate(10);
-      return view('cuotas.show')->with(['selected'=>$cuota,'cuotas'=>$cuotas] );
+      switch(Auth::user()->profile->descripcion){
+        case 'Administrador':
+          return view('cuotas.show')->with(['selected'=>$cuota,'cuotas'=>$cuotas] );
+        break;
+        case 'Residente':
+          return view('profiles.residente.cuotas.show')->with(['selected'=>$cuota,'cuotas'=>$cuotas] );
+        break;
+      }
+
     }
 
     /**
