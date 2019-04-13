@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use App\Recibos;
 use App\Cuenta;
 use App\DTO\PagarReciboIn;
+use App\DTO\CancelarReciboIn;
 use \DateTime;
 
 class ReciboMapper
@@ -29,10 +30,14 @@ class ReciboMapper
     // $comprobante;
     $pagarReciboIn->comprobante = $request->file('comprobante');
 
-
-
     return $pagarReciboIn;
+  }
 
+  public static function getCancelarReciboIn(Request $request){
+    $cancelarReciboIn = new CancelarReciboIn();
+    $recibo = Recibos::findOrFail($request->rec_id);
+    $cancelarReciboIn->recibo = $recibo;
+    return $cancelarReciboIn;
   }
 
 }

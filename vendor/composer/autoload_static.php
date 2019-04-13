@@ -364,12 +364,14 @@ class ComposerStaticInit004d128a1565f4667c05fc05b48fc686
 
     public static $classMap = array (
         'App\\AvisoMail' => __DIR__ . '/../..' . '/app/AvisoMail.php',
+        'App\\Console\\Commands\\DispatchJob' => __DIR__ . '/../..' . '/app/Console/Commands/DispatchJob.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Cuenta' => __DIR__ . '/../..' . '/app/Cuenta.php',
         'App\\Cuentamovimiento' => __DIR__ . '/../..' . '/app/Cuentamovimiento.php',
         'App\\Cuota' => __DIR__ . '/../..' . '/app/Cuota.php',
         'App\\CuotaVivienda' => __DIR__ . '/../..' . '/app/CuotaVivienda.php',
         'App\\DTO\\AddMovimientoIn' => __DIR__ . '/../..' . '/app/DTO/AddMovimientoIn.php',
+        'App\\DTO\\CancelarReciboIn' => __DIR__ . '/../..' . '/app/DTO/CancelarReciboIn.php',
         'App\\DTO\\PagarReciboIn' => __DIR__ . '/../..' . '/app/DTO/PagarReciboIn.php',
         'App\\DTO\\PagarReciboOut' => __DIR__ . '/../..' . '/app/DTO/PagarReciboOut.php',
         'App\\Documento' => __DIR__ . '/../..' . '/app/Documento.php',
@@ -400,6 +402,7 @@ class ComposerStaticInit004d128a1565f4667c05fc05b48fc686
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Jobs\\GenerarRecibos' => __DIR__ . '/../..' . '/app/Jobs/GenerarRecibos.php',
+        'App\\Jobs\\RecalcularSaldo' => __DIR__ . '/../..' . '/app/Jobs/RecalcularSaldo.php',
         'App\\Profile' => __DIR__ . '/../..' . '/app/Profile.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',

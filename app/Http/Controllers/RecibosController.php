@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Recibos;
 use App\Cuenta;
+use App\Service\ReciboService;
+use App\DTO\CancelarReciboIn;
+use App\Service\Mapper\ReciboMapper;
 use Illuminate\Support\Facades\Auth;
 
 class RecibosController extends Controller
@@ -39,6 +42,8 @@ class RecibosController extends Controller
     {
         //
     }
+
+
 
     /**
      * Display the specified resource.
@@ -119,5 +124,13 @@ class RecibosController extends Controller
       $recibo = Recibos::findOrFail($id);
       $pdf = storage_path('app/public/rec_'.$recibo->id.'/emision_'.$recibo->id.'.pdf');
       return response()->file($pdf);
+    }
+
+    public function cancelar(Request $request)
+    {
+        Auth::user()->authorizeRoles(['Administrador']);
+        $cancelarReciboIn = ReciboMapper::getCancelarReciboIn($request);
+        ReciboService::cancelar($cancelarReciboIn);
+        return redirect()->back();
     }
 }

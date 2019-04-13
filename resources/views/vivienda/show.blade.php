@@ -112,11 +112,12 @@
                           @if($recibo->comprobante != null)
                             <a href="{{asset($recibo->comprobante)}}" target="_blank" ><ion-icon name="eye" title="Comprobante"></ion-icon></a>
                           @endif
-
+                          <a href="#cancelModal{{$recibo->id}}" class="delete" data-toggle="modal"><ion-icon  name="close-circle" title="Cancelar"></i></a>
                         @endif
                       </td>
                     </tr>
                     @include('recibos.modal.pay',['name'=>'payModal'.$recibo->id,'recibo'=>$recibo,'cuentas'=>$cuentas,'origen'=>'vivienda','_id'=>$vivienda->id])
+                    @include('recibos.modal.cancelar',['name'=>'cancelModal'.$recibo->id,'recibo'=>$recibo])
                     @endforeach
 
                   </tbody>

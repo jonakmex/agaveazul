@@ -16,6 +16,7 @@ class CuentaService
     $movimiento->ingreso = $in->ingreso;
     $movimiento->egreso = $in->egreso;
     $movimiento->fecMov = $in->fecha;
+    $movimiento->recibos_id = $in->recibos_id;
     $movimiento->comprobante = $in->comprobante;
     $cuenta->movimientos()->save($movimiento);
 

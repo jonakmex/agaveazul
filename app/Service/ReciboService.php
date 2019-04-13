@@ -5,6 +5,7 @@ use App\Recibos;
 use App\Service\Mapper\ReciboMapper;
 use App\Service\CuentaService;
 use App\DTO\PagarReciboIn;
+use App\DTO\CancelarReciboIn;
 use App\DTO\AddMovimientoIn;
 use App\AvisoMail;
 use App\Cuota;
@@ -32,6 +33,7 @@ class ReciboService
     $movimiento->descripcion = $recibo->reciboheader != null?$recibo->reciboheader->cuota->descripcion.' > '.$recibo->vivienda->descripcion.' > '.$recibo->descripcion:$recibo->descripcion;
     $movimiento->ingreso = $recibo->importe+$recibo->ajuste;;
     $movimiento->egreso = 0 ;
+    $movimiento->recibos_id = $recibo->id;
     $movimiento->fecha = $recibo->fecPago;
     if($movimiento->comprobante != null){
         $movimiento->comprobante = $recibo->dir().'/'.$pagarReciboIn->comprobante->getClientOriginalName();;
@@ -58,6 +60,16 @@ class ReciboService
     Log::debug('Sending to .'.$recibo->vivienda->contactoPrincipal()->email);
     Mail::to($recibo->vivienda->contactoPrincipal()->email)->queue(AvisoMail::newAvisoPagoExitoso($data,$file));
 
+  }
+
+  public static function cancelar(CancelarReciboIn $cancelarReciboIn){
+      $recibo = $cancelarReciboIn->recibo;
+      $recibo->estado = 1;
+      $recibo->save();
+      $movimiento = $recibo->movimiento;
+      $cuenta = $movimiento->cuenta;
+      $movimiento->delete();
+      CuentaService::recalcularSaldo($cuenta);
   }
 
   public static function actualizarSaldo(){
