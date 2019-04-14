@@ -11,6 +11,7 @@ use App\Cuentamovimiento;
 use \Datetime;
 use App\AvisoMail;
 use App\DTO\PagarReciboIn;
+use App\DTO\EditarReciboIn;
 use App\Service\Mapper\ReciboMapper;
 use App\Service\ReciboService;
 use App\Log;
@@ -103,7 +104,21 @@ class PagosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      Auth::user()->authorizeRoles(['Administrador']);
+      $this->validate($request,[
+        //'importe' => 'required|numeric',
+        'ajuste' => 'required|numeric',
+        'fecPago' => 'required|date',
+        'timeIngreso' => 'required',
+        'rec_id' => 'required',
+        'cuenta_id' => 'required',
+        'tipo_pago' => 'required',
+        'comprobante' => 'Image',
+      ]);
+
+      $editarReciboIn = ReciboMapper::getEditarReciboIn($request);
+      ReciboService::editar($editarReciboIn);
+      return redirect()->back();
     }
 
     /**

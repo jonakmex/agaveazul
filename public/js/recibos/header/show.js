@@ -29,19 +29,4 @@ $(document).ready(function(){
 
 	$("div.toolbar").html('<a href="'+exportUrl+'" class="edit"><ion-icon name="download" title="Exportar"></i></a>');
 
-  var date = new Date();
-	var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-  $('.fechas').datepicker({
-    autoclose: true,
-    format: "yyyy-mm-dd"
-  });
-	$('.fechas').datepicker('setDate', today);
-  //Money Euro
-  $(".currency").inputmask({ alias : "pesos", prefix: '$' ,removeMaskOnSubmit: true});
-
-	//Timepicker
-  $(".timepicker").timepicker({
-    showInputs: false
-  });
-
 });

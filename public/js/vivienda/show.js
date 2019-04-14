@@ -57,21 +57,4 @@ $(document).ready(function(){
 	});
 	$("#tblRecibos_wrapper div.toolbar").html('<button data-target="#addModalRecibo" data-toggle="modal" class="btn btn-sm btn-success"><ion-icon name="add"></ion-icon></button> ');
 
-
-	var date = new Date();
-  		var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-      $('.fechas').datepicker({
-        autoclose: true,
-        format: "yyyy-mm-dd"
-      });
-  		$('.fechas').datepicker('setDate', today);
-      //Money Euro
-      $(".currency").inputmask({ alias : "pesos", prefix: '$' ,removeMaskOnSubmit: true});
-  		//$("#ajuste").inputmask({ alias : "pesos", prefix: '$' ,removeMaskOnSubmit: true});
-  		//Timepicker
-      $(".timepicker").timepicker({
-        showInputs: false
-      });
-
-    console.log('XXX');
 });
