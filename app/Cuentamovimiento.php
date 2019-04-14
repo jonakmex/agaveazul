@@ -17,7 +17,7 @@ class Cuentamovimiento extends Model
   }
 
   public function recibo(){
-    return $this->belongsTo('App\Recibos');
+    return $this->belongsTo('App\Recibos','recibos_id','id');
   }
 
   public function publicDescription(){

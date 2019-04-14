@@ -1,6 +1,7 @@
 <?php
 namespace App\Service;
 use App\DTO\AddMovimientoIn;
+use App\DTO\EditarMovimientoIn;
 use App\Cuentamovimiento;
 use App\Cuenta;
 
@@ -25,6 +26,17 @@ class CuentaService
 
     CuentaService::recalcularSaldo($cuenta);
 
+  }
+
+  public static function editarMovimiento(EditarMovimientoIn $in){
+      $movimiento = Cuentamovimiento::findOrFail($in->id);
+      $movimiento->descripcion = $in->descripcion;
+      $movimiento->fecMov = $in->fecMov;
+      if($in->comprobante != null){
+          $movimiento->comprobante = $in->comprobante;
+      }
+      $movimiento->save();
+      CuentaService::recalcularSaldo($movimiento->cuenta);
   }
 
   public static function recalcularSaldo(Cuenta $cuenta){

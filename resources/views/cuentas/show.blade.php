@@ -120,14 +120,16 @@
                       {{$movimiento->fecMov}}
                     </td>
                     <td>
-                      @if($movimiento->recibos_id == null)
+                      <a href="#editarModal{{$movimiento->id}}" class="edit" data-toggle="modal"><ion-icon  name="create" title="Editar"></i></a>
                       <a href="#deleteMovModal{{$movimiento->id}}" class="delete" data-toggle="modal"><ion-icon name="trash" data-toggle="tooltip" title="Eliminar"></i></a>
-                      @endif
                     </td>
                   </tr>
-                  @if($movimiento->recibos_id == null)
                     @include('movimientos.modal.delete',['name'=>'deleteMovModal'.$movimiento->id])
-                  @endif
+                    @if($movimiento->recibos_id != null)
+                      @include('recibos.modal.editar',['name'=>'editarModal'.$movimiento->id,'recibo'=>$movimiento->recibo])
+                    @else
+                      @include('movimientos.modal.edit',['name'=>'editarModal'.$movimiento->id,'movimiento'=>$movimiento])
+                    @endif
                   @endforeach
                 </tbody>
               </table>
@@ -163,4 +165,5 @@
 <script src="{{asset('dashboard/plugins/timepicker/bootstrap-timepicker.min.js')}}"></script>
 <script src="{{asset('dashboard/js/app.min.js')}}"></script>
 <script src="{{asset('js/cuentas/show.js')}}"></script>
+<script src="{{asset('js/movimientos/modal/base.js')}}"></script>
 @endsection

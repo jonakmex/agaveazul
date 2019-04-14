@@ -5,10 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Cuenta;
 use App\Cuentamovimiento;
+use App\Recibos;
 use Storage;
 use File;
 use \Datetime;
 use App\Service\CuentaService;
+use App\DTO\CancelarReciboIn;
+use App\DTO\EditarMovimientoIn;
+use App\Service\ReciboService;
+use App\Service\Mapper\ReciboMapper;
+use App\Service\Mapper\CuentaMovimientoMapper;
 use Illuminate\Support\Facades\Auth;
 
 class CuentamovimientoController extends Controller
@@ -34,7 +40,7 @@ class CuentamovimientoController extends Controller
             'ingresoImporte' => 'required|numeric',
             'fecIngreso' => 'required|date',
             'timeIngreso' => 'required',
-            'compIngreso' => 'required|mimes:pdf',
+            'compIngreso' => 'required|mimes:jpeg,bmp,png,gif,svg,pdf',
         ]);
         //Process de data and submit it
         $hrMov = DateTime::createFromFormat( 'Y-m-d H:i A', $request->fecIngreso.' '.$request->timeIngreso);
@@ -65,7 +71,7 @@ class CuentamovimientoController extends Controller
             'egresoImporte' => 'required|numeric',
             'fecEgreso' => 'required|date',
             'timeEgreso' => 'required',
-            'compEgreso' => 'required|mimes:pdf',
+            'compEgreso' => 'required|mimes:jpeg,bmp,png,gif,svg,pdf',
         ]);
 
         $hrMov = DateTime::createFromFormat( 'Y-m-d H:i A', $request->fecEgreso.' '.$request->timeEgreso);
@@ -134,8 +140,30 @@ class CuentamovimientoController extends Controller
     {
       Auth::user()->authorizeRoles(['Administrador']);
       $movimiento = Cuentamovimiento::findOrFail($id);
-      $movimiento->delete();
-      CuentaService::recalcularSaldo($movimiento->cuenta);
+
+      if($movimiento->recibos_id != null){
+        $cancelarReciboIn = new CancelarReciboIn();
+        $recibo = Recibos::findOrFail($movimiento->recibos_id);
+        $cancelarReciboIn->recibo = $recibo;
+        ReciboService::cancelar($cancelarReciboIn);
+      }
+      else{
+        $movimiento->delete();
+        CuentaService::recalcularSaldo($movimiento->cuenta);
+      }
+
+      return redirect()->back();
+    }
+
+    public function update(Request $request, $id)
+    {
+      Auth::user()->authorizeRoles(['Administrador']);
+      $this->validate($request,[
+          'descripcion' => 'required',
+      ]);
+      $editarMovimientoIn = CuentaMovimientoMapper::getEditarMovimientoIn($request);
+      $editarMovimientoIn->id = $id;
+      CuentaService::editarMovimiento($editarMovimientoIn);
       return redirect()->back();
     }
 }
