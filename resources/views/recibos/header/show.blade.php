@@ -91,6 +91,8 @@
                             @if($rec->comprobante != null)
                               <a href="{{asset($rec->comprobante)}}" target="_blank"><ion-icon name="eye" title="Comprobante"></ion-icon></a>
                             @endif
+                            <a href="#editarModal{{$rec->id}}" class="edit" data-toggle="modal"><ion-icon  name="create" title="Editar"></i></a>
+                            <a href="#cancelModal{{$rec->id}}" class="delete" data-toggle="modal"><ion-icon  name="close-circle" title="Cancelar"></i></a>
                           @elseif($rec->estado == 3)
                             @if($rec->comprobante != null)
                               <a href="{{asset($rec->comprobante)}}" class="edit"><ion-icon name="card" title="Pagar"></ion-icon></a>
@@ -99,6 +101,10 @@
                         </td>
                       </tr>
                       @include('recibos.modal.pay',['name'=>'payModal'.$rec->id,'recibo'=>$rec,'cuentas'=>$cuentas,'origen'=>'recibos','_id'=>$reciboHeader->id])
+                      @include('recibos.modal.cancelar',['name'=>'cancelModal'.$rec->id,'recibo'=>$rec])
+                      @if($rec->estado == 2)
+                        @include('recibos.modal.editar',['name'=>'editarModal'.$rec->id,'recibo'=>$rec])
+                      @endif
                       @endforeach
                     @endif
                   </tbody>
@@ -133,4 +139,5 @@
 
 <script src="{{asset('dashboard/js/app.min.js')}}"></script>
 <script src="{{asset('js/recibos/header/show.js')}}"></script>
+<script src="{{asset('js/recibos/modal/base.js')}}"></script>
 @endsection

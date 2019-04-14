@@ -9,4 +9,5 @@ class AddMovimientoIn
   public $egreso;
   public $fecha;
   public $comprobante;
+  public $recibos_id;
 }

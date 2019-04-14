@@ -13,7 +13,11 @@ class Cuentamovimiento extends Model
   }
 
   public function cuenta(){
-    return $this->hasMany('App\Cuenta');
+    return $this->belongsTo('App\Cuenta');
+  }
+
+  public function recibo(){
+    return $this->belongsTo('App\Recibos','recibos_id','id');
   }
 
   public function publicDescription(){

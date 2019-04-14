@@ -49,4 +49,5 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/reportes/mora/', ['uses' =>'ComunicacionController@mora'])->name('comunicacion.mora');
     Route::post('/comunicacion/send', ['uses' =>'ComunicacionController@send'])->name('comunicacion.send');
     Route::post('/vivienda/generarRecibo', ['uses' =>'ViviendaController@generarRecibo'])->name('vivienda.generarRecibo');
+    Route::post('/recibos/cancelar', ['uses' =>'RecibosController@cancelar'])->name('recibos.cancelar');
 });

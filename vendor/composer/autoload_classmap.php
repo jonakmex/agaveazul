@@ -7,12 +7,14 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'App\\AvisoMail' => $baseDir . '/app/AvisoMail.php',
+    'App\\Console\\Commands\\DispatchJob' => $baseDir . '/app/Console/Commands/DispatchJob.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Cuenta' => $baseDir . '/app/Cuenta.php',
     'App\\Cuentamovimiento' => $baseDir . '/app/Cuentamovimiento.php',
     'App\\Cuota' => $baseDir . '/app/Cuota.php',
     'App\\CuotaVivienda' => $baseDir . '/app/CuotaVivienda.php',
     'App\\DTO\\AddMovimientoIn' => $baseDir . '/app/DTO/AddMovimientoIn.php',
+    'App\\DTO\\CancelarReciboIn' => $baseDir . '/app/DTO/CancelarReciboIn.php',
     'App\\DTO\\PagarReciboIn' => $baseDir . '/app/DTO/PagarReciboIn.php',
     'App\\DTO\\PagarReciboOut' => $baseDir . '/app/DTO/PagarReciboOut.php',
     'App\\Documento' => $baseDir . '/app/Documento.php',
@@ -43,6 +45,7 @@ return array(
     'App\\Http\\Middleware\\TrustProxies' => $baseDir . '/app/Http/Middleware/TrustProxies.php',
     'App\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/app/Http/Middleware/VerifyCsrfToken.php',
     'App\\Jobs\\GenerarRecibos' => $baseDir . '/app/Jobs/GenerarRecibos.php',
+    'App\\Jobs\\RecalcularSaldo' => $baseDir . '/app/Jobs/RecalcularSaldo.php',
     'App\\Profile' => $baseDir . '/app/Profile.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
     'App\\Providers\\AuthServiceProvider' => $baseDir . '/app/Providers/AuthServiceProvider.php',

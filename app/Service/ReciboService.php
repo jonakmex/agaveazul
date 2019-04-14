@@ -1,11 +1,14 @@
 <?php
 namespace App\Service;
-use App\Recibos;
+
 
 use App\Service\Mapper\ReciboMapper;
 use App\Service\CuentaService;
 use App\DTO\PagarReciboIn;
+use App\DTO\EditarReciboIn;
+use App\DTO\CancelarReciboIn;
 use App\DTO\AddMovimientoIn;
+use App\Recibos;
 use App\AvisoMail;
 use App\Cuota;
 use App\Reciboheader;
@@ -32,6 +35,7 @@ class ReciboService
     $movimiento->descripcion = $recibo->reciboheader != null?$recibo->reciboheader->cuota->descripcion.' > '.$recibo->vivienda->descripcion.' > '.$recibo->descripcion:$recibo->descripcion;
     $movimiento->ingreso = $recibo->importe+$recibo->ajuste;;
     $movimiento->egreso = 0 ;
+    $movimiento->recibos_id = $recibo->id;
     $movimiento->fecha = $recibo->fecPago;
     if($movimiento->comprobante != null){
         $movimiento->comprobante = $recibo->dir().'/'.$pagarReciboIn->comprobante->getClientOriginalName();;
@@ -58,6 +62,70 @@ class ReciboService
     Log::debug('Sending to .'.$recibo->vivienda->contactoPrincipal()->email);
     Mail::to($recibo->vivienda->contactoPrincipal()->email)->queue(AvisoMail::newAvisoPagoExitoso($data,$file));
 
+  }
+
+  public static function editar(EditarReciboIn $editarReciboIn){
+    $recibo = $editarReciboIn->recibo;
+    $movimiento = $recibo->movimiento;
+    $original = Recibos::findOrFail($recibo->id);
+    $cuentaOrigen = $original->movimiento->cuenta;
+    $recibo->save();
+
+    $recalcularSaldos = false;
+
+    if($cuentaOrigen->id != $editarReciboIn->cuenta->id){
+      $recalcularSaldos = true;
+      $movimiento->cuenta_id = $editarReciboIn->cuenta->id;
+    }
+
+    if($original->saldo != $recibo->saldo){
+
+      $movimiento->ingreso = $recibo->importe+$recibo->ajuste;;
+      $movimiento->egreso = 0 ;
+      $movimiento->fecMov = $recibo->fecPago;
+      $recalcularSaldos = true;
+
+      if($recibo->reciboheader != null){
+        $reciboheader = $recibo->reciboheader;
+        $reciboheader->saldo = $reciboheader->saldo + $movimiento->ingreso;
+        $reciboheader->save();
+      }
+
+      //Subir archivo
+      if($movimiento->comprobante != null){
+        Storage::disk('public')->put($recibo->storage().'/'.$editarReciboIn->comprobante->getClientOriginalName(),File::get($editarReciboIn->comprobante));
+      }
+      //Generar PDF
+      $pdf = PDF::loadView('_pdf.recibo', compact('recibo'));
+      Storage::disk('public')->put($recibo->storage().'/'.'emision_'.$recibo->id.'.pdf', $pdf->output());
+
+      $data = array('recibo'=>$recibo);
+      $file = storage_path('app/public/rec_'.$recibo->id.'/emision_'.$recibo->id.'.pdf');
+      Log::debug('Sending to .'.$recibo->vivienda->contactoPrincipal()->email);
+      Mail::to($recibo->vivienda->contactoPrincipal()->email)->queue(AvisoMail::newAvisoPagoExitoso($data,$file));
+    }
+
+    if($movimiento->comprobante != null){
+        $movimiento->comprobante = $recibo->dir().'/'.$editarReciboIn->comprobante->getClientOriginalName();;
+    }
+
+    $movimiento->save();
+
+    if($recalcularSaldos){
+      CuentaService::recalcularSaldo($cuentaOrigen);
+      CuentaService::recalcularSaldo($editarReciboIn->cuenta);
+    }
+
+  }
+
+  public static function cancelar(CancelarReciboIn $cancelarReciboIn){
+      $recibo = $cancelarReciboIn->recibo;
+      $recibo->estado = 1;
+      $recibo->save();
+      $movimiento = $recibo->movimiento;
+      $cuenta = $movimiento->cuenta;
+      $movimiento->delete();
+      CuentaService::recalcularSaldo($cuenta);
   }
 
   public static function actualizarSaldo(){

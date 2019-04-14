@@ -92,6 +92,7 @@
                     <th>Egreso</th>
                     <th>Saldo</th>
                     <th>Fecha</th>
+                    <th>Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -118,7 +119,17 @@
                     <td>
                       {{$movimiento->fecMov}}
                     </td>
+                    <td>
+                      <a href="#editarModal{{$movimiento->id}}" class="edit" data-toggle="modal"><ion-icon  name="create" title="Editar"></i></a>
+                      <a href="#deleteMovModal{{$movimiento->id}}" class="delete" data-toggle="modal"><ion-icon name="trash" data-toggle="tooltip" title="Eliminar"></i></a>
+                    </td>
                   </tr>
+                    @include('movimientos.modal.delete',['name'=>'deleteMovModal'.$movimiento->id])
+                    @if($movimiento->recibos_id != null)
+                      @include('recibos.modal.editar',['name'=>'editarModal'.$movimiento->id,'recibo'=>$movimiento->recibo])
+                    @else
+                      @include('movimientos.modal.edit',['name'=>'editarModal'.$movimiento->id,'movimiento'=>$movimiento])
+                    @endif
                   @endforeach
                 </tbody>
               </table>
@@ -154,4 +165,5 @@
 <script src="{{asset('dashboard/plugins/timepicker/bootstrap-timepicker.min.js')}}"></script>
 <script src="{{asset('dashboard/js/app.min.js')}}"></script>
 <script src="{{asset('js/cuentas/show.js')}}"></script>
+<script src="{{asset('js/movimientos/modal/base.js')}}"></script>
 @endsection
