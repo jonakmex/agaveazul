@@ -128,6 +128,14 @@ class CuentamovimientoController extends Controller
         return redirect()->route('cuentas.show',['id' => $ctaOrigen->id]);
       }
 
+    }
 
+    public function destroy($id)
+    {
+      Auth::user()->authorizeRoles(['Administrador']);
+      $movimiento = Cuentamovimiento::findOrFail($id);
+      $movimiento->delete();
+      CuentaService::recalcularSaldo($movimiento->cuenta);
+      return redirect()->back();
     }
 }

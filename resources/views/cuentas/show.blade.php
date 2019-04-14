@@ -92,6 +92,7 @@
                     <th>Egreso</th>
                     <th>Saldo</th>
                     <th>Fecha</th>
+                    <th>Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -118,7 +119,15 @@
                     <td>
                       {{$movimiento->fecMov}}
                     </td>
+                    <td>
+                      @if($movimiento->recibos_id == null)
+                      <a href="#deleteMovModal{{$movimiento->id}}" class="delete" data-toggle="modal"><ion-icon name="trash" data-toggle="tooltip" title="Eliminar"></i></a>
+                      @endif
+                    </td>
                   </tr>
+                  @if($movimiento->recibos_id == null)
+                    @include('movimientos.modal.delete',['name'=>'deleteMovModal'.$movimiento->id])
+                  @endif
                   @endforeach
                 </tbody>
               </table>
