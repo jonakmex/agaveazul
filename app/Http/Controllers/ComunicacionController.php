@@ -51,7 +51,7 @@ class ComunicacionController extends Controller
       });
       $morosos = DB::table('vivienda')
                 ->select('vivienda.id','vivienda.descripcion', DB::raw('count(recibos.id) as recs'),DB::raw('sum(recibos.importe) as total'))
-                ->havingRaw('count(recibos.id) > 3')
+                ->havingRaw('count(recibos.id) > 5')
                 ->join('recibos', 'recibos.vivienda_id', '=', 'vivienda.id')
                 ->join('reciboheader', 'reciboheader.id', '=', 'recibos.reciboheader_id')
                 ->join('cuotas', 'cuotas.id', '=', 'reciboheader.cuota_id')

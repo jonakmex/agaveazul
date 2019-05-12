@@ -169,7 +169,6 @@ class ReciboService
     $headers = $cuota->recibosHeader;
     $fechaPago = $cuota->fecPago;
     if($cuota->periodicidad != null){
-      info('Repetible');
       while(ReciboService::existenRecibosPorGenerar($cuota,$fechaPago,count($headers)+count($resultado))){
         if(!ReciboService::existeHeader($headers,$fechaPago))
         {
@@ -215,6 +214,8 @@ class ReciboService
   {
     $existe = false;
     foreach($listaHeaders as $header){
+      info('Checking.. '.$header->descripcion);
+      info($fecha.' -- '.$header->fecVence);
       if(date_diff(date_create($fecha),date_create($header->fecVence))->format('%a')==0){
         $existe = true;
         break;
