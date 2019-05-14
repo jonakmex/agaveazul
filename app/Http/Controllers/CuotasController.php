@@ -11,6 +11,7 @@ use App\Reciboheader;
 use Mail;
 use App\AvisoMail;
 use Illuminate\Support\Facades\Auth;
+use DB;
 
 class CuotasController extends Controller
 {
@@ -198,7 +199,11 @@ class CuotasController extends Controller
                 $cuota->viviendas()->save($cuotavivienda);
               }
               if($cuotavivienda != null && !in_array($vivienda->id,$itemsSelected)){
+                
+
+
                 $cuotavivienda->delete();
+
               }
 
           }

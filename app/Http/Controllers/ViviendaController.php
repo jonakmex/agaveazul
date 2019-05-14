@@ -82,7 +82,7 @@ class ViviendaController extends Controller
       // Use the model to get one record from DB
       $vivienda = Vivienda::findOrFail($id);
       $recibos = Recibos::where('vivienda_id',$id)->whereIn('estado',[1,2])->orderBy('fecLimite','desc')->paginate(10);
-      $cuentas = Cuenta::where('estado',1)->paginate(10);
+      $cuentas = Cuenta::where('estado',1)->get();
       //Show the view and pass the record
       switch(Auth::user()->profile->descripcion){
         case 'Administrador':

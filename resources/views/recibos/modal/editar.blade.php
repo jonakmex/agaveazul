@@ -71,7 +71,7 @@
 
 				<select class="form-control select2" id="cuenta_id" name="cuenta_id">
 					@foreach($cuentas as $cuenta)
-				 		<option value="{{$cuenta->id}}" {{$recibo->movimiento->cuenta->id==$cuenta->id?'selected':''}}>{{$cuenta->descripcion}}</option>
+				 		<option value="{{$cuenta->id}}" {{$recibo->movimiento->cuenta->id=$cuenta->id?'selected':''}}>{{$cuenta->descripcion}}</option>
 					@endforeach
 				</select>
 				 @if ($errors->has('cuenta'))
