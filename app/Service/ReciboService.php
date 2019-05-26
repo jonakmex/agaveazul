@@ -60,7 +60,7 @@ class ReciboService
     $data = array('recibo'=>$recibo);
     $file = storage_path('app/public/rec_'.$recibo->id.'/emision_'.$recibo->id.'.pdf');
     Log::debug('Sending to .'.$recibo->vivienda->contactoPrincipal()->email);
-    Mail::to($recibo->vivienda->contactoPrincipal()->email)->queue(AvisoMail::newAvisoPagoExitoso($data,$file));
+    //Mail::to($recibo->vivienda->contactoPrincipal()->email)->queue(AvisoMail::newAvisoPagoExitoso($data,$file));
 
   }
 
