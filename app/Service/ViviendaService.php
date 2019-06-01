@@ -50,11 +50,13 @@ class ViviendaService
         $fecInicial = $ultimoRecibo->fecLimite;
       }
 
-
       // Generar el siguiente recibo header
       $fechaSiguienteHeader = ReciboService::siguienteFechaPago($cuota,$fecInicial);
-      $reciboHeader = ReciboService::generarHeaderRecibo($cuota,$fechaSiguienteHeader);
-      // Generar el recibo
+      $reciboHeader = Reciboheader::where('fecVence',$fechaSiguienteHeader)->first();
+      if($reciboHeader == null){
+        $reciboHeader = ReciboService::generarHeaderRecibo($cuota,$fechaSiguienteHeader);
+      }
+
       return ReciboService::generarReciboVivienda($reciboHeader,$vivienda);
     }
 }
