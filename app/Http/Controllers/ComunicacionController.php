@@ -45,7 +45,7 @@ class ComunicacionController extends Controller
     }
 
     public function mora(){
-      Auth::user()->authorizeRoles(['Administrador','Residente']);
+      Auth::user()->authorizeRoles(['Administrador','Residente','Operador']);
       Vivienda::whereIn('id',function($query){
 
       });
@@ -60,6 +60,7 @@ class ComunicacionController extends Controller
                 ->where('recibos.fecLimite','<=',Carbon::today())
                 ->where('recibos.estado','!=',2)
                 ->groupBy('vivienda.id','vivienda.descripcion')
+                ->orderBy('vivienda.descripcion')
                 ->get();
       switch(Auth::user()->profile->descripcion){
         case 'Administrador':
@@ -67,6 +68,9 @@ class ComunicacionController extends Controller
         break;
         case 'Residente':
           return view('profiles.residente.reportes.mora')->with('viviendas',$morosos);
+        break;
+        case 'Operador':
+          return view('profiles.operador.reportes.mora')->with('viviendas',$morosos);
         break;
       }
     }

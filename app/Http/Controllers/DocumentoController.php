@@ -20,12 +20,15 @@ class DocumentoController extends Controller
      */
     public function index()
     {
-        Auth::user()->authorizeRoles(['Administrador','Residente']);
+        Auth::user()->authorizeRoles(['Administrador','Residente','Operador']);
         $documentos = Documento::where('estado',1)->paginate(10);
         if(Auth::user()->profile->descripcion ==='Administrador'){
           return view('documento.index')->with('documentos',$documentos);
         }
         else if(Auth::user()->profile->descripcion ==='Residente'){
+          return view('profiles.residente.documento.index')->with('documentos',$documentos);
+        }
+        else if(Auth::user()->profile->descripcion ==='Operador'){
           return view('profiles.residente.documento.index')->with('documentos',$documentos);
         }
     }
