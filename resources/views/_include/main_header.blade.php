@@ -34,6 +34,7 @@
 
               <p>
                 {{Auth::user()->name}}
+                <small>{{Auth::user()->profile->descripcion}}</small>
               </p>
             </li>
 
