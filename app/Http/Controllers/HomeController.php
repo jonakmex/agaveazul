@@ -13,5 +13,8 @@ class HomeController extends Controller
       else if($request->user()->profile->descripcion === 'Residente'){
         return redirect()->route('vivienda.show', ['id' => $request->user()->residente->vivienda->id]);
       }
+      else if($request->user()->profile->descripcion === 'Operador'){
+        return view('profiles.operador.home');
+      }
     }
 }

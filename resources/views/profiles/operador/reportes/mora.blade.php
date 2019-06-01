@@ -1,4 +1,4 @@
-@extends('_template.profiles.residente.dashboard')
+@extends('_template.profiles.operador.dashboard')
 
 @section('title')
   <title>Reporte Condóminos en Mora</title>
@@ -52,7 +52,7 @@
 
          @foreach($viviendas as $vivienda)
          <tr>
-           <td>{{$vivienda->descripcion}}</td>
+           <td><a href="{{route('vivienda.show',['id'=>$vivienda->id])}}">{{$vivienda->descripcion}}</a></td>
            <td width="10%">{{$vivienda->recs}}</td>
            <td width="10%">${{number_format($vivienda->total, 2, '.', ',')}}</td>
          </tr>

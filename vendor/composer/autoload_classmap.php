@@ -48,6 +48,7 @@ return array(
     'App\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/app/Http/Middleware/VerifyCsrfToken.php',
     'App\\Jobs\\GenerarRecibos' => $baseDir . '/app/Jobs/GenerarRecibos.php',
     'App\\Jobs\\RecalcularSaldo' => $baseDir . '/app/Jobs/RecalcularSaldo.php',
+    'App\\Listeners\\LogSuccessfulLogin' => $baseDir . '/app/Listeners/LogSuccessfulLogin.php',
     'App\\Profile' => $baseDir . '/app/Profile.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
     'App\\Providers\\AuthServiceProvider' => $baseDir . '/app/Providers/AuthServiceProvider.php',

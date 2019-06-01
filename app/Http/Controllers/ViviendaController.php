@@ -77,7 +77,7 @@ class ViviendaController extends Controller
      */
     public function show($id)
     {
-      Auth::user()->authorizeRoles(['Administrador','Residente']);
+      Auth::user()->authorizeRoles(['Administrador','Residente','Operador']);
 
       // Use the model to get one record from DB
       $vivienda = Vivienda::findOrFail($id);
@@ -90,6 +90,9 @@ class ViviendaController extends Controller
         break;
         case 'Residente':
           return view('profiles.residente.vivienda.show')->with(['vivienda'=>$vivienda,'recibos'=>$recibos,'cuentas'=>$cuentas]);
+        break;
+        case 'Operador':
+          return view('profiles.operador.vivienda.show')->with(['vivienda'=>$vivienda,'recibos'=>$recibos,'cuentas'=>$cuentas]);
         break;
       }
 

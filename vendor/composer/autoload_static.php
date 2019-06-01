@@ -405,6 +405,7 @@ class ComposerStaticInit004d128a1565f4667c05fc05b48fc686
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Jobs\\GenerarRecibos' => __DIR__ . '/../..' . '/app/Jobs/GenerarRecibos.php',
         'App\\Jobs\\RecalcularSaldo' => __DIR__ . '/../..' . '/app/Jobs/RecalcularSaldo.php',
+        'App\\Listeners\\LogSuccessfulLogin' => __DIR__ . '/../..' . '/app/Listeners/LogSuccessfulLogin.php',
         'App\\Profile' => __DIR__ . '/../..' . '/app/Profile.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
