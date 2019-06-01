@@ -51,6 +51,10 @@
           <li><a href="{{route('comunicacion.index')}}">Comunicado</a></li>
         </ul>
         <ul class="treeview-menu">
+          <li><a href="{{route('documento.index')}}">Documentos</a></li>
+        </ul>
+      </li>
+        <ul class="treeview-menu">
           <li>
               <a href="#"><i class="fa fa-circle-o"></i> Reportes
                 <span class="pull-right-container">
