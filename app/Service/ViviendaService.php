@@ -52,7 +52,7 @@ class ViviendaService
 
       // Generar el siguiente recibo header
       $fechaSiguienteHeader = ReciboService::siguienteFechaPago($cuota,$fecInicial);
-      $reciboHeader = Reciboheader::where('fecVence',$fechaSiguienteHeader)->first();
+      $reciboHeader = Reciboheader::where('cuota_id',$cuota->id)->where('fecVence',$fechaSiguienteHeader)->first();
       if($reciboHeader == null){
         $reciboHeader = ReciboService::generarHeaderRecibo($cuota,$fechaSiguienteHeader);
       }
