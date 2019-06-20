@@ -228,7 +228,9 @@ class ReciboService
   {
     $existe = false;
     foreach($listaHeaders as $header){
-      if(date_diff(date_create($fecha),date_create($header->fecVence))->format('%a')==0){
+      $mesActual = date_create($fecha);
+      $mesHeader = date_create($header->fecVence);
+      if($mesActual->format('Y-m') === $mesHeader->format('Y-m')){
         $existe = true;
         break;
       }
