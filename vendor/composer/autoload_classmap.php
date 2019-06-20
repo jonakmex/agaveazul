@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'App\\AvisoMail' => $baseDir . '/app/AvisoMail.php',
+    'App\\Config' => $baseDir . '/app/Config.php',
     'App\\Console\\Commands\\DispatchJob' => $baseDir . '/app/Console/Commands/DispatchJob.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Cuenta' => $baseDir . '/app/Cuenta.php',
@@ -29,6 +30,7 @@ return array(
     'App\\Http\\Controllers\\Auth\\RegisterController' => $baseDir . '/app/Http/Controllers/Auth/RegisterController.php',
     'App\\Http\\Controllers\\Auth\\ResetPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ResetPasswordController.php',
     'App\\Http\\Controllers\\ComunicacionController' => $baseDir . '/app/Http/Controllers/ComunicacionController.php',
+    'App\\Http\\Controllers\\ConfigController' => $baseDir . '/app/Http/Controllers/ConfigController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
     'App\\Http\\Controllers\\CuentamovimientoController' => $baseDir . '/app/Http/Controllers/CuentamovimientoController.php',
     'App\\Http\\Controllers\\CuentasController' => $baseDir . '/app/Http/Controllers/CuentasController.php',
@@ -84,6 +86,7 @@ return array(
     'Carbon\\Exceptions\\InvalidDateException' => $vendorDir . '/nesbot/carbon/src/Carbon/Exceptions/InvalidDateException.php',
     'Carbon\\Laravel\\ServiceProvider' => $vendorDir . '/nesbot/carbon/src/Carbon/Laravel/ServiceProvider.php',
     'Carbon\\Translator' => $vendorDir . '/nesbot/carbon/src/Carbon/Translator.php',
+    'ConfigSeeder' => $baseDir . '/database/seeds/ConfigSeeder.php',
     'Cpdf' => $vendorDir . '/dompdf/dompdf/lib/Cpdf.php',
     'Cron\\AbstractField' => $vendorDir . '/mtdowling/cron-expression/src/Cron/AbstractField.php',
     'Cron\\CronExpression' => $vendorDir . '/mtdowling/cron-expression/src/Cron/CronExpression.php',

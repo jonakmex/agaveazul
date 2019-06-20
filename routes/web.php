@@ -44,6 +44,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('movimientos', 'CuentamovimientoController',['except' => ['create']]);
     Route::resource('pagos', 'PagosController');
     Route::resource('documento', 'DocumentoController');
+    Route::resource('config', 'ConfigController');
     //Comunicacion
     Route::get('/comunicacion/', ['uses' =>'ComunicacionController@index'])->name('comunicacion.index');
     Route::get('/reportes/mora/', ['uses' =>'ComunicacionController@mora'])->name('comunicacion.mora');

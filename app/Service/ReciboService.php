@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Service\Mapper\ReciboMapper;
 use App\Service\CuentaService;
+use App\Service\ConfigService;
 use App\DTO\PagarReciboIn;
 use App\DTO\EditarReciboIn;
 use App\DTO\CancelarReciboIn;
@@ -13,6 +14,7 @@ use App\AvisoMail;
 use App\Cuota;
 use App\Reciboheader;
 use App\Vivienda;
+use App\Config;
 use \DateTime;
 use PDF;
 use Mail;
@@ -60,8 +62,11 @@ class ReciboService
     $data = array('recibo'=>$recibo);
     $file = storage_path('app/public/rec_'.$recibo->id.'/emision_'.$recibo->id.'.pdf');
     Log::debug('Sending to .'.$recibo->vivienda->contactoPrincipal()->email);
-    //Mail::to($recibo->vivienda->contactoPrincipal()->email)->queue(AvisoMail::newAvisoPagoExitoso($data,$file));
 
+    
+    if(ConfigService::mailEnabled()){
+      Mail::to($recibo->vivienda->contactoPrincipal()->email)->queue(AvisoMail::newAvisoPagoExitoso($data,$file));
+    }
   }
 
   public static function editar(EditarReciboIn $editarReciboIn){
@@ -102,7 +107,10 @@ class ReciboService
       $data = array('recibo'=>$recibo);
       $file = storage_path('app/public/rec_'.$recibo->id.'/emision_'.$recibo->id.'.pdf');
       Log::debug('Sending to .'.$recibo->vivienda->contactoPrincipal()->email);
-      Mail::to($recibo->vivienda->contactoPrincipal()->email)->queue(AvisoMail::newAvisoPagoExitoso($data,$file));
+      
+      if(ConfigService::mailEnabled()){
+        Mail::to($recibo->vivienda->contactoPrincipal()->email)->queue(AvisoMail::newAvisoPagoExitoso($data,$file));
+      }
     }
 
     if($movimiento->comprobante != null){
@@ -304,6 +312,8 @@ class ReciboService
 
   private static function avisoReciboVivienda(Recibos $recibo){
     $data = array('recibo'=>$recibo);
-    //Mail::to($recibo->vivienda->contactoPrincipal()->email)->queue(AvisoMail::newAvisoReciboGenerado($data));
+    if(ConfigService::mailEnabled()){
+      Mail::to($recibo->vivienda->contactoPrincipal()->email)->queue(AvisoMail::newAvisoReciboGenerado($data));
+    }
   }
 }

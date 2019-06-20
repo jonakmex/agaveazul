@@ -364,6 +364,7 @@ class ComposerStaticInit004d128a1565f4667c05fc05b48fc686
 
     public static $classMap = array (
         'App\\AvisoMail' => __DIR__ . '/../..' . '/app/AvisoMail.php',
+        'App\\Config' => __DIR__ . '/../..' . '/app/Config.php',
         'App\\Console\\Commands\\DispatchJob' => __DIR__ . '/../..' . '/app/Console/Commands/DispatchJob.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Cuenta' => __DIR__ . '/../..' . '/app/Cuenta.php',
@@ -386,6 +387,7 @@ class ComposerStaticInit004d128a1565f4667c05fc05b48fc686
         'App\\Http\\Controllers\\Auth\\RegisterController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/RegisterController.php',
         'App\\Http\\Controllers\\Auth\\ResetPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ResetPasswordController.php',
         'App\\Http\\Controllers\\ComunicacionController' => __DIR__ . '/../..' . '/app/Http/Controllers/ComunicacionController.php',
+        'App\\Http\\Controllers\\ConfigController' => __DIR__ . '/../..' . '/app/Http/Controllers/ConfigController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\CuentamovimientoController' => __DIR__ . '/../..' . '/app/Http/Controllers/CuentamovimientoController.php',
         'App\\Http\\Controllers\\CuentasController' => __DIR__ . '/../..' . '/app/Http/Controllers/CuentasController.php',
@@ -441,6 +443,7 @@ class ComposerStaticInit004d128a1565f4667c05fc05b48fc686
         'Carbon\\Exceptions\\InvalidDateException' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Exceptions/InvalidDateException.php',
         'Carbon\\Laravel\\ServiceProvider' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Laravel/ServiceProvider.php',
         'Carbon\\Translator' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Translator.php',
+        'ConfigSeeder' => __DIR__ . '/../..' . '/database/seeds/ConfigSeeder.php',
         'Cpdf' => __DIR__ . '/..' . '/dompdf/dompdf/lib/Cpdf.php',
         'Cron\\AbstractField' => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron/AbstractField.php',
         'Cron\\CronExpression' => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron/CronExpression.php',

@@ -67,6 +67,15 @@
             </li>
         </ul>
       </li>
+      <li class="treeview">
+        <a href="#"><ion-icon class="fa fa-settings" name="settings"></ion-icon> <span>Sistema</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="{{route('config.index')}}"> <span>Configuración</span></a></li>
+        </ul>
     </ul>
     <!-- /.sidebar-menu -->
   </section>
