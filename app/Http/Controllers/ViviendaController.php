@@ -94,6 +94,9 @@ class ViviendaController extends Controller
         case 'Operador':
           return view('profiles.operador.vivienda.show')->with(['vivienda'=>$vivienda,'recibos'=>$recibos,'cuentas'=>$cuentas]);
         break;
+        case 'Operador':
+          return view('profiles.operador.vivienda.show')->with(['vivienda'=>$vivienda,'recibos'=>$recibos,'cuentas'=>$cuentas]);
+        break;
       }
 
     }
