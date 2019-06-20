@@ -135,10 +135,9 @@ class ReciboService
   }
 
   public static function generarRecibos(){
-    info('Running Service...');
+    info('Running generarRecibos...');
     $today = date('Y-m-d');
     $cuotasVigentes = Cuota::where('estado',1)->whereDate('fecPago','<=',Carbon::today()->toDateString())->get();
-    info('Cuentas vigentes:'.$cuotasVigentes->count());
     foreach($cuotasVigentes as $cuota){
       if(ReciboService::esActiva($cuota)){
         $headersPorGenerar = ReciboService::obtenerHeadersPorGenerar($cuota);
@@ -149,19 +148,29 @@ class ReciboService
         foreach($headersPorProcesar as $reciboHeader){
           ReciboService::generarRecibosVivienda($reciboHeader);
         }
-        info($cuota->descripcion.' ['.count($headersPorGenerar).' Recibos generados]');
       }
     }
-    info('Service Done.');
+    info('generarRecibos Done.');
   }
 
   private static function esActiva(Cuota $cuota)
   {
+    $result = false;
     $today = date('Y-m-d H:i:s');
-    return $cuota->periodicidad === null ||
-          ($cuota->periodicidad != null
-          && ($cuota->nPeriodos == 0 || count($cuota->recibosHeader) < $cuota->nPeriodos))
-           ;
+    if($cuota->periodicidad === null){
+      $result = true;
+    } elseif ($cuota->periodicidad != null && ($cuota->nPeriodos == 0 || count($cuota->recibosHeader) < $cuota->nPeriodos)){
+      $result = true;
+    } else {
+      $numeroViviendas = $cuota->viviendas()->count();
+      $headers = $cuota->recibosHeader()->get();
+      foreach($headers as $reciboHeader){
+        if($reciboHeader->recibos->count() < $numeroViviendas){
+          $result = true;
+        }
+      }
+    }
+    return $result;
   }
 
   private static function obtenerHeadersPorGenerar(Cuota $cuota){
@@ -179,12 +188,10 @@ class ReciboService
       }
     }
     else{
-      info('Unica '.$cuota->id);
       if(!ReciboService::existeHeader($headers,$fechaPago))
       {
         array_push($resultado,$fechaPago);
       }
-      info('--->'.count($resultado));
     }
 
     return $resultado;
@@ -192,15 +199,14 @@ class ReciboService
 
   private static function consultarRecibosHeaderPorProcesar(Cuota $cuota){
     $resultado = array();
-      $numeroViviendas = $cuota->viviendas()->count();
-      $headers = $cuota->recibosHeader()->get();
-      foreach($headers as $reciboHeader){
+    $numeroViviendas = $cuota->viviendas()->count();
+    $headers = $cuota->recibosHeader()->get();
+    foreach($headers as $reciboHeader){
         if($reciboHeader->recibos->count() < $numeroViviendas
         && Carbon::now()>=$reciboHeader->fecVence){
-            info('True');
             array_push($resultado,$reciboHeader);
         }
-      }
+    }
 
     return $resultado;
   }
@@ -214,8 +220,6 @@ class ReciboService
   {
     $existe = false;
     foreach($listaHeaders as $header){
-      info('Checking.. '.$header->descripcion);
-      info($fecha.' -- '.$header->fecVence);
       if(date_diff(date_create($fecha),date_create($header->fecVence))->format('%a')==0){
         $existe = true;
         break;
@@ -275,7 +279,6 @@ class ReciboService
     foreach($cuota->viviendas as $cuotavivienda){
       $vivienda = $cuotavivienda->vivienda;
       if(!ReciboService::existeReciboVivienda($reciboHeader,$vivienda)){
-        info($vivienda->descripcion);
         ReciboService::generarReciboVivienda($reciboHeader,$vivienda);
       }
     }
@@ -296,12 +299,6 @@ class ReciboService
 
 
   private static function existeReciboVivienda(Reciboheader $reciboHeader,Vivienda $vivienda){
-    if(DB::table('recibos')->where('reciboheader_id', $reciboHeader->id)->where('vivienda_id',$vivienda->id)->exists()){
-        info('Existe ... ');
-    }
-    else{
-      info('No Existe ... ');
-    }
     return DB::table('recibos')->where('reciboheader_id', $reciboHeader->id)->where('vivienda_id',$vivienda->id)->exists();
   }
 

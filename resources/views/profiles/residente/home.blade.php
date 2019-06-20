@@ -17,7 +17,7 @@
 
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    Residente
+    Sistema en actualización, puede que las cuotas aún no se vean reflejadas en su totalidad. En este momento el sistema se encuentra en actualización
   </div>
   <!-- /.content-wrapper -->
 
