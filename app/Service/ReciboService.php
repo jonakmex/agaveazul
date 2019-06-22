@@ -8,12 +8,14 @@ use App\Service\ConfigService;
 use App\DTO\PagarReciboIn;
 use App\DTO\EditarReciboIn;
 use App\DTO\CancelarReciboIn;
+use App\DTO\EliminarReciboIn;
 use App\DTO\AddMovimientoIn;
 use App\Recibos;
 use App\AvisoMail;
 use App\Cuota;
 use App\Reciboheader;
 use App\Vivienda;
+use App\CuotaVivienda;
 use App\Config;
 use \DateTime;
 use PDF;
@@ -135,6 +137,13 @@ class ReciboService
       $movimiento->delete();
       CuentaService::recalcularSaldo($cuenta);
   }
+
+  public static function eliminar(EliminarReciboIn $eliminarReciboIn){
+    $recibo = $eliminarReciboIn->recibo;
+    $cuotaVivienda = CuotaVivienda::where('cuota_id',$recibo->reciboHeader->cuota_id)->where('vivienda_id',$recibo->vivienda_id)->first();
+    $cuotaVivienda->delete();
+    $recibo->delete();
+}
 
   public static function actualizarSaldo(){
     $reciboheader = $recibo->reciboheader;

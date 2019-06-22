@@ -133,4 +133,12 @@ class RecibosController extends Controller
         ReciboService::cancelar($cancelarReciboIn);
         return redirect()->back();
     }
+
+    public function eliminar(Request $request)
+    {
+        Auth::user()->authorizeRoles(['Administrador']);
+        $eliminarReciboIn = ReciboMapper::getEliminarReciboIn($request);
+        ReciboService::eliminar($eliminarReciboIn);
+        return redirect()->back();
+    }
 }

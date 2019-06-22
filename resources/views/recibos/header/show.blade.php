@@ -86,6 +86,7 @@
                         <td>
                           @if($rec->estado == 1)
                             <a href="#payModal{{$rec->id}}" data-toggle="modal"><ion-icon name="card" title="Pagar"></ion-icon></a>
+                            <a href="#removeModal{{$rec->id}}" class="delete" data-toggle="modal"><ion-icon  name="close-circle" title="Eliminar"></i></a>
                           @elseif($rec->estado == 2)
                             <a href="{{route('recibos.getPdf',['rec_id'=>$rec->id])}}" target="_blank" ><ion-icon name="document" title="Recibo"></ion-icon></a>
                             @if($rec->comprobante != null)
@@ -102,6 +103,7 @@
                       </tr>
                       @include('recibos.modal.pay',['name'=>'payModal'.$rec->id,'recibo'=>$rec,'cuentas'=>$cuentas,'origen'=>'recibos','_id'=>$reciboHeader->id])
                       @include('recibos.modal.cancelar',['name'=>'cancelModal'.$rec->id,'recibo'=>$rec])
+                      @include('recibos.modal.eliminar',['name'=>'removeModal'.$rec->id,'recibo'=>$rec])
                       @if($rec->estado == 2)
                         @include('recibos.modal.editar',['name'=>'editarModal'.$rec->id,'recibo'=>$rec])
                       @endif

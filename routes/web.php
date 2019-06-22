@@ -53,4 +53,5 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('/comunicacion/send', ['uses' =>'ComunicacionController@send'])->name('comunicacion.send');
     Route::post('/vivienda/generarRecibo', ['uses' =>'ViviendaController@generarRecibo'])->name('vivienda.generarRecibo');
     Route::post('/recibos/cancelar', ['uses' =>'RecibosController@cancelar'])->name('recibos.cancelar');
+    Route::post('/recibos/eliminar', ['uses' =>'RecibosController@eliminar'])->name('recibos.eliminar');
 });

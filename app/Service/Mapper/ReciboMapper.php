@@ -5,6 +5,7 @@ use App\Recibos;
 use App\Cuenta;
 use App\DTO\PagarReciboIn;
 use App\DTO\CancelarReciboIn;
+use App\DTO\EliminarReciboIn;
 use App\DTO\EditarReciboIn;
 use \DateTime;
 
@@ -62,6 +63,13 @@ class ReciboMapper
     $recibo = Recibos::findOrFail($request->rec_id);
     $cancelarReciboIn->recibo = $recibo;
     return $cancelarReciboIn;
+  }
+
+  public static function getEliminarReciboIn(Request $request){
+    $eliminarReciboIn = new EliminarReciboIn();
+    $recibo = Recibos::findOrFail($request->rec_id);
+    $eliminarReciboIn->recibo = $recibo;
+    return $eliminarReciboIn;
   }
 
 }
