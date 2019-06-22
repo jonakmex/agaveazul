@@ -75,6 +75,7 @@
         </a>
         <ul class="treeview-menu">
           <li><a href="{{route('config.index')}}"> <span>Configuración</span></a></li>
+          <li><a href="{{route('staff.index')}}"> <span>Usuarios</span></a></li>
         </ul>
     </ul>
     <!-- /.sidebar-menu -->

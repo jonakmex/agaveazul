@@ -61,6 +61,7 @@ return array(
     'App\\Recibos' => $baseDir . '/app/Recibos.php',
     'App\\RegisterToken' => $baseDir . '/app/RegisterToken.php',
     'App\\Residente' => $baseDir . '/app/Residente.php',
+    'App\\Service\\ConfigService' => $baseDir . '/app/Service/ConfigService.php',
     'App\\Service\\ContactoService' => $baseDir . '/app/Service/ContactoService.php',
     'App\\Service\\CuentaService' => $baseDir . '/app/Service/CuentaService.php',
     'App\\Service\\DocumentoService' => $baseDir . '/app/Service/DocumentoService.php',

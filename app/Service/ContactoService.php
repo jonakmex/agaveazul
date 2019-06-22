@@ -1,5 +1,6 @@
 <?php
 namespace App\Service;
+use App\Service\ConfigService;
 use App\Residente;
 use App\AvisoMail;
 use App\RegisterToken;
@@ -10,26 +11,23 @@ use Log;
 class ContactoService
 {
   public static function crearTokenRegistro(Residente $residente){
-    Log::debug('crearTokenRegistro para '.$residente->nombre.'...');
     $token = new RegisterToken();
     $token->token = ContactoService::generarToken();
-    $token->profile_id = 2;
+    $profile = Profile::where('descripcion','Residente')->first();
+    $token->profile_id = $profile->id;
     $token->status = 1;
-    $token->residente_id = $residente->id;
-    Log::debug('Token generated.');
-    Log::debug('Retrieving profile '.$residente->id.'...');
-    $profile = Profile::where(['descripcion'=>'Residente'])->firstOrFail();
-    Log::debug('Profile'.$profile->descripcion);
-    $profile->tokens()->save($token);
-
+    //$residente->token()->save($token);
+    $token->save();
+    $residente->register_token_id = $token->id;
+    $residente->save();
     $data = array('registerToken'=>$token);
-    Log::debug('Sending mail to '.$residente->email.'...');
-    Mail::to($residente->email)->queue(AvisoMail::newTokenRegistro($data));
-    while( count(Mail::failures()) > 0 ) {
-       Mail::to($residente->email)->queue(AvisoMail::newTokenRegistro($data));
+    if(ConfigService::mailEnabled()){
+      Mail::to($residente->email)->queue(AvisoMail::newTokenRegistro($data));
+      while( count(Mail::failures()) > 0 ) {
+        Mail::to($residente->email)->queue(AvisoMail::newTokenRegistro($data));
+      }
+      debug('Mail sent');
     }
-
-    Log::debug('Mail sent');
   }
 
   private static function generarToken($length = 10){

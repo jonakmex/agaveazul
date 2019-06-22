@@ -32,6 +32,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('vivienda', 'ViviendaController');
     Route::resource('residentes', 'ResidentesController');
     Route::post('/residentes/token', ['uses' =>'ResidentesController@generarToken'])->name('residentes.generarToken');
+    Route::post('/staff/token', ['uses' =>'StaffController@generarToken'])->name('staff.generarToken');
     Route::resource('cuotas', 'CuotasController');
     Route::resource('recibosHeader', 'RecibosHeaderController');
     Route::resource('recibos', 'RecibosController');
@@ -45,6 +46,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('pagos', 'PagosController');
     Route::resource('documento', 'DocumentoController');
     Route::resource('config', 'ConfigController');
+    Route::resource('staff', 'StaffController');
     //Comunicacion
     Route::get('/comunicacion/', ['uses' =>'ComunicacionController@index'])->name('comunicacion.index');
     Route::get('/reportes/mora/', ['uses' =>'ComunicacionController@mora'])->name('comunicacion.mora');

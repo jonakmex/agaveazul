@@ -418,6 +418,7 @@ class ComposerStaticInit004d128a1565f4667c05fc05b48fc686
         'App\\Recibos' => __DIR__ . '/../..' . '/app/Recibos.php',
         'App\\RegisterToken' => __DIR__ . '/../..' . '/app/RegisterToken.php',
         'App\\Residente' => __DIR__ . '/../..' . '/app/Residente.php',
+        'App\\Service\\ConfigService' => __DIR__ . '/../..' . '/app/Service/ConfigService.php',
         'App\\Service\\ContactoService' => __DIR__ . '/../..' . '/app/Service/ContactoService.php',
         'App\\Service\\CuentaService' => __DIR__ . '/../..' . '/app/Service/CuentaService.php',
         'App\\Service\\DocumentoService' => __DIR__ . '/../..' . '/app/Service/DocumentoService.php',

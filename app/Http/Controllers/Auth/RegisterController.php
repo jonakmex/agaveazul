@@ -73,14 +73,25 @@ class RegisterController extends Controller
         $token->status = 2;
         $token->save();
         Log::debug('Token Taken '.$token->token.'...');
-        Log::debug('Token Residente id '.$token->residente->id.'...');
-        return User::create([
+        
+        if($token->residente != null){
+          return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'profile_id' => $data['profile_id'],
             'residente_id' => $token->residente->id,
-        ]);
+          ]);
+        }
+        else{
+          return User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'profile_id' => $data['profile_id'],
+            'residente_id' => null,
+          ]);
+        }
       }
 
     }
@@ -93,6 +104,8 @@ class RegisterController extends Controller
 
     public function registro($token){
       $token = RegisterToken::where(['token'=>$token,'status'=>1])->firstOrFail();
-      return view('auth.register')->with(['token'=>$token]);
+      $usuario = $token->residente != null ? $token->residente :$token->staff;
+      
+      return view('auth.register')->with(['token'=>$token,'usuario'=>$usuario]);
     }
 }

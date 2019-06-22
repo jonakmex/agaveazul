@@ -24,4 +24,8 @@ class Residente extends Model
         return "Representante";
     }
   }
+
+  public function token(){
+    return $this->hasOne('App\registerToken');
+  }
 }

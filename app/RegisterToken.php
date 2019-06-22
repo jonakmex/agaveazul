@@ -13,6 +13,10 @@ class RegisterToken extends Model
     }
 
     public function residente(){
-      return $this->belongsTo('App\Residente');
+      return $this->hasOne('App\Residente');
+    }
+
+    public function staff(){
+      return $this->hasOne('App\Staff');
     }
 }

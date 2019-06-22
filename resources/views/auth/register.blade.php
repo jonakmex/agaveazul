@@ -17,7 +17,7 @@
     <div class="form-group has-feedback">
 
 
-            <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{$token->residente->nombre}}" placeholder="Nombre" readonly>
+            <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{$usuario->nombre}}" placeholder="Nombre" readonly>
 
             @if ($errors->has('name'))
                 <span class="invalid-feedback">
@@ -31,7 +31,7 @@
 
 
 
-            <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{$token->residente->email}}" placeholder="Email" readonly>
+            <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{$usuario->email}}" placeholder="Email" readonly>
 
             @if ($errors->has('email'))
                 <span class="invalid-feedback">
