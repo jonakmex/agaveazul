@@ -33,6 +33,7 @@ class ConfigController extends Controller
      */
     public function store(Request $request)
     {
+        info('Storing Config...');
         Auth::user()->authorizeRoles(['Administrador']);
         $itemsEnabled = is_array($request->enabled)  ? $request->enabled : array();
         $items = Config::get();
