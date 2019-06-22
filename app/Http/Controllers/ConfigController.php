@@ -50,6 +50,6 @@ class ConfigController extends Controller
             $config->save();
         }
         
-        return redirect()->route('config.index');
+        return redirect()->route('configura.index');
     }
 }

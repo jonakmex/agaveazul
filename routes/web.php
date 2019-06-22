@@ -45,7 +45,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('movimientos', 'CuentamovimientoController',['except' => ['create']]);
     Route::resource('pagos', 'PagosController');
     Route::resource('documento', 'DocumentoController');
-    Route::resource('config', 'ConfigController');
+    Route::resource('configura', 'ConfigController');
     Route::resource('staff', 'StaffController');
     //Comunicacion
     Route::get('/comunicacion/', ['uses' =>'ComunicacionController@index'])->name('comunicacion.index');

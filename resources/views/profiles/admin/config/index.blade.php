@@ -21,7 +21,7 @@
         <div class="row">
             <div class="col-xs-6">
               <div class="box">
-              <form method="POST" action="{{route('config.store')}}">
+              <form method="POST" action="{{route('configura.store')}}">
               {{ csrf_field () }}
               <table class="table table-hover">
                     <thead>
