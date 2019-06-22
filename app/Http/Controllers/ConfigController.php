@@ -35,7 +35,7 @@ class ConfigController extends Controller
     {
         Auth::user()->authorizeRoles(['Administrador']);
         $itemsEnabled = is_array($request->enabled)  ? $request->enabled : array();
-        $items = $request->items;
+        $items = Config::get();
         
         foreach($items as $item){
             info($item['key']);
