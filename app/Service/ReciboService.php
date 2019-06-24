@@ -141,7 +141,9 @@ class ReciboService
   public static function eliminar(EliminarReciboIn $eliminarReciboIn){
     $recibo = $eliminarReciboIn->recibo;
     $cuotaVivienda = CuotaVivienda::where('cuota_id',$recibo->reciboHeader->cuota_id)->where('vivienda_id',$recibo->vivienda_id)->first();
-    $cuotaVivienda->delete();
+    if($cuotaVivienda){
+      $cuotaVivienda->delete();
+    }
     $recibo->delete();
 }
 
