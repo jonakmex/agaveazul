@@ -53,7 +53,7 @@
         <ul class="treeview-menu">
           <li><a href="{{route('documento.index')}}">Documentos</a></li>
         </ul>
-      </li>
+      
         <ul class="treeview-menu">
           <li>
               <a href="#"><i class="fa fa-circle-o"></i> Reportes
