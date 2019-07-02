@@ -21,13 +21,13 @@ class ContactoService
     $residente->register_token_id = $token->id;
     $residente->save();
     $data = array('registerToken'=>$token);
-    if(ConfigService::mailEnabled()){
+    //if(ConfigService::mailEnabled()){
       Mail::to($residente->email)->queue(AvisoMail::newTokenRegistro($data));
       while( count(Mail::failures()) > 0 ) {
         Mail::to($residente->email)->queue(AvisoMail::newTokenRegistro($data));
       }
-      debug('Mail sent');
-    }
+      
+    //}
   }
 
   private static function generarToken($length = 10){
