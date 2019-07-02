@@ -30,11 +30,11 @@ class StaffService{
       $staff->register_token_id = $token->id;
       $staff->save();
       $data = array('registerToken'=>$token);
-      if(ConfigService::mailEnabled()){
+      //if(ConfigService::mailEnabled()){
         Mail::to($staff->email)->queue(AvisoMail::newTokenRegistro($data));
         while( count(Mail::failures()) > 0 ) {
           Mail::to($staff->email)->queue(AvisoMail::newTokenRegistro($data));
-        }
+        //}
         info('Mail sent');
       }
     }

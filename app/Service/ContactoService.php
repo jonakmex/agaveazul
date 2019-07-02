@@ -26,7 +26,7 @@ class ContactoService
       while( count(Mail::failures()) > 0 ) {
         Mail::to($residente->email)->queue(AvisoMail::newTokenRegistro($data));
       }
-      
+      info('Mail sent');
     //}
   }
 
