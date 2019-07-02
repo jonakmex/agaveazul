@@ -34,9 +34,9 @@ class StaffService{
         Mail::to($staff->email)->queue(AvisoMail::newTokenRegistro($data));
         while( count(Mail::failures()) > 0 ) {
           Mail::to($staff->email)->queue(AvisoMail::newTokenRegistro($data));
-        //}
+        }
         info('Mail sent');
-      }
+      //}
     }
   
     private static function generarToken($length = 10){
