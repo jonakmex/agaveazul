@@ -44,7 +44,7 @@
 function checkForm(form)
   {
 
-    form.guardar. = true;
+    form.guardar = true;
     return true;
   }
 </script>

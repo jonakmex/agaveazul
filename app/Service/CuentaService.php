@@ -30,13 +30,19 @@ class CuentaService
 
   public static function editarMovimiento(EditarMovimientoIn $in){
       $movimiento = Cuentamovimiento::findOrFail($in->id);
+      $cuenta_old = $movimiento->cuenta;
       $movimiento->descripcion = $in->descripcion;
       $movimiento->fecMov = $in->fecMov;
+      $movimiento->cuenta_id = $in->cuenta->id;
       if($in->comprobante != null){
           $movimiento->comprobante = $in->comprobante;
       }
       $movimiento->save();
+      if($cuenta_old->id != $in->cuenta->id){
+        CuentaService::recalcularSaldo($in->cuenta);
+      }
       CuentaService::recalcularSaldo($movimiento->cuenta);
+      
   }
 
   public static function recalcularSaldo(Cuenta $cuenta){

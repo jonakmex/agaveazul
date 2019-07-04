@@ -1,7 +1,7 @@
 @extends('_template.dashboard')
 
 @section('title')
-  <title>Cuentas</title>
+  <title>Movimientos</title>
 @endsection
 
 @section('styles')
@@ -25,7 +25,7 @@
 
     <section class="content-header">
       <h1>
-      Cuenta: <b>{{$selected->descripcion}}</b>
+        Movimientos
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -38,7 +38,7 @@
     <!-- Main content -->
    <section class="content">
      <div class="row">
-       
+       <!-- /.col (left) -->
        <div class="col-md-12">
          <div class="box box-primary">
            <div class="box-header">
@@ -50,9 +50,7 @@
                 <thead>
                   <tr>
                     <th>Descripcion</th>
-                    <th>Ingreso</th>
-                    <th>Egreso</th>
-                    <th>Saldo</th>
+                    <th>Cuenta</th>
                     <th>Fecha</th>
                     <th>Acciones</th>
                   </tr>
@@ -67,17 +65,11 @@
                         {{$movimiento->descripcion}}
                       @endif
                     </td>
-                    <td width="10%">
-                      @if($movimiento->ingreso != null)
-                        ${{$movimiento->ingreso}}
+                    <td width="20%">
+                      @if($movimiento->cuenta != null)
+                        {{$movimiento->cuenta->descripcion}}
                       @endif
                     </td>
-                    <td width="10%">
-                      @if($movimiento->egreso != null)
-                        ${{$movimiento->egreso}}
-                      @endif
-                    </td>
-                    <td width="10%">${{$movimiento->saldo}}</td>
                     <td>
                       {{$movimiento->fecMov}}
                     </td>
@@ -109,7 +101,6 @@
    </section>
    <!-- /.content -->
 
-   @include('movimientos.modal.add',['name'=>'addMovModal','cuenta'=>$selected])
    @include('movimientos.modal.search',['name'=>'searchMovModal'])
   </div>
   <!-- /.content-wrapper -->
@@ -125,6 +116,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.2.6/jquery.inputmask.bundle.min.js"></script>
 <script src="{{asset('dashboard/plugins/timepicker/bootstrap-timepicker.min.js')}}"></script>
 <script src="{{asset('dashboard/js/app.min.js')}}"></script>
-<script src="{{asset('js/cuentas/show.js')}}"></script>
+<script src="{{asset('js/movimientos/index.js')}}"></script>
 <script src="{{asset('js/movimientos/modal/base.js')}}"></script>
 @endsection

@@ -19,10 +19,10 @@ class ViviendaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index(Request $request)
+    { 
         Auth::user()->authorizeRoles(['Administrador']);
-        $viviendas = Vivienda::where('estado',1)->paginate(5);
+        $viviendas = Vivienda::where('estado',1)->where('descripcion','like','%'.$request['descripcion'].'%')->paginate(5);
         return view('vivienda.index')->with('viviendas',$viviendas);
     }
 
@@ -171,4 +171,5 @@ class ViviendaController extends Controller
       ViviendaService::generarSiguienteRecibo($vivienda,$cuota);
       return redirect()->route('vivienda.show',$vivienda->id);
     }
+
 }

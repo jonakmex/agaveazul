@@ -36,7 +36,7 @@
     <!-- Main content -->
    <section class="content">
      <div class="row">
-       <div class="col-md-4">
+       <div class="col-md-12">
          <div class="box box-danger">
            <div class="box-header">
              <h3 class="box-title">
@@ -80,6 +80,7 @@
    </section>
    <!-- /.content -->
    @include('cuentas.modal.add',['name'=>'addModal'])
+   @include('cuentas.modal.search',['name'=>'searchCuentaModal'])
   </div>
   <!-- /.content-wrapper -->
 @endsection

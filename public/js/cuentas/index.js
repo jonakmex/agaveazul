@@ -25,7 +25,9 @@ $(document).ready(function(){
 		"dom": '<"toolbar">frtip'
 	});
 
-	$("div.toolbar").html('<button data-target="#addModal" data-toggle="modal" class="btn btn-sm btn-success"><ion-icon name="add"></ion-icon></button> ');
+	var btnAdd = '<button data-target="#addModal" data-toggle="modal" class="btn btn-sm btn-success"><ion-icon name="add"></ion-icon></button> ';
+	var btnSearch = '<button data-target="#searchCuentaModal" data-toggle="modal" class="btn btn-sm btn-success"><ion-icon name="search"></ion-icon></button> ';
+	$("div.toolbar").html(btnAdd+btnSearch);
 
 	//Money Euro
     $("#saldo").inputmask({ alias : "pesos", prefix: '$' ,removeMaskOnSubmit: true});

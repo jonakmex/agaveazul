@@ -15,10 +15,10 @@ class CuentasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
       Auth::user()->authorizeRoles(['Administrador']);
-      $cuentas = Cuenta::where('estado',1)->paginate(10);
+      $cuentas = Cuenta::where('estado',1)->where('descripcion','like','%'.$request['descripcion'].'%')->paginate(10);
       return view('cuentas.index')->with('cuentas',$cuentas);
     }
 

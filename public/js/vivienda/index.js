@@ -11,7 +11,8 @@ $(document).ready(function(){
 		"autoWidth": false,
 		"dom": '<"toolbar">frtip'
 	});
-
-	$("div.toolbar").html('<button data-target="#addEmployeeModal" data-toggle="modal" class="btn btn-sm btn-success"><ion-icon name="add"></ion-icon></button> ');
+	var btnAdd = '<button data-target="#addEmployeeModal" data-toggle="modal" class="btn btn-sm btn-success"><ion-icon name="add"></ion-icon></button> ';
+	var btnSearch = '<button data-target="#viviendaSearch" data-toggle="modal" class="btn btn-sm btn-success"><ion-icon name="search"></ion-icon></button> ';
+	$("div.toolbar").html(btnAdd+btnSearch);
 
 });

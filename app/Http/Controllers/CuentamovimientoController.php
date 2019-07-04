@@ -19,6 +19,28 @@ use Illuminate\Support\Facades\Auth;
 
 class CuentamovimientoController extends Controller
 {
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+      Auth::user()->authorizeRoles(['Administrador']);
+      $cuentas = Cuenta::where('estado',1)->paginate(10);
+      $movimientos = Cuentamovimiento::where('descripcion','like','%'.$request['descripcion'].'%')->paginate(10);
+      if(count($movimientos)>0){
+        $cuenta = $movimientos[0]->cuenta;
+        return view('movimientos.index')->with(['selected'=>$cuenta,'cuentas'=>$cuentas,'movimientos'=>$movimientos] );
+      }
+      else{
+        
+        return view('movimientos.index')->with('movimientos',$movimientos);
+      }
+      
+    }
+
     public function create($id)
     {
       Auth::user()->authorizeRoles(['Administrador']);

@@ -17,7 +17,19 @@
         <div class="form-group @php($err_descripcion = $errors->has('descripcion')?'has-error':'') {{$err_descripcion}}">
   				<label for="descripcion">Descripcion</label>
   				 <input type="text"  name="descripcion" id="descripcion" value="{{$movimiento->descripcion}}" class="form-control"/ required>
-  			</div>
+        </div>
+        <div class="form-group">
+				<label for="descripcion">Importe</label>
+				 <input type="text" readonly  name="importe" id="importe" value="{{$movimiento->egreso}}" class="form-control currency"/ required>
+			  </div>
+        <div class="form-group">
+          <label for="cuenta_id">Cuenta</label>
+          <select class="form-control select2" id="cuenta_id" name="cuenta_id">
+            @foreach($cuentas as $cuenta)
+              <option value="{{$cuenta->id}}" {{$movimiento->cuenta->id==$cuenta->id?'selected':''}} >{{$cuenta->descripcion}}</option>
+            @endforeach
+          </select>
+        </div>
         <div class="col-md-6">
           <div class="form-group @php($err_fecha = $errors->has('fecha')?'has-error':'') {{$err_fecha}}" >
             <label for="fecha">Fecha Movimiento</label>

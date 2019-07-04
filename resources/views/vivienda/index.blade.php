@@ -78,6 +78,7 @@
   <!-- /.content -->
 </div>
 @include('vivienda.modal.add',['name'=>'addEmployeeModal'])
+@include('vivienda.modal.search',['name'=>'viviendaSearch'])
 <!-- /.content-wrapper -->
 @endsection
 @section('scripts')
