@@ -117,6 +117,7 @@
 
   </div>
   <!-- /.content-wrapper -->
+  @include('cuotas.modal.search',['name'=>'searchCuotaModal'])
 @endsection
 @section('scripts')
 <!-- DataTables -->
