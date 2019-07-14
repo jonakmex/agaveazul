@@ -22,7 +22,7 @@ class ComunicadoController extends Controller
     public function index()
     {
       Auth::user()->authorizeRoles(['Administrador','Residente','Operador']);
-      $comunicados = Comunicado::where('estado',1)->paginate(10);
+      $comunicados = Comunicado::where('estado',1)->orderBy('id','dsc')->paginate(10);
 
       switch(Auth::user()->profile->descripcion){
         case 'Administrador':
