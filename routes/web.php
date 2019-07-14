@@ -47,6 +47,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('documento', 'DocumentoController');
     Route::resource('configura', 'ConfigController');
     Route::resource('staff', 'StaffController');
+    Route::resource('comunicados', 'ComunicadoController');
+    Route::get('/comunicados/getFile/{id}', ['uses' =>'ComunicadoController@getFile'])->name('comunicados.getFile');
     //Comunicacion
     Route::get('/comunicacion/', ['uses' =>'ComunicacionController@index'])->name('comunicacion.index');
     Route::get('/reportes/mora/', ['uses' =>'ComunicacionController@mora'])->name('comunicacion.mora');

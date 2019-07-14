@@ -27,14 +27,14 @@
     <div class="form-group @php($err_archivo = $errors->has('archivo')?'has-error':'') {{$err_archivo}}">
 			<label for="archivo">Archivo</label>
 			 <input type="file" id="archivo" name="archivo">
-       @if ($errors->has('archivo'))
+       		@if ($errors->has('archivo'))
 			 	<span class="help-block">{{ $errors->first('archivo') }}</span>
 			 @endif
 		</div>
 	</div>
 	<div class="modal-footer">
     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
-		<button type="submit" class="btn btn-success enviar" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Procesando..."><Guardar/button>
+		<button type="submit" class="btn btn-success enviar" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Procesando...">Guardar</button>
 	</div>
 </form>
 

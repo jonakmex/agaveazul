@@ -48,23 +48,23 @@
           </span>
         </a>
         <ul class="treeview-menu">
-          <li><a href="{{route('comunicacion.index')}}">Comunicado</a></li>
+          <li><a href="{{route('comunicados.index')}}">Comunicados</a></li>
         </ul>
         <ul class="treeview-menu">
           <li><a href="{{route('documento.index')}}">Documentos</a></li>
         </ul>
-      
         <ul class="treeview-menu">
-          <li>
-              <a href="#"><i class="fa fa-circle-o"></i> Reportes
-                <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="{{route('comunicacion.mora')}}"><i class="fa fa-calendar"></i> Inquilinos en Mora</a></li>
-              </ul>
-            </li>
+          <li><a href="{{route('comunicacion.index')}}">Enviar Aviso</a></li>
+        </ul>
+      </li>
+      <li class="treeview">
+        <a href="#"><ion-icon class="fa fa-calendar" name="settings"></ion-icon> <span>Reportes</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+        <li><a href="{{route('comunicacion.mora')}}">Inquilinos en Mora</a></li>
         </ul>
       </li>
       <li class="treeview">
@@ -77,6 +77,7 @@
           <li><a href="{{route('configura.index')}}"> <span>Configuración</span></a></li>
           <li><a href="{{route('staff.index')}}"> <span>Usuarios</span></a></li>
         </ul>
+      </li>
     </ul>
     <!-- /.sidebar-menu -->
   </section>

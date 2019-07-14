@@ -14,9 +14,6 @@
         <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
       </div>
     </div>
-
-
-
     <!-- Sidebar Menu -->
     <ul class="sidebar-menu">
       <li class="header">MENU</li>
@@ -27,23 +24,24 @@
           </span>
         </a>
         <ul class="treeview-menu">
-          <li><a href="{{route('documento.index')}}"><i class="fa fa-circle-o"></i>Documentos</a></li>
+          <li><a href="{{route('documento.index')}}">Documentos</a></li>
         </ul>
         <ul class="treeview-menu">
-          <li>
-              <a href="#"><i class="fa fa-calendar"></i>Reportes
-                <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="{{route('comunicacion.mora')}}"><i class="fa fa-circle-o"></i>Inquilinos en Mora</a></li>
-                <li><a href="{{route('cuotas.index')}}"><i class="fa fa-circle-o"></i>Cuotas</a></li>
-              </ul>
-            </li>
+          <li><a href="{{route('comunicados.index')}}">Comunicados</a></li>
+        </ul>
+        
+      </li>
+      <li class="treeview">
+      <a href="#"><ion-icon class="fa fa-mail" name="mail"></ion-icon> <span>Reportes</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="{{route('comunicacion.mora')}}"><i class="fa fa-circle-o"></i>Inquilinos en Mora</a></li>
+            <li><a href="{{route('cuotas.index')}}"><i class="fa fa-circle-o"></i>Cuotas</a></li>
         </ul>
       </li>
-
     </ul>
     <!-- /.sidebar-menu -->
   </section>
