@@ -19,6 +19,16 @@
     <ul class="sidebar-menu">
       <li class="header">MENU</li>
       <li class="treeview">
+        <a href="#"><ion-icon class="fa fa-home" name="home"></ion-icon> <span>Residencial</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="{{route('vivienda.index')}}">Directorio</a></li>
+        </ul>
+      </li>
+      <li class="treeview">
         <a href="#"><ion-icon class="fa fa-mail" name="mail"></ion-icon> <span>Comunicación</span>
           <span class="pull-right-container">
             <i class="fa fa-angle-left pull-right"></i>

@@ -21,9 +21,19 @@ class ViviendaController extends Controller
      */
     public function index(Request $request)
     { 
-        Auth::user()->authorizeRoles(['Administrador']);
+        Auth::user()->authorizeRoles(['Administrador','Operador']);
         $viviendas = Vivienda::where('estado',1)->where('descripcion','like','%'.$request['descripcion'].'%')->paginate(5);
-        return view('vivienda.index')->with('viviendas',$viviendas);
+
+        switch(Auth::user()->profile->descripcion){
+          case 'Administrador':
+          return view('vivienda.index')->with('viviendas',$viviendas);
+          break;
+          case 'Operador':
+          return view('profiles.operador.vivienda.index')->with('viviendas',$viviendas);
+          break;
+        }
+
+        
     }
 
     /**
