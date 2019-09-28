@@ -34,15 +34,20 @@ class ComunicacionController extends Controller
         $route = public_path().'/Comunicado.'.$file->getClientOriginalExtension();
       }
 
-      $data = array('compose'=>$compose);
       foreach($viviendas as $vivienda){
         $oVivienda = Vivienda::findOrFail($vivienda);
-        Mail::to($oVivienda->contactoPrincipal()->email)->queue(AvisoMail::newComunicado($subject,$data,$route));
+        $compose = str_replace("#nombre#",$oVivienda->contactoPrincipal()->nombre,$compose);
+        $compose = str_replace("#saldo#",$oVivienda->saldo(),$compose);
+        $data = array('compose'=>$compose);
+        Mail::to($oVivienda->contactoPrincipal()->email)
+        ->queue(AvisoMail::newComunicado($subject,$data,$route));
       }
-
-      /**/
+      
       return redirect()->route('home');
     }
+
+    
+  
 
     public function mora(){
       Auth::user()->authorizeRoles(['Administrador','Residente','Operador']);
