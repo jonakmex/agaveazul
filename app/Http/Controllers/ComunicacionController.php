@@ -35,10 +35,12 @@ class ComunicacionController extends Controller
       }
 
       foreach($viviendas as $vivienda){
+        $compose = $request->compose;
         $oVivienda = Vivienda::findOrFail($vivienda);
         $compose = str_replace("#nombre#",$oVivienda->contactoPrincipal()->nombre,$compose);
         $compose = str_replace("#saldo#",$oVivienda->saldo(),$compose);
         $compose = str_replace("#casa#",$oVivienda->descripcion,$compose);
+        $compose = str_replace("#referencia#",$oVivienda->referencia,$compose);
         $data = array('compose'=>$compose);
         Mail::to($oVivienda->contactoPrincipal()->email)
         ->queue(AvisoMail::newComunicado($subject,$data,$route));
