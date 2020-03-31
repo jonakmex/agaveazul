@@ -11,4 +11,9 @@
             </list>
         </property>
     </bean>
+
+    <bean id="unitGateway" class="com.agaveazul.gateway.UnitGatewayStub" />
+    <bean id="findUnitsInteractor" class="com.agaveazul.interactor.FindUnitsInteractorImpl" >
+        <property name="unitGateway" ref="unitGateway"/>
+    </bean>
 </beans>

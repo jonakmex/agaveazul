@@ -1,6 +1,7 @@
 package com.agaveazul.rest.controller;
 
 import com.agaveazul.boundry.FindUnitsInteractor;
+import com.agaveazul.boundry.port.input.FindUnitsInputPort;
 import com.agaveazul.rest.model.Unit;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @RestController
 public class UnitController {
-
+    @Autowired
     private FindUnitsInteractor findUnitsInteractor;
 
     @Autowired
@@ -20,14 +21,16 @@ public class UnitController {
 
     @GetMapping(path = "units/find")
     public List<Unit> find(){
-        com.agaveazul.entitiy.Unit modelUnit = new com.agaveazul.entitiy.Unit();
-        modelUnit.setId(1L);
-        modelUnit.setDescription("Model Unit");
-        Unit unit = new Unit();
-        mapper.map(modelUnit,unit);
         List<Unit> units = new ArrayList<>();
-        unit.setStatus("Al Corriente");
-        units.add(unit);
+        findUnitsInteractor.execute(new FindUnitsInputPort(),findUnitsOutputPort -> {
+            findUnitsOutputPort.units.stream().forEach(modelUnit->{
+                Unit unit = new Unit();
+                mapper.map(modelUnit,unit);
+                unit.setStatus("Al Corriente");
+                units.add(unit);
+            });
+        });
+
         return units;
     }
 }

@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-	id 'maven'
+    id 'maven'
 }
 
 group = 'com.agaveazul'
@@ -8,14 +8,17 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
 repositories {
-    mavenLocal()
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
     compile 'org.codehaus.groovy:groovy:2.4.10'
+    compile  group: 'com.agaveazul', name: 'agaveazul-business', version: '0.0.1-SNAPSHOT'
+
     compileOnly  group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
     annotationProcessor "org.projectlombok:lombok:1.18.2"
+    compile group: 'net.sf.dozer', name: 'dozer', version: '5.5.1'
     testCompile group: 'junit', name: 'junit', version: '4.13'
     testCompile group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
 

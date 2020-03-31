@@ -1,4 +1,5 @@
 rootProject.name = 'agaveazul'
 
 include 'agaveazul-business'
+include 'agaveazul-gateway-stub'
 include 'agaveazul-rest'
