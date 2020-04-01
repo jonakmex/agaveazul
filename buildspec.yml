@@ -1,0 +1,21 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto8
+  pre_build:
+    commands:
+      - echo Starting build
+  build:
+    commands:
+      - pwd
+      - gradle build
+  post_build:
+    commands:
+      - echo Build completed on 'date'
+artifacts:
+  files:
+    - build/libs/agaveazul.jar
+    - appspec.yml
+  discard-paths: yes

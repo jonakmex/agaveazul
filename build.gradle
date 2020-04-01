@@ -1,6 +1,38 @@
 allprojects {
+    apply plugin: 'maven'
+    group = 'com.agaveazul'
+    version = '0.0.1-SNAPSHOT'
+}
+
+subprojects {
+    apply plugin: "java"
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
     repositories {
+        mavenLocal()
         mavenCentral()
+    }
+
+    dependencies {
+        compile 'org.codehaus.groovy:groovy:2.4.10'
+        compile group: 'net.sf.dozer', name: 'dozer', version: '5.5.1'
+        compileOnly  group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
+        annotationProcessor "org.projectlombok:lombok:1.18.2"
+        testCompile group: 'junit', name: 'junit', version: '4.13'
+        testCompile group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
+
     }
 }
 
+subprojects.each { subproject -> evaluationDependsOn(subproject.path)}
+
+task allJar(type: Jar, dependsOn: subprojects.assemble) {
+    baseName = 'agaveazul'
+    subprojects.each { subproject ->
+        from subproject.configurations.archives.allArtifacts.files.collect {
+            zipTree(it)
+        }
+    }
+}

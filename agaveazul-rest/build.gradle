@@ -1,16 +1,11 @@
 plugins {
     id 'org.springframework.boot' version '2.2.0.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
-    id 'java'
+
 }
 
-group = 'com.agaveazul'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
-
 repositories {
-    mavenCentral()
-    mavenLocal()
+
 }
 
 dependencies {
@@ -22,9 +17,6 @@ dependencies {
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
-    compileOnly  group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
-    annotationProcessor 'org.projectlombok:lombok'
-    compile group: 'net.sf.dozer', name: 'dozer', version: '5.5.1'
 
 }
 
