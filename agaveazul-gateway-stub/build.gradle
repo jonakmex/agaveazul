@@ -7,5 +7,5 @@ repositories {
 }
 
 dependencies {
-    compile  group: 'com.agaveazul', name: 'agaveazul-business', version: '0.0.1-SNAPSHOT'
+    compile project(':agaveazul-business')
 }

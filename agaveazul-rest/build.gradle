@@ -9,9 +9,8 @@ repositories {
 }
 
 dependencies {
-
-    compileOnly  group: 'com.agaveazul', name: 'agaveazul-business', version: '0.0.1-SNAPSHOT'
-    compileOnly  group: 'com.agaveazul', name: 'agaveazul-gateway-stub', version: '0.0.1-SNAPSHOT'
+    compile project(':agaveazul-business')
+    compile project(':agaveazul-gateway-stub')
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
