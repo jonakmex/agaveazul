@@ -1,3 +1,7 @@
+plugins {
+
+}
+
 allprojects {
     apply plugin: 'maven'
     group = 'com.agaveazul'
@@ -11,7 +15,6 @@ subprojects {
     targetCompatibility = 1.8
 
     repositories {
-        mavenLocal()
         mavenCentral()
     }
 
@@ -26,13 +29,6 @@ subprojects {
     }
 }
 
-subprojects.each { subproject -> evaluationDependsOn(subproject.path)}
 
-task allJar(type: Jar, dependsOn: subprojects.assemble) {
-    baseName = 'agaveazul'
-    subprojects.each { subproject ->
-        from subproject.configurations.archives.allArtifacts.files.collect {
-            zipTree(it)
-        }
-    }
-}
+
+

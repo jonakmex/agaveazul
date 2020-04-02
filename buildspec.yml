@@ -16,6 +16,6 @@ phases:
       - echo Build completed on 'date'
 artifacts:
   files:
-    - build/libs/agaveazul-0.0.1-SNAPSHOT.jar
+    - agaveazul-rest/build/libs/agaveazul-rest-0.0.1-SNAPSHOT.jar
     - appspec.yml
   discard-paths: yes
