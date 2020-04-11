@@ -1,0 +1,6 @@
+%syntax-version=1.0.0
+%project=agaveazul
+
+appuser 2020-04-10T22:46:52Z Jonathan <jonakmex@gmail.com> # Creates an application user
+units [appuser] 2020-04-11T01:15:38Z Jonathan <jonakmex@gmail.com> # Creates the units table
+@v1.0.0-dev1 2020-04-11T01:52:55Z Jonathan <jonakmex@gmail.com> # Tag v1.0.0-dev1

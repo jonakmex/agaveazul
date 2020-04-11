@@ -4,7 +4,7 @@
 BEGIN;
 
 CREATE TABLE unit (
-    id  INTEGER PRIMARY KEY,
+    unit_id  INTEGER PRIMARY KEY,
     description  VARCHAR(512) NOT NULL
 );
 

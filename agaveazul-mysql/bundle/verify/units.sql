@@ -2,7 +2,7 @@
 
 BEGIN;
 
-SELECT id, description
+SELECT unit_id, description
   FROM unit
  WHERE 0;
 
