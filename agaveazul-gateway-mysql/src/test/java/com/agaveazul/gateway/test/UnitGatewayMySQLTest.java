@@ -1,7 +1,7 @@
 package com.agaveazul.gateway.test;
 
 import com.agaveazul.entitiy.Unit;
-import com.agaveazul.gateway.Config;
+import com.agaveazul.gateway.ConfigGateway;
 import com.agaveazul.gateway.UnitGateway;
 import com.agaveazul.gateway.dto.FindUnitCriteria;
 import org.junit.Test;
@@ -14,26 +14,26 @@ import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {Config.class})
+@ContextConfiguration(classes = {ConfigGateway.class})
 public class UnitGatewayMySQLTest {
 
     @Autowired
-    private UnitGateway unitGatewayMySQL;
+    private UnitGateway unitGateway;
 
     @Test
     public void gateway_not_null(){
-        assertEquals(false,unitGatewayMySQL == null);
+        assertEquals(false, unitGateway == null);
     }
 
     @Test
     public void query_can_connect(){
-        List<Unit> units = unitGatewayMySQL.find(new FindUnitCriteria());
+        List<Unit> units = unitGateway.find(new FindUnitCriteria());
         assertEquals(false,units == null);
     }
 
     @Test
     public void query_reading_elements(){
-        List<Unit> units = unitGatewayMySQL.find(new FindUnitCriteria());
+        List<Unit> units = unitGateway.find(new FindUnitCriteria());
         units.stream().forEach(item -> {
             System.out.println(item.getId()+"-"+item.getDescription());
         });

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Properties;
 
-@Repository("unitGatewayMySQL")
+@Repository("unitGateway")
 public class UnitGatewayMySQL implements UnitGateway{
     @Autowired
     private JdbcTemplate jdbcTemplate;

@@ -9,7 +9,7 @@ repositories {
 
 dependencies {
     compile project(':agaveazul-business')
-    compile project(':agaveazul-gateway-stub')
+    compile project(':agaveazul-gateway-mysql')
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {

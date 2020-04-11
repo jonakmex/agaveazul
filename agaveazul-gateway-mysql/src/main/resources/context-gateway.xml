@@ -10,7 +10,7 @@
     <bean id="sqlQueries" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="locations" value="classpath:/sql/unit.sql.xml" />
     </bean>
-    <context:property-placeholder location="classpath:application.properties" />
+    <context:property-placeholder location="classpath:gateway.properties" />
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
