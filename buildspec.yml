@@ -10,7 +10,7 @@ phases:
   build:
     commands:
       - pwd
-      - gradle build
+      - gradle build -x test
   post_build:
     commands:
       - echo Build completed on 'date'

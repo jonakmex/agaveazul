@@ -3,6 +3,7 @@ package com.agaveazul.gateway.test;
 import com.agaveazul.entitiy.Unit;
 import com.agaveazul.gateway.UnitGateway;
 import com.agaveazul.gateway.dto.FindUnitCriteria;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,17 +21,20 @@ public class UnitGatewayMySQLTest {
     private UnitGateway unitGateway;
 
     @Test
+    @Ignore
     public void gateway_not_null(){
         assertEquals(false, unitGateway == null);
     }
 
     @Test
+    @Ignore
     public void query_can_connect(){
         List<Unit> units = unitGateway.find(new FindUnitCriteria());
         assertEquals(false,units == null);
     }
 
     @Test
+    @Ignore
     public void query_reading_elements(){
         List<Unit> units = unitGateway.find(new FindUnitCriteria());
         units.stream().forEach(item -> {
