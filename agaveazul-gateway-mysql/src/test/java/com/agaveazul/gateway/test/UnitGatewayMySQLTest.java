@@ -1,7 +1,6 @@
 package com.agaveazul.gateway.test;
 
 import com.agaveazul.entitiy.Unit;
-import com.agaveazul.gateway.ConfigGateway;
 import com.agaveazul.gateway.UnitGateway;
 import com.agaveazul.gateway.dto.FindUnitCriteria;
 import org.junit.Test;
@@ -38,4 +37,6 @@ public class UnitGatewayMySQLTest {
             System.out.println(item.getId()+"-"+item.getDescription());
         });
     }
+
+
 }
