@@ -2,4 +2,6 @@ rootProject.name = 'agaveazul'
 
 include 'agaveazul-business'
 include 'agaveazul-gateway-stub'
+include 'agaveazul-gateway-mysql'
 include 'agaveazul-rest'
+
