@@ -2,6 +2,6 @@
 
 BEGIN;
 
-CREATE USER restapp;
+CREATE USER 'restapp' IDENTIFIED BY 'password';;
 
 COMMIT;
