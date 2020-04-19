@@ -1,4 +1,4 @@
-package com.agaveazul.boundry.port.callback;
+package com.agaveazul.boundry.callback;
 
 import com.agaveazul.boundry.port.output.OutputPort;
 

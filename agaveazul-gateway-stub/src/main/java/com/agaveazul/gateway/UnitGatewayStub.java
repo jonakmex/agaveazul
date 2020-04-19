@@ -1,7 +1,7 @@
 package com.agaveazul.gateway;
 
 import com.agaveazul.entitiy.Unit;
-import com.agaveazul.entitiy.UnitStatus;
+import com.agaveazul.entitiy.enums.UnitStatus;
 import com.agaveazul.gateway.dto.FindUnitCriteria;
 
 import java.util.ArrayList;
@@ -20,5 +20,20 @@ public class UnitGatewayStub implements UnitGateway {
         }
 
         return units ;
+    }
+
+    @Override
+    public Unit save(Unit object) {
+    return null;
+    }
+
+    @Override
+    public Unit findById(Long id) {
+        return null;
+    }
+
+    @Override
+    public void delete(Long id) {
+
     }
 }

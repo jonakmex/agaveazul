@@ -1,6 +1,6 @@
 package com.agaveazul.gateway.dto;
 
-import com.agaveazul.entitiy.UnitStatus;
+import com.agaveazul.entitiy.enums.UnitStatus;
 import lombok.Data;
 
 @Data

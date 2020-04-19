@@ -1,4 +1,4 @@
-package com.agaveazul.entitiy;
+package com.agaveazul.entitiy.enums;
 
 public enum UnitStatus {
     ACTIVE,

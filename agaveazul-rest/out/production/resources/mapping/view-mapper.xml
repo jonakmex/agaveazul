@@ -4,7 +4,7 @@
           xsi:schemaLocation="http://dozer.sourceforge.net
       http://dozer.sourceforge.net/schema/beanmapping.xsd">
     <mapping>
-        <class-a>com.agaveazul.rest.model.Unit</class-a>
+        <class-a>com.agaveazul.rest.ds.Unit</class-a>
         <class-b>com.agaveazul.entitiy.Unit</class-b>
         <field>
             <a>id</a>

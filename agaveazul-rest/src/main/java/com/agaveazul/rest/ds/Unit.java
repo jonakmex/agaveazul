@@ -1,4 +1,4 @@
-package com.agaveazul.rest.model;
+package com.agaveazul.rest.ds;
 
 import lombok.Data;
 

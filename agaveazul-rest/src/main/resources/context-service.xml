@@ -19,4 +19,8 @@
     <bean id="findUnitsInteractor" class="com.agaveazul.interactor.FindUnitsInteractorImpl" >
         <property name="unitGateway" ref="unitGateway"/>
     </bean>
+
+    <bean id="saveUnitInteractor" class="com.agaveazul.interactor.SaveUnitInteractorImpl" >
+        <property name="unitGateway" ref="unitGateway"/>
+    </bean>
 </beans>

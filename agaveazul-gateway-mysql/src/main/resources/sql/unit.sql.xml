@@ -4,8 +4,31 @@
 <properties>
     <entry key="unit.find">
         <![CDATA[
-            SELECT * FROM unit
+            SELECT id,description FROM unit WHERE 1=1
         ]]>
     </entry>
+    <entry key="unit.find.description">
+        AND description like '%?%';
+    </entry>
 
+    <entry key="unit.findById">
+        <![CDATA[
+            SELECT id,description FROM unit WHERE id = ?
+        ]]>
+    </entry>
+    <entry key="unit.insert">
+        <![CDATA[
+            INSERT INTO unit (description) VALUES (?)
+        ]]>
+    </entry>
+    <entry key="unit.update">
+        <![CDATA[
+            UPDATE unit SET description = ? WHERE id = ?
+        ]]>
+    </entry>
+    <entry key="unit.delete">
+        <![CDATA[
+            DELETE FROM unit WHERE id = ?
+        ]]>
+    </entry>
 </properties>

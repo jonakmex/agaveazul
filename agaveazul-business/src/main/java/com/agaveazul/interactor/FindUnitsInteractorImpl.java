@@ -1,7 +1,7 @@
 package com.agaveazul.interactor;
 
-import com.agaveazul.boundry.FindUnitsInteractor;
-import com.agaveazul.boundry.port.callback.FindUnitsCallback;
+import com.agaveazul.boundry.interactor.FindUnitsInteractor;
+import com.agaveazul.boundry.callback.FindUnitsCallback;
 import com.agaveazul.boundry.port.input.FindUnitsInputPort;
 import com.agaveazul.boundry.port.output.FindUnitsOutputPort;
 import com.agaveazul.gateway.UnitGateway;

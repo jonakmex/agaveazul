@@ -1,5 +1,6 @@
 package com.agaveazul.entitiy;
 
+import com.agaveazul.entitiy.enums.UnitStatus;
 import lombok.Data;
 
 @Data
