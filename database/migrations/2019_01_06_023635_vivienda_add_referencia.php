@@ -25,6 +25,8 @@ class ViviendaAddReferencia extends Migration
      */
     public function down()
     {
-        $table->dropColumn('referencia');
+        Schema::table('vivienda',function(Blueprint $table){
+          $table->dropColumn('referencia');
+        });
     }
 }

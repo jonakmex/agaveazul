@@ -14,7 +14,7 @@ class TokenRemoveResidente extends Migration
     public function up()
     {
         Schema::table('registerTokens',function(Blueprint $table){
-            $table->dropForeign('registerTokens_residentes_id_foreign');
+            $table->dropForeign('registerTokens_residente_id_foreign');
               $table->dropColumn('residente_id');
         });
     }

@@ -24,7 +24,10 @@ class ReciboAddTipoPago extends Migration
      * @return void
      */
     public function down()
-    {
+    { 
+      Schema::table('recibos',function(Blueprint $table){
         $table->dropColumn('tipo_pago');
+      });
+        
     }
 }

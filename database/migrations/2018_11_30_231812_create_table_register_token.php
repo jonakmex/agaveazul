@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTableRegiterToken extends Migration
+class CreateTableRegisterToken extends Migration
 {
     /**
      * Run the migrations.
@@ -34,8 +34,8 @@ class CreateTableRegiterToken extends Migration
     public function down()
     {
       Schema::table('registerTokens',function(Blueprint $table){
-           $table->dropForeign('registerTokens_profile_id_foreign');
-           $table->dropForeign('registerTokens_residente_id_foreign');
+           //$table->dropForeign('registerTokens_profile_id_foreign');
+           $table->dropForeign('registerTokens_residentes_id_foreign');
       });
 
       Schema::dropIfExists('registerTokens');
