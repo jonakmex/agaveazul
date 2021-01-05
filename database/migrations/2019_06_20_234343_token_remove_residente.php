@@ -15,7 +15,7 @@ class TokenRemoveResidente extends Migration
     {
         Schema::table('registerTokens',function(Blueprint $table){
             $table->dropForeign('registerTokens_residente_id_foreign');
-              $table->dropColumn('residente_id');
+            $table->dropColumn('residente_id');
         });
     }
 
@@ -28,7 +28,7 @@ class TokenRemoveResidente extends Migration
     {
         Schema::table('registerTokens', function (Blueprint $table) {
             $table->integer('residente_id')->unsigned()->nullable();
-            $table->foreign('id')->references('id')->on('residentes')->onDelete('cascade');
+            $table->foreign('residente_id')->references('id')->on('residentes')->onDelete('cascade');
           });
     }
 }

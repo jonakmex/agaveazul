@@ -14,8 +14,8 @@ class ResidenteAddToken extends Migration
     public function up()
     {
         Schema::table('residentes', function (Blueprint $table) {
-            $table->integer('register_token_id')->unsigned()->nullable();
-            $table->foreign('id')->references('register_token_id')->on('registerToken')->onDelete('cascade');
+            $table->unsignedBigInteger('register_token_id');
+            $table->foreign('register_token_id')->references('id')->on('registerTokens');
         });
     }
 
@@ -27,8 +27,8 @@ class ResidenteAddToken extends Migration
     public function down()
     {
         Schema::table('residentes',function(Blueprint $table){
-            $table->dropForeign('residentes_registerToken_id_foreign');
-              $table->dropColumn('register_token_id');
+            $table->dropForeign('residentes_register_token_id_foreign');
+            $table->dropColumn('register_token_id');
         });
     }
 }
