@@ -9,8 +9,9 @@ use App\Cuenta;
 use App\Cuota;
 use App\Service\ViviendaService;
 use App\Service\Mapper\ViviendaMapper;
-use App\Exception\BusinessException;
 use Illuminate\Support\Facades\Auth;
+use App\Factories\RequestFactory;
+use App\Factories\InteractorFactory;
 
 class ViviendaController extends Controller
 {
@@ -62,20 +63,17 @@ class ViviendaController extends Controller
           'clave' => 'required|min:1|max:10',
           'referencia' => 'required|min:1|max:30'
       ]);
-      //Process de data and submit it
-      $vivienda = Vivienda::find($request->id);
-      if($vivienda === null){
-          $vivienda = new Vivienda();
+      
+      if($request->id == null){
+        $interactor = InteractorFactory::make('Vivienda\CrearViviendaInteractor');
+        $response = $interactor->execute(RequestFactory::make('Vivienda\CrearViviendaRequest',$request->all()));
       }
-      ViviendaMapper::map($vivienda,$request);
-
-      try{
-        ViviendaService::save($vivienda);
-        return redirect()->route('vivienda.index');
+      else{
+        $interactor = InteractorFactory::make('Vivienda\ActualizarViviendaInteractor');
+        $response = $interactor->execute(RequestFactory::make('Vivienda\ActualizarViviendaRequest',$request->all()));
       }
-      catch(BusinessException $e){
-        return redirect()->route('vivienda.create');
-      }
+      
+      return redirect()->route('vivienda.index');
 
     }
 
