@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Interactors\Ports\Output;
+namespace App\Interactors\Ports;
 
 class Output
 {
-    
+    public $success;
+    public $errors;
 }

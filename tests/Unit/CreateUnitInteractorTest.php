@@ -8,6 +8,7 @@ use App\Interactors\Ports\InputFactory;
 
 use function PHPUnit\Framework\assertEmpty;
 use function PHPUnit\Framework\assertEquals;
+use function PHPUnit\Framework\assertNotNull;
 use function PHPUnit\Framework\assertTrue;
 use function PHPUnit\Framework\isEmpty;
 
@@ -48,7 +49,7 @@ class CreateUnitInteractorTest extends TestCase
         ];
         $input = InputFactory::make('Unit\CreateUnitInputPort',$params);
         $errors = $input->validate();
-        assertTrue(count($errors) == 0);
+        assertTrue(empty($errors));
     }
 
     public function test_invalid_description_min_for_creation()
@@ -97,5 +98,18 @@ class CreateUnitInteractorTest extends TestCase
         $errors = $input->validate();
         assertTrue(array_key_exists('reference',$errors));
         assertEquals('MSG_ERR_MAX',$errors['reference']["message"]);
+    }
+
+    public function test_unit_creation_success()
+    {
+        $params = [
+            "description" => "Casa 10",
+            "reference" => "5108",
+        ];
+        $input = InputFactory::make('Unit\CreateUnitInputPort',$params);
+        $interactor = InteractorFactory::make('Unit\CreateUnitInteractor');
+        $output = $interactor->execute($input);
+        assertTrue($output->success);
+        assertNotNull($output->unit->id);
     }
 }
