@@ -12,9 +12,6 @@ class Validator
             $message = array("message"=>"MSG_ERR_MIN","value"=>$value,"expected.min"=>$min,"expected.max"=>$max);
         else if(strlen($value) > $max)
             $message = array("message"=>"MSG_ERR_MAX","value"=>$value,"expected.min"=>$max,"expected.max"=>$max);
-
-        \
-        Log::debug($message);
         
         return $message;
     }
