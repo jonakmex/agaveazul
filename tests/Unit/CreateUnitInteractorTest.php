@@ -8,6 +8,7 @@ use App\Interactors\Ports\InputFactory;
 
 use function PHPUnit\Framework\assertEmpty;
 use function PHPUnit\Framework\assertEquals;
+use function PHPUnit\Framework\assertFalse;
 use function PHPUnit\Framework\assertNotNull;
 use function PHPUnit\Framework\assertTrue;
 use function PHPUnit\Framework\isEmpty;
@@ -111,5 +112,25 @@ class CreateUnitInteractorTest extends TestCase
         $output = $interactor->execute($input);
         assertTrue($output->success);
         assertNotNull($output->unit->id);
+        \Log::info($output->unit->id.' Created!');
+        \Log::info('Balance'.$output->unit->balance);
+    }
+
+    public function test_unit_creation_description_fail()
+    {
+        $params = [
+            "description" => "",
+            "reference" => "5108",
+        ];
+        $input = InputFactory::make('Unit\CreateUnitInputPort',$params);
+        $interactor = InteractorFactory::make('Unit\CreateUnitInteractor');
+        $output = $interactor->execute($input);
+        assertFalse($output->success);
+        foreach($output->errors as $key => $error)
+        {
+            \Log::debug($key."::".$error['message']);
+            
+        }
+        
     }
 }

@@ -17,6 +17,7 @@ class CreateUnitInteractor implements Interactor
         if(empty($errors)){
             $unit = $this->mapInputToUnit($input);
             $unit->save(); 
+            $unit = $unit->refresh();
             $output->success = true;
             $output->unit = $this->mapUnitToUnitCreated($unit);
         }
@@ -27,7 +28,7 @@ class CreateUnitInteractor implements Interactor
         return $output;
     }
 
-    public function mapUnitToUnitCreated(Unit $unit){
+    private function mapUnitToUnitCreated(Unit $unit){
         $unitCreated = new UnitCreated;
         $unitCreated->id = $unit->id;
         $unitCreated->description = $unit->description;
@@ -37,7 +38,7 @@ class CreateUnitInteractor implements Interactor
         return $unitCreated;
     }
 
-    public function mapInputToUnit($input){
+    private function mapInputToUnit(input $input){
         $unit = new Unit;
         $unit->description = $input->description;
         $unit->reference = $input->reference;
