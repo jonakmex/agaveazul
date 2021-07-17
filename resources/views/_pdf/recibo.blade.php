@@ -39,7 +39,7 @@
   </style>
 </head>
 <body>
-  {{date_default_timezone_set('America/Mexico_City')}}
+  {{date_default_timezone_set('America/Mexico_City') ? "":""}}  
 <table border="1">
   <tr>
     <td rowspan="3" colspan="3"><img height="100" src="{{public_path('img/recibo/header.png')}}" /></td>
@@ -101,15 +101,17 @@
     <td colspan="6"><span class="title">CONCEPTO</span></td>
   </tr>
   <tr>
-    <td colspan="3">25600009260</td>
-    <td colspan="3">María de los Angeles Maya Pérez</td>
-    <td colspan="4">Adriana Villalobos Alvarez</td>
+    <td colspan="3"><p>CTA: 25600009260
+      <p>CLABE: 044685256000092609
+    </td>
+    <td colspan="3">Guillermo Rivera González</td>
+    <td colspan="4">José Alvarado Pérez</td>
     <td rowspan="2" colspan="2">{{$recibo->folio()}}</td>
   </tr>
   <tr>
     <td colspan="3">Scotiabank</td>
     <td colspan="3"><span class="title">Representante de A.C.</span></td>
-    <td colspan="4"><span class="title">Tesorera</span></td>
+    <td colspan="4"><span class="title">Tesorero</span></td>
   </tr>
   <tr>
     <td colspan="3"><span class="title">CUENTA RECEPTORA</span></td>

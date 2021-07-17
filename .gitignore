@@ -1,8 +1,8 @@
 /node_modules
-/public/hot
+/public/error_log
 /public/storage
 /storage/*.key
-/vendor
+/vendor/*
 /.idea
 /.vscode
 /.vagrant
@@ -11,3 +11,4 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 .env
+composer.lock
