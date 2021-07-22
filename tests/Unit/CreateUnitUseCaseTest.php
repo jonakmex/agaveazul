@@ -4,8 +4,9 @@ namespace Tests\Unit;
 
 use App\Factory\InputPortFactory;
 use App\Factory\InteractorFactory;
+use Illuminate\Support\Facades\Log;
 
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 
 class CreateUnitUseCaseTest extends TestCase
@@ -40,6 +41,17 @@ class CreateUnitUseCaseTest extends TestCase
 
     public function test_create_interactor(){
         $interactor = InteractorFactory::make("App\Interactor\Unit\CreateUnitInteractor");
+        $this->assertNotNull($interactor);
+    }
+
+    public function test_execute_interactor(){
+        $interactor = InteractorFactory::make("App\Interactor\Unit\CreateUnitInteractor");
+        $inputPort = InputPortFactory::make("App\Boundary\Input\CreateUnitInputPort",["description"=>"Hello World"]);
+        
+        $interactor->execute($inputPort,function($output) {
+            //Log::debug('Callback');
+        });
+
         $this->assertNotNull($interactor);
     }
 }
