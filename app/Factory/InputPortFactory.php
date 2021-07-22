@@ -1,17 +1,20 @@
 <?php
 namespace App\Factory;
 
-use App\Boundary\Input\CreateUnitInputPort;
 
 class InputPortFactory {
-    public static function make(string $inputPortName,$params){
-        if("CreateUnitInputPort" === $inputPortName)
-            return InputPortFactory::makeCreateUnitInputPort($params);
+    public static function make(string $inputPortName,$params = null){
+        $inputPort = new $inputPortName;
+        if($params != null)
+            InputPortFactory::mapArrayToObject($inputPort,$params);
+
+        return $inputPort;
     }
 
-    private static function makeCreateUnitInputPort($params){
-        $inputPort = new CreateUnitInputPort;
-        $inputPort->description = $params["description"];
-        return $inputPort;
+
+    private static function mapArrayToObject($object,$params){
+        foreach($params as $key => $value){
+            $object->{$key} = $value;
+        }
     }
 }

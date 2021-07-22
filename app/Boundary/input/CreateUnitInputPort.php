@@ -1,7 +1,7 @@
 <?php
 namespace App\Boundary\Input;
 
-use App\Boundary\Input\InputPort;
+use App\Boundary\InputPort;
 
 class CreateUnitInputPort extends InputPort {
     public $description;
