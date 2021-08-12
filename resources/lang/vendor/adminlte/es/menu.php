@@ -16,4 +16,13 @@ return [
     'important'                     => 'Importante',
     'warning'                       => 'Advertencia',
     'information'                   => 'Información',
+    'directory'                     => 'DIRECTORIO',
+    'finances'                      => 'FINANZAS',
+    'notifications'                 => 'COMUNICACION',
+    'units'                         => 'Unidades',
+    'residents'                     => 'Residentes',
+    'accounts'                      => 'Cuentas',
+    'payments'                      => 'Cuotas',
+    'notify'                        => 'Comunicados',
+    'documents'                     => 'Documentos',
 ];

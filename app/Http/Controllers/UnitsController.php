@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class TestController extends Controller
+class UnitsController extends Controller
 {
     function index(){
-        return view('test');
+        return view('profiles.admin.units.index');
     }
 }
