@@ -48,10 +48,8 @@ class CreateUnitUseCaseTest extends TestCase
         $interactor = InteractorFactory::make("App\Interactor\Unit\CreateUnitInteractor");
         $inputPort = InputPortFactory::make("App\Boundary\Input\CreateUnitInputPort",["description"=>"Hello World"]);
         
-        $interactor->execute($inputPort,function($output) {
-            //Log::debug('Callback');
-        });
+        $output = $interactor->execute($inputPort);
 
-        $this->assertNotNull($interactor);
+        $this->assertNotNull($output);
     }
 }
