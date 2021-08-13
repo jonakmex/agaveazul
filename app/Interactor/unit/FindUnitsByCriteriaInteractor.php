@@ -8,7 +8,7 @@ use App\Boundary\OutputPort;
 use Illuminate\Support\Facades\Log;
 use App\Factory\OutputPortFactory;
 use App\Models\Unit;
-use App\Boundary\Output\FindUnitsByCriteriaOutputPort;
+use App\Boundary\Output\Unit\FindUnitsByCriteriaOutputPort;
 
 class FindUnitsByCriteriaInteractor extends Interactor {
     public function execute(InputPort $inputPort){

@@ -8,7 +8,7 @@ class FindUnitsByCriteriaUseCaseTest extends TestCase{
 
     public function test_create_input_port()
     {
-        $inputPort = InputPortFactory::make("App\Boundary\Input\FindUnitsByCriteriaInputPort",["description"=>"Hello World"]);
+        $inputPort = InputPortFactory::make("App\Boundary\Input\Unit\FindUnitsByCriteriaInputPort",["description"=>"Hello World"]);
         $this->assertEquals("Hello World",$inputPort->description);
     }
 
@@ -19,7 +19,7 @@ class FindUnitsByCriteriaUseCaseTest extends TestCase{
 
     public function test_execute_interactor(){
         $interactor = InteractorFactory::make("App\Interactor\Unit\FindUnitsByCriteriaInteractor");
-        $inputPort = InputPortFactory::make("App\Boundary\Input\FindUnitsByCriteriaInputPort",["description"=>"Hello World"]);
+        $inputPort = InputPortFactory::make("App\Boundary\Input\Unit\FindUnitsByCriteriaInputPort",["description"=>"Hello World"]);
         
         $output = $interactor->execute($inputPort);
         $this->assertTrue($output->success);

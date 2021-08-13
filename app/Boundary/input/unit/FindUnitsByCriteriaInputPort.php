@@ -1,5 +1,5 @@
 <?php
-namespace App\Boundary\Input;
+namespace App\Boundary\Input\Unit;
 use App\Boundary\InputPort;
 
 class FindUnitsByCriteriaInputPort extends InputPort {

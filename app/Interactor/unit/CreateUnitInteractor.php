@@ -7,7 +7,7 @@ use App\Boundary\OutputPort;
 use Illuminate\Support\Facades\Log;
 use App\Models\Unit;
 use App\Factory\OutputPortFactory;
-use App\Boundary\Output\CreateUnitOutputPort;
+use App\Boundary\Output\Unit\CreateUnitOutputPort;
 
 
 class CreateUnitInteractor extends Interactor {

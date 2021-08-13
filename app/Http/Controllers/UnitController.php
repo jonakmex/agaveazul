@@ -17,7 +17,7 @@ class UnitController extends Controller
     public function index()
     {
         $interactor = InteractorFactory::make("App\Interactor\Unit\FindUnitsByCriteriaInteractor");
-        $inputPort = InputPortFactory::make("App\Boundary\Input\FindUnitsByCriteriaInputPort");
+        $inputPort = InputPortFactory::make("App\Boundary\Input\Unit\FindUnitsByCriteriaInputPort");
         $output = $interactor->execute($inputPort);
         return view('profiles.admin.units.index',["units"=>$output->units]);  
     }
@@ -45,7 +45,7 @@ class UnitController extends Controller
         ]);
 
         $interactor = InteractorFactory::make("App\Interactor\Unit\CreateUnitInteractor");
-        $inputPort = InputPortFactory::make("App\Boundary\Input\CreateUnitInputPort",["description"=>$request["description"]]);
+        $inputPort = InputPortFactory::make("App\Boundary\Input\Unit\CreateUnitInputPort",["description"=>$request["description"]]);
         
         $output = $interactor->execute($inputPort);
         return redirect()->route('units.index');
@@ -94,7 +94,7 @@ class UnitController extends Controller
     public function destroy(Unit $unit)
     {
         $interactor = InteractorFactory::make("App\Interactor\Unit\DeleteUnitInteractor");
-        $inputPort = InputPortFactory::make("App\Boundary\Input\DeleteUnitInputPort",["id"=>$unit->id]);
+        $inputPort = InputPortFactory::make("App\Boundary\Input\Unit\DeleteUnitInputPort",["id"=>$unit->id]);
         $output = $interactor->execute($inputPort);
         return redirect()->route('units.index'); 
     }

@@ -14,27 +14,27 @@ class CreateUnitUseCaseTest extends TestCase
 
     public function test_create_input_port()
     {
-        $inputPort = InputPortFactory::make("App\Boundary\Input\CreateUnitInputPort",["description"=>"Hello World"]);
+        $inputPort = InputPortFactory::make("App\Boundary\Input\Unit\CreateUnitInputPort",["description"=>"Hello World"]);
         $this->assertEquals("Hello World",$inputPort->description);
     }
 
     public function test_validate_input_port_invalid_input() 
     {
-        $inputPort = InputPortFactory::make("App\Boundary\Input\CreateUnitInputPort",["description"=>""]);
+        $inputPort = InputPortFactory::make("App\Boundary\Input\Unit\CreateUnitInputPort",["description"=>""]);
         $errors = $inputPort->validate();
         $this->assertNotEmpty($errors);
     }
 
     public function test_validate_input_port_null_input() 
     {
-        $inputPort = InputPortFactory::make("App\Boundary\Input\CreateUnitInputPort");
+        $inputPort = InputPortFactory::make("App\Boundary\Input\Unit\CreateUnitInputPort");
         $errors = $inputPort->validate();
         $this->assertNotEmpty($errors);
     }
 
     public function test_validate_input_port_null_value() 
     {
-        $inputPort = InputPortFactory::make("App\Boundary\Input\CreateUnitInputPort",["fake"=>""]);
+        $inputPort = InputPortFactory::make("App\Boundary\Input\Unit\CreateUnitInputPort",["fake"=>""]);
         $errors = $inputPort->validate();
         $this->assertNotEmpty($errors);
     }
@@ -46,7 +46,7 @@ class CreateUnitUseCaseTest extends TestCase
 
     public function test_execute_interactor(){
         $interactor = InteractorFactory::make("App\Interactor\Unit\CreateUnitInteractor");
-        $inputPort = InputPortFactory::make("App\Boundary\Input\CreateUnitInputPort",["description"=>"Hello World"]);
+        $inputPort = InputPortFactory::make("App\Boundary\Input\Unit\CreateUnitInputPort",["description"=>"Hello World"]);
         
         $output = $interactor->execute($inputPort);
 

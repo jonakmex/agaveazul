@@ -1,5 +1,5 @@
 <?php
-namespace App\Boundary\Output;
+namespace App\Boundary\Output\Unit;
 
 use App\Boundary\OutputPort;
 

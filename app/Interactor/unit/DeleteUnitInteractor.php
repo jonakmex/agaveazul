@@ -5,7 +5,7 @@ use App\Interactor\Interactor;
 use App\Boundary\InputPort;
 use App\Models\Unit;
 use App\Factory\OutputPortFactory;
-use App\Boundary\Output\DeleteUnitOutputPort;
+use App\Boundary\Output\Unit\DeleteUnitOutputPort;
 
 
 class DeleteUnitInteractor extends Interactor {
