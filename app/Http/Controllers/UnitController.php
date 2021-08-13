@@ -93,6 +93,9 @@ class UnitController extends Controller
      */
     public function destroy(Unit $unit)
     {
-        //
+        $interactor = InteractorFactory::make("App\Interactor\Unit\DeleteUnitInteractor");
+        $inputPort = InputPortFactory::make("App\Boundary\Input\DeleteUnitInputPort",["id"=>$unit->id]);
+        $output = $interactor->execute($inputPort);
+        return redirect()->route('units.index'); 
     }
 }

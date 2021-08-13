@@ -3,7 +3,7 @@
 @section('title', 'units')
 
 @section('content_header')
-    <h1>Units</h1>
+    <h1>{!! trans('agave.units.create.header') !!}</h1>
 @stop
 
 @section('content')
@@ -17,16 +17,22 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <td>Description</td>
-                        <td colspan="2">Actions</td>
+                        <th>Description</td>
+                        <th colspan="2">Acciones</td>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($units as $unit)
                         <tr>
                             <td>{{ $unit->description }}</td>
-                            <td> <a class="btn btn-primary btn-sm" href="">Editar</a></td>
-                            <td> <a class="btn btn-danger btn-sm" href="">Delete</a></td>
+                            <td width="10px"> <a class="btn btn-primary btn-sm" href="">Editar</a></td>
+                            <td width="10px"> 
+                                <form action="{{route('units.destroy',$unit->id)}}" method="POST" >
+                                    @csrf
+                                    @method('delete')
+                                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                </form>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
