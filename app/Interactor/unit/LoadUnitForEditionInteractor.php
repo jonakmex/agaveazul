@@ -7,26 +7,27 @@ use App\Boundary\OutputPort;
 use Illuminate\Support\Facades\Log;
 use App\Models\Unit;
 use App\Factory\OutputPortFactory;
-use App\Boundary\Output\Unit\CreateUnitOutputPort;
+use App\Boundary\Output\Unit\LoadUnitForEditionOutputPort;
+use App\Boundary\DS\UnitDS;
 
 
-class CreateUnitInteractor extends Interactor {
+class LoadUnitForEditionInteractor extends Interactor {
     public function execute(InputPort $inputPort){
-        Log::debug($inputPort->description);
+        
         $errors = $inputPort->validate();
         if(!empty($errors))
             return OutputPortFactory::makeFailResponse($errors);
 
-        $unit = new Unit;
-        $unit->description = $inputPort->description;
-        $unit->save();
+        $unit = Unit::find($inputPort->id);
+        
         return $this->makeSuccessResponse($unit);
     }
 
     private function makeSuccessResponse($unit){
-        $output = new CreateUnitOutputPort();
+        $output = new LoadUnitForEditionOutputPort();
         $output->success = true;
-        $output->unit = $unit;
+        if($unit != null)
+            $output->unit = $unit;
         return $output;
     }
 }

@@ -21,10 +21,7 @@ class UnitController extends Controller
         $inputPort = InputPortFactory::make("App\Boundary\Input\Unit\FindUnitsByCriteriaInputPort");
         $output = $interactor->execute($inputPort);
         if($output->success)
-            return view('profiles.admin.units.index',["data"=>UnitPresenter::createSuccessIndex($output)]);  
-        else
-            return view('profiles.admin.units.index',["data"=>UnitPresenter::createFailIndex($output)]);  
-        
+            return view('profiles.admin.units.index',["units"=>$output->units]);  
     }
 
     /**
@@ -52,7 +49,7 @@ class UnitController extends Controller
         $interactor = InteractorFactory::make("App\Interactor\Unit\CreateUnitInteractor");
         $inputPort = InputPortFactory::make("App\Boundary\Input\Unit\CreateUnitInputPort",["description"=>$request["description"]]);
         $output = $interactor->execute($inputPort); 
-        return redirect()->route('units.index'); 
+        return redirect()->route('units.edit',$output->unit); 
     }
 
     /**
@@ -73,8 +70,8 @@ class UnitController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Unit $unit)
-    {
-        //
+    {   
+        return view('profiles.admin.units.edit',["unit"=>$unit]);   
     }
 
     /**
@@ -86,7 +83,14 @@ class UnitController extends Controller
      */
     public function update(Request $request, Unit $unit)
     {
-        //
+        $request->validate([
+            'description'=>'required'
+        ]);
+
+        $interactor = InteractorFactory::make("App\Interactor\Unit\EditUnitInteractor");
+        $inputPort = InputPortFactory::make("App\Boundary\Input\Unit\EditUnitInputPort",["id"=>$unit->id,"description"=>$request["description"]]);
+        $output = $interactor->execute($inputPort); 
+        return redirect()->route('units.edit',$unit);
     }
 
     /**

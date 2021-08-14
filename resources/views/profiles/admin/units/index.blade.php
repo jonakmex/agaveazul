@@ -13,33 +13,29 @@
             <a class="btn btn-primary btn-sm" href="{{route('units.create')}}">{!! trans('agave.actions.new') !!}</a>
         </div>
         <div class="card-body">
-            @if($data->success)
-                <table class="table table-striped">
-                    <thead>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>{!! trans('agave.units.index.table.description') !!}</td>
+                        <th colspan="2">{!! trans('agave.actions.actions') !!}</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($units as $unit)
                         <tr>
-                            <th>{!! trans('agave.units.index.table.description') !!}</td>
-                            <th colspan="2">{!! trans('agave.actions.actions') !!}</td>
+                            <td>{{ $unit->description }}</td>
+                            <td width="10px"> <a class="btn btn-primary btn-sm " href="{{ route('units.edit', $unit) }}">{!! trans('agave.actions.edit') !!}</a></td>
+                            <td width="10px"> 
+                                <form class="form-prevent-multiple-submits" action="{{route('units.destroy',$unit->id)}}" method="POST" >
+                                    @csrf
+                                    @method('delete')
+                                    <button type="submit" class="btn btn-danger btn-sm btn-prevent-multiple-submits">{!! trans('agave.actions.delete') !!}</button>
+                                </form>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($data->units as $unit)
-                            <tr>
-                                <td>{{ $unit->description }}</td>
-                                <td width="10px"> <a class="btn btn-primary btn-sm " href="">{!! trans('agave.actions.edit') !!}</a></td>
-                                <td width="10px"> 
-                                    <form class="form-prevent-multiple-submits" action="{{route('units.destroy',$unit->id)}}" method="POST" >
-                                        @csrf
-                                        @method('delete')
-                                        <button type="submit" class="btn btn-danger btn-sm btn-prevent-multiple-submits">{!! trans('agave.actions.delete') !!}</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            @else
-                
-            @endif
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
 @stop

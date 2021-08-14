@@ -1,28 +1,31 @@
 <?php
 namespace App\Interactor\Unit;
 
-use App\Boundary\DS\UnitDS;
 use App\Interactor\Interactor;
 use App\Boundary\InputPort;
 use App\Boundary\OutputPort;
 use Illuminate\Support\Facades\Log;
-use App\Factory\OutputPortFactory;
 use App\Models\Unit;
-use App\Boundary\Output\Unit\FindUnitsByCriteriaOutputPort;
+use App\Factory\OutputPortFactory;
+use App\Boundary\Output\Unit\EditUnitOutputPort;
 
-class FindUnitsByCriteriaInteractor extends Interactor {
+
+class EditUnitInteractor extends Interactor {
     public function execute(InputPort $inputPort){
         $errors = $inputPort->validate();
         if(!empty($errors))
             return OutputPortFactory::makeFailResponse($errors);
-  
-        return $this->makeSuccessResponse(Unit::all());
+
+        $unit = Unit::find($inputPort->id);
+        $unit->description = $inputPort->description;
+        $unit->save();
+        return $this->makeSuccessResponse($unit);
     }
 
-    private function makeSuccessResponse($units){
-        $output = new FindUnitsByCriteriaOutputPort();
+    private function makeSuccessResponse($unit){
+        $output = new EditUnitOutputPort;
         $output->success = true;
-        $output->units = $units;
+        $output->unit = $unit;
         return $output;
     }
 }

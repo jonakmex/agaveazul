@@ -3,6 +3,7 @@ namespace App\Http\Presenter\Unit;
 
 use App\Http\ViewModel\Unit\UnitVM;
 use App\Http\ViewModel\Unit\Index;
+use App\Http\ViewModel\Unit\Edit;
 
 class UnitPresenter {
 
@@ -11,6 +12,13 @@ class UnitPresenter {
         $index->success = true;
         $index->units = UnitPresenter::mapToUnitsVm($output->units);
         return $index;
+    }
+
+    public static function createSuccessEdit($output){
+        $edit = new Edit;
+        $edit->success = true;
+        $edit->unitVm = UnitPresenter::mapToUnitVm($output->unitDS);
+        return $edit;
     }
 
     public static function createFailIndex($output){
