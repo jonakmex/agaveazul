@@ -6,6 +6,7 @@ use App\Models\Unit;
 use Illuminate\Http\Request;
 use App\Factory\InputPortFactory;
 use App\Factory\InteractorFactory;
+use App\Http\Presenter\Unit\UnitPresenter;
 
 class UnitController extends Controller
 {
@@ -19,7 +20,11 @@ class UnitController extends Controller
         $interactor = InteractorFactory::make("App\Interactor\Unit\FindUnitsByCriteriaInteractor");
         $inputPort = InputPortFactory::make("App\Boundary\Input\Unit\FindUnitsByCriteriaInputPort");
         $output = $interactor->execute($inputPort);
-        return view('profiles.admin.units.index',["units"=>$output->units]);  
+        if($output->success)
+            return view('profiles.admin.units.index',["data"=>UnitPresenter::createSuccessIndex($output)]);  
+        else
+            return view('profiles.admin.units.index',["data"=>UnitPresenter::createFailIndex($output)]);  
+        
     }
 
     /**
@@ -46,9 +51,8 @@ class UnitController extends Controller
 
         $interactor = InteractorFactory::make("App\Interactor\Unit\CreateUnitInteractor");
         $inputPort = InputPortFactory::make("App\Boundary\Input\Unit\CreateUnitInputPort",["description"=>$request["description"]]);
-        
-        $output = $interactor->execute($inputPort);
-        return redirect()->route('units.index');
+        $output = $interactor->execute($inputPort); 
+        return redirect()->route('units.index'); 
     }
 
     /**
