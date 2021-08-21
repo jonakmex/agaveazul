@@ -28,7 +28,7 @@
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
     <script src="{{asset('js/popper.min.js')}}"></script>
     <script src="{{asset('bootstrap/js/bootstrap.min.js')}}"></script>
-    <script src="https://unpkg.com/ionicons@4.4.4/dist/ionicons.js"></script>
+    <script src="https://unpkg.com/ionicons@5.5.2/dist/ionicons.js"></script>
     
     @yield('scripts')
   </body>

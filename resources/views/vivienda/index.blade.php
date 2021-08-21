@@ -85,7 +85,7 @@
 <!-- DataTables -->
 <script src="{{asset('dashboard/plugins/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('dashboard/plugins/datatables/dataTables.bootstrap.min.js')}}"></script>
-<script src="https://unpkg.com/ionicons@4.4.4/dist/ionicons.js"></script>
+<script src="https://unpkg.com/ionicons@5.5.2/dist/ionicons.js"></script>
 <script src="{{asset('dashboard/js/app.min.js')}}"></script>
 <script src="{{asset('js/vivienda/index.js')}}"></script>
 @endsection
