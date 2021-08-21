@@ -62,7 +62,7 @@ class CuentamovimientoController extends Controller
             'ingresoImporte' => 'required|numeric',
             'fecIngreso' => 'required|date',
             'timeIngreso' => 'required',
-            'compIngreso' => 'required|mimes:jpeg,bmp,png,gif,svg,pdf',
+            'compIngreso' => 'required|mimes:jpeg,bmp,png,gif,svg,pdf,zip',
         ]);
         //Process de data and submit it
         $hrMov = DateTime::createFromFormat( 'Y-m-d H:i A', $request->fecIngreso.' '.$request->timeIngreso);
@@ -93,7 +93,7 @@ class CuentamovimientoController extends Controller
             'egresoImporte' => 'required|numeric',
             'fecEgreso' => 'required|date',
             'timeEgreso' => 'required',
-            'compEgreso' => 'required|mimes:jpeg,bmp,png,gif,svg,pdf',
+            'compEgreso' => 'required|mimes:jpeg,bmp,png,gif,svg,pdf,zip',
         ]);
 
         $hrMov = DateTime::createFromFormat( 'Y-m-d H:i A', $request->fecEgreso.' '.$request->timeEgreso);
