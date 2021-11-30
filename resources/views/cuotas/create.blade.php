@@ -106,6 +106,15 @@
                   <span class="help-block">{{ $errors->first('nPeriodos') }}</span>
                 @endif
               </div>
+              
+              <div id="dvPeriodoGracia" class="form-group">
+                <label>Dias de Gracia</label>
+                <input id="periodoGracia" name="periodoGracia" value="{{old('periodoGracia')}}" type="text" class="form-control">
+                @if ($errors->has('periodoGracia'))
+                  <span class="help-block">{{ $errors->first('periodoGracia') }}</span>
+                @endif
+              </div>
+              
             </div>
 
             <div class="col-md-6">

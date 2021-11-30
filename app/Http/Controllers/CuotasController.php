@@ -78,7 +78,7 @@ class CuotasController extends Controller
       $cuota->clave = $request->clave;
       $cuota->importe = preg_replace('/[\$,]/', '', $request->importe);
       $cuota->fecPago = date( "Y-m-d", strtotime( $request->fecPago ) );
-      $cuota->periodoGracia = 0;
+      $cuota->periodoGracia = $request->periodoGracia;
       if($request->chkRpt === "on")
       {
         $cuota->periodicidad = $request->periodicidad;
@@ -181,7 +181,7 @@ class CuotasController extends Controller
         $cuota->descripcion = $request->descripcion;
         $cuota->importe = preg_replace('/[\$,]/', '', $request->importe);
         $cuota->fecPago = date( "Y-m-d", strtotime( $request->fecPago ) );
-        $cuota->periodoGracia = 0;
+        $cuota->periodoGracia = $request->periodoGracia;
         if($request->chkRpt === "on")
         {
           $cuota->periodicidad = $request->periodicidad;

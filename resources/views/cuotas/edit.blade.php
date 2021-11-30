@@ -81,6 +81,12 @@
                     <label>Repeticiones</label>
                     <input id="nPeriodos" name="nPeriodos"  value="{{$cuota->nPeriodos}}" type="text" class="form-control">
                   </div>
+
+                  <div id="dvPeriodoGracia" class="form-group">
+                    <label>Dias de Gracia</label>
+                    <input id="periodoGracia" name="periodoGracia"  value="{{$cuota->periodoGracia}}" type="text" class="form-control">
+                  </div>
+
                 </div>
                 <div class="col-md-6">
                   <table class="table table-bordered table-hover">
