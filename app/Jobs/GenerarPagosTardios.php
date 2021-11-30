@@ -51,21 +51,22 @@ class GenerarPagosTardios implements ShouldQueue
       $today = Carbon::today();
       $cuotasVigentes = Cuota::where('estado',1)->whereDate('fecPago','<=',Carbon::today()->toDateString())->get();
       foreach($cuotasVigentes as $cuota){
-        info($cuota->descripcion.' Periodo Gracia:'.$cuota->periodoGracia);
         $numeroViviendas = $cuota->viviendas()->count();
         $headers = $cuota->recibosHeader()->get();
         foreach($headers as $reciboHeader){
           $fechaLimite = Carbon::parse($reciboHeader->fecVence)->addDays($cuota->periodoGracia);
           $recibosNoPagados = $reciboHeader->recibos()->where('estado','=',1)->get();
-          if($numeroViviendas > $recibosNoPagados->count() && $fechaLimite->lt($today)){
+          if($numeroViviendas > $recibosNoPagados->count() && $fechaLimite->lt($today))
             foreach($recibosNoPagados as $reciboNoPagado){
-              if ($cuota->periodoGracia > 0 && $reciboNoPagado->referenciaRecibo == null && Recibos::where('referenciaRecibo', '=', $reciboNoPagado->id)->doesntExist()) {
-                info('Genera Tardio '.$cuota->id.' - '.$cuota->descripcion.' - '.$reciboHeader->descripcion.' para: '.$reciboNoPagado->vivienda->descripcion.' Recibo:'.$reciboNoPagado->id);
+              if ($this::shouldGenerateRecibo($cuota,$reciboNoPagado)) 
                 ReciboService::generarPagoTardioVivienda($reciboNoPagado);
-              } 
             }
-          }
         }
       }
     }
+
+    public function shouldGenerateRecibo($cuota,$reciboNoPagado){
+      return $cuota->periodoGracia > 0 && $reciboNoPagado->referenciaRecibo == null && Recibos::where('referenciaRecibo', '=', $reciboNoPagado->id)->doesntExist();
+    }
+
 }
