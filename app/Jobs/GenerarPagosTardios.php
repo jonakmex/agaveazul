@@ -66,7 +66,11 @@ class GenerarPagosTardios implements ShouldQueue
     }
 
     public function shouldGenerateRecibo($cuota,$reciboNoPagado){
-      return $cuota->periodoGracia > 0 && $reciboNoPagado->referenciaRecibo == null && Recibos::where('referenciaRecibo', '=', $reciboNoPagado->id)->doesntExist();
+      $startGenerationDay = Carbon::parse('2021-12-01');
+      return  Carbon::today()->gt($startGenerationDay) &&
+              $cuota->periodoGracia > 0 && 
+              $reciboNoPagado->referenciaRecibo == null && 
+              Recibos::where('referenciaRecibo', '=', $reciboNoPagado->id)->doesntExist();
     }
 
 }
