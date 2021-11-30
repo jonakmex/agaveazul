@@ -318,6 +318,21 @@ class ReciboService
     return $reciboHeader;
   }
 
+  public static function generarPagoTardioVivienda(Recibos $reciboRef){
+    $reciboHeader = $reciboRef->reciboheader();
+    $recibo = new Recibos();
+    $recibo->vivienda_id = $reciboRef->vivienda->id;
+    $recibo->descripcion = 'RECARGO: '.$reciboRef->reciboHeader->descripcion;
+    $recibo->fecLimite = $reciboRef->reciboHeader->fecLimite;
+    $recibo->importe = $reciboRef->reciboheader->cuota->multaImporte;
+    $recibo->estado = 1;
+    $recibo->saldo = 0;
+    $recibo->referenciaRecibo = $reciboRef->id;
+    $reciboRef->reciboHeader->recibos()->save($recibo);
+    ReciboService::avisoReciboVivienda($recibo);
+    return $reciboHeader;
+  }
+
 
   private static function existeReciboVivienda(Reciboheader $reciboHeader,Vivienda $vivienda){
     return DB::table('recibos')->where('reciboheader_id', $reciboHeader->id)->where('vivienda_id',$vivienda->id)->exists();

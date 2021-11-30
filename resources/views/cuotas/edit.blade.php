@@ -45,6 +45,11 @@
                       <input id="importe" value="{{$cuota->importe}}" name="importe" type="text" class="form-control">
                     <!-- /.input group -->
                   </div>
+                  <div class="form-group">
+                    <label>Recargos:</label>
+                      <input id="multaImporte" value="{{$cuota->multaImporte}}" name="multaImporte" type="text" class="form-control">
+                    <!-- /.input group -->
+                  </div>
                   <!-- /.form group -->
                   <!-- Date -->
                   <div class="form-group">

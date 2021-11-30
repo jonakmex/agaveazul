@@ -67,6 +67,14 @@
      							@endif
                 <!-- /.input group -->
               </div>
+              <div class="form-group @php($err_MultaImporte = $errors->has('multaImporte')?'has-error':'') {{$err_MultaImporte}}">
+                <label>Recargos:</label>
+                  <input id="multaImporte" value="{{old('multaImporte')}}" name="multaImporte" type="text" class="form-control">
+                  @if ($errors->has('multaImporte'))
+     							 	<span class="help-block">{{ $errors->first('multaImporte') }}</span>
+     							@endif
+                <!-- /.input group -->
+              </div>
               <!-- /.form group -->
               <!-- Date -->
               <div class="form-group @php($err_fecPago = $errors->has('fecPago')?'has-error':'') {{$err_fecPago}}">

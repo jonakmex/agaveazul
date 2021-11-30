@@ -49,6 +49,7 @@ $(document).ready(function(){
 
 	//Money Euro
 	$("#importe").inputmask({ alias : "pesos", prefix: '$' });
+	$("#multaImporte").inputmask({ alias : "pesos", prefix: '$' });
 	$("#nPeriodos").inputmask({ alias : "integer" });
 	// Activate tooltip
 	$('[data-toggle="tooltip"]').tooltip();
