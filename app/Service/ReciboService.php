@@ -221,7 +221,7 @@ class ReciboService
     $numeroViviendas = $cuota->viviendas()->count();
     $headers = $cuota->recibosHeader()->get();
     foreach($headers as $reciboHeader){
-        if($reciboHeader->recibos->count() < $numeroViviendas
+        if($reciboHeader->recibos->where('referenciaRecibo',null)->count() < $numeroViviendas
         && Carbon::now()>=$reciboHeader->fecVence){
             array_push($resultado,$reciboHeader);
         }
