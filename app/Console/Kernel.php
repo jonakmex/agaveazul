@@ -6,6 +6,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Jobs\GenerarRecibos;
 use App\Jobs\GenerarPagosTardios;
+use App\Jobs\RepararRecibos;
 
 class Kernel extends ConsoleKernel
 {
@@ -28,8 +29,9 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
-        $schedule->job(new GenerarRecibos)->everyMinute()->sendOutputTo('storage/job.txt');
-        $schedule->job(new GenerarPagosTardios)->everyMinute()->sendOutputTo('storage/job.txt');
+        //$schedule->job(new GenerarRecibos)->everyMinute()->sendOutputTo('storage/job.txt');
+        //$schedule->job(new GenerarPagosTardios)->everyMinute()->sendOutputTo('storage/job.txt');
+        $schedule->job(new RepararRecibos)->everyMinute()->sendOutputTo('storage/job.txt');
     }
 
     /**
