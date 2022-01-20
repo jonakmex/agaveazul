@@ -46,8 +46,7 @@ class ViviendaService
       $fecInicial = null;
       $ultimoRecibo = $cuota->recibos()->where('vivienda_id',$vivienda->id)->orderBy('id','desc')->first();
       if($ultimoRecibo != null){
-        info('-->'.$ultimoRecibo->fecLimite);
-        $fecInicial = $ultimoRecibo->fecLimite;
+        $fecInicial = $ultimoRecibo->reciboheader->fecVence;
       }
 
       // Generar el siguiente recibo header

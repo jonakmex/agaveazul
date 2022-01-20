@@ -29,9 +29,9 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
-        //$schedule->job(new GenerarRecibos)->everyMinute()->sendOutputTo('storage/job.txt');
-        //$schedule->job(new GenerarPagosTardios)->everyMinute()->sendOutputTo('storage/job.txt');
-        $schedule->job(new RepararRecibos)->everyMinute()->sendOutputTo('storage/job.txt');
+        $schedule->job(new GenerarRecibos)->everyMinute()->sendOutputTo('storage/job.txt');
+        $schedule->job(new GenerarPagosTardios)->everyMinute()->sendOutputTo('storage/job.txt');
+        //$schedule->job(new RepararRecibos)->everyMinute()->sendOutputTo('storage/job.txt');
     }
 
     /**
