@@ -1012,7 +1012,7 @@ class RepararRecibos implements ShouldQueue
       $recs = Recibos::where('estado', '=', 2)
       ->where('emision','!=','null')
       //->whereNotIn('id',$recs_id)
-      ->where('id',5845)
+      //->where('id',5845)
       ->get();
       info('Reparando recibos...');
       foreach($recs as $recibo) {
