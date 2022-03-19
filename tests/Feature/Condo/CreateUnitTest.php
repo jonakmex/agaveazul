@@ -29,7 +29,6 @@ class CreateUnitTest extends TestCase
         $createUnitRequest = RequestFactory::make("CreateUnitRequest",["description"=>"Test 1"]);
         $dependencies = ["unitRepository"=>new UnitRepositoryMock];
         $useCase = UseCaseFactory::make("CreateUnitUseCase",$dependencies);
-        $callback = [];
         $useCase->execute($createUnitRequest,function($response){
             $this->assertNotEmpty($response->unitDS->id);
         });
@@ -40,10 +39,18 @@ class CreateUnitTest extends TestCase
         $createUnitRequest = RequestFactory::make("CreateUnitRequest",["description"=>""]);
         $dependencies = ["unitRepository"=>new UnitRepositoryMock];
         $useCase = UseCaseFactory::make("CreateUnitUseCase",$dependencies);
-        $callback = [];
         $useCase->execute($createUnitRequest,function($response){
-            $this->assertNotEmpty($response->errors);
+            $this->assertEquals($response->errors[0]["description"],"MSG_ERR_TOO_SHORT");
         });
+    }
+
+    public function test_should_show_too_large(){
+        $createUnitRequest = RequestFactory::make("CreateUnitRequest",["description"=>"012345677898282"]);
         
+        $dependencies = ["unitRepository"=>new UnitRepositoryMock];
+        $useCase = UseCaseFactory::make("CreateUnitUseCase",$dependencies);
+        $useCase->execute($createUnitRequest,function($response){
+            $this->assertEquals($response->errors[0]["description"],"MSG_ERR_TOO_LARGE");
+        });
     }
 }

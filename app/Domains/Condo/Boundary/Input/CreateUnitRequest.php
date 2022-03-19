@@ -12,7 +12,7 @@ class CreateUnitRequest extends Request
         if(strlen($this->description) < 1)
             array_push($errors,["description"=>"MSG_ERR_TOO_SHORT"]);
 
-        if(strlen($this->description) > 50)
+        if(strlen($this->description) > 10)
             array_push($errors,["description"=>"MSG_ERR_TOO_LARGE"]);
 
         return $errors;

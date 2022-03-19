@@ -4,8 +4,8 @@ namespace App\Domains\Shared\Boundary;
 use App\Domains\Condo\Boundary\Input\CreateUnitRequest;
 
 class RequestFactory {
-    public static function make($request,$params){
-        if("CreateUnitRequest" === $request)
+    public static function make($requestName,$params){
+        if("CreateUnitRequest" === $requestName)
             return RequestFactory::makeCreateUnitRequest($params);
     }
 
