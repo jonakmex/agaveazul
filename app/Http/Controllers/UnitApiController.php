@@ -18,7 +18,12 @@ class UnitApiController extends Controller
         $dependencies = ["unitRepository"=>new UnitEloquentRepository()];
         $useCase = UseCaseFactory::make("CreateUnitUseCase",$dependencies);
         $useCase->execute($createUnitRequest,function($response){
-            $this->responseJson = response()->json($response->unitDS);
+            if($response->errors != null && count($response->errors) > 0){
+                $this->responseJson = response()->json($response->errors);
+            }
+            else {
+                $this->responseJson = response()->json($response->unitDS);
+            }
         });
 
         return $this->responseJson;
