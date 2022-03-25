@@ -8,5 +8,9 @@
 </head>
 <body>
     <h1>FAIL</h1>
+
+    @if ($error)
+        <p>{{$error}}</p>
+    @endif
 </body>
 </html>

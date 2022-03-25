@@ -19,4 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::resource('unit',App\Http\Controllers\UnitApiController::class)->only('store');
+Route::resource('unit',App\Http\Controllers\UnitApiController::class);

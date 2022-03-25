@@ -53,7 +53,18 @@ class UnitWebController extends Controller
      */
     public function show($id)
     {
-        //
+        $this->returnView = view('unit.failure');
+        $findUnitByIdRequest = RequestFactory::make("FindUnitByIdRequest",["id"=>$id]);
+        $dependencies = ["unitRepository"=>new UnitEloquentRepository()];
+        $useCase = UseCaseFactory::make("FindUnitByIdUseCase",$dependencies);
+        $useCase->execute($findUnitByIdRequest,function($response){
+            if($response->errors) 
+                $this->returnView = view('unit.failure')->with("error", $response->errors[0]["id"]);
+            else 
+                $this->returnView = view('unit.show',['unit' => $response->unitDS]);
+        });
+
+        return $this->returnView;
     }
 
     /**

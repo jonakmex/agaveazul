@@ -28,4 +28,20 @@ class UnitApiController extends Controller
 
         return $this->responseJson;
     }
+
+    public function show($id){
+        $findUnitByIdRequest = RequestFactory::make("FindUnitByIdRequest",["id"=>$id]);
+        $dependencies = ["unitRepository"=>new UnitEloquentRepository()];
+        $useCase = UseCaseFactory::make("FindUnitByIdUseCase",$dependencies);
+        $useCase->execute($findUnitByIdRequest,function($response){
+            if($response->errors != null && count($response->errors) > 0){
+                $this->responseJson = response()->json($response->errors);
+            }
+            else {
+                $this->responseJson = response()->json($response->unitDS);
+            }
+        });
+
+        return $this->responseJson;
+    }
 }
