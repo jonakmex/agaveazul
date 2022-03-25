@@ -12,11 +12,19 @@ class UnitEloquentRepository implements UnitRepository {
         $unit->setId($unitEloquent->id);
     }
 
-    public function findById($id){
+    public function findById($id)
+    {
         $unitEloquent = UnitEloquent::findOrFail($id);
-        $unit = new Unit;
+        $unit = new Unit();
         $unit->setId($unitEloquent->id);
         $unit->setDescription($unitEloquent->description);
+        return $unit; 
+    }
+    public function update(Unit $unit){
+        $unit = new Unit();
+        $unit->setDescription($unit->description);
         return $unit;
+
+
     }
 }

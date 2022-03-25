@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Domains\Shared\Boundary\RequestFactory;
 use App\Domains\Shared\UseCase\UseCaseFactory;
 use App\Domains\Condo\Repository\UnitEloquentRepository;
+use App\Models\UnitEloquent;
 
 class UnitWebController extends Controller
 {
@@ -75,7 +76,8 @@ class UnitWebController extends Controller
      */
     public function edit($id)
     {
-        //
+        $unitRepository = new UnitEloquentRepository();
+         return view('unit.edit', ["unit"=>$unitRepository->findById($id)]);
     }
 
     /**
@@ -87,7 +89,10 @@ class UnitWebController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $EditUnitRequest = RequestFactory::make("EditUnitRequest",["description"=>$request->getDescription(), "id"=> $id]);
+
+ 
+ 
     }
 
     /**

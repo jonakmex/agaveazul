@@ -1,8 +1,11 @@
 <?php
 namespace App\Domains\Shared\UseCase;
+
+
 use App\Domains\Condo\UseCase\CreateUnitUseCase;
 use App\Domains\Condo\UseCase\EditUnitUseCase;
 use App\Domains\Condo\UseCase\FindUnitByIdUseCase;
+
 
 class UseCaseFactory {
     public static function make($useCaseName,$dependencies){
@@ -12,7 +15,7 @@ class UseCaseFactory {
             return UseCaseFactory::makeFindUnitByIdUseCase($dependencies);
         if("EditUnitUseCase" === $useCaseName)
             return UseCaseFActory::makeEditUnitUseCase($dependencies);
-    }
+        }
 
     private static function makeCreateUnitUseCase($dependencies){
         return new CreateUnitUseCase($dependencies["unitRepository"]);

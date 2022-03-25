@@ -20,14 +20,15 @@ class RequestFactory {
         $obj->description = $params["description"];
         return $obj;
     }
-
+    
     private static function makeFindUnitByIdRequest($params){
         $obj = new FindUnitByIdRequest;
         $obj->id = $params["id"];
         return $obj;
     }
 
-    private static function makeEditUnitRequest($params){
+
+    private static function makeEditUnitRequest( $params){
         $obj = new EditUnitRequest;
         $obj->id = $params["id"];
         $obj->description = $params["description"];
