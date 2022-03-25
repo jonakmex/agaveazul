@@ -21,8 +21,10 @@ class UnitEloquentRepository implements UnitRepository {
         return $unit; 
     }
     public function update(Unit $unit){
-        $unit = new Unit();
-        $unit->setDescription($unit->description);
+
+        $unitEloquent = UnitEloquent::findOrFail($unit->getId());
+        $unitEloquent->description = $unit->getDescription();
+        $unitEloquent->save();
         return $unit;
 
 

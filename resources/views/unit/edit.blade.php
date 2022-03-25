@@ -7,10 +7,10 @@
     <title>Edit</title>
 </head>
 <body>
-    <form action="{{route('unit.update',[$unit->getId()])}}" method="PUT">
+    <form action="{{route('unit.update',[$unit->id])}}" method="POST">
         @csrf
         @method('PUT')
-        <input value = "{{$unit->getDescription()}} "type="text" name="description">
+        <input value = "{{$unit->description}} "type="text" name="description">
         <button type="submit">editar</button>
     </form>
 </body>

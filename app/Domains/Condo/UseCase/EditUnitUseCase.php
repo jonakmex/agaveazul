@@ -24,7 +24,8 @@ class EditUnitUseCase implements UseCase{
         if(!empty($errors))
             return $callback(Response::makeFailResponse($errors));
         
-        $unit = $this->unitRepository->findById($request->id);
+        $unit = new Unit();
+        $unit->setId($request->id);
         $unit->setDescription($request->description);
      
         $this->unitRepository->update($unit);
