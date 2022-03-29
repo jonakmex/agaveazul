@@ -7,11 +7,18 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 use App\Domains\Shared\Boundary\RequestFactory;
-use App\Domains\Shared\UseCase\UseCaseFactory;
+use Tests\Feature\Shared\Factory\UseCaseFactoryMock;
 use Tests\Feature\Condo\Repository\UnitRepositoryMock;
 
 class EditUnitTest extends TestCase 
 {
+    private $useCaseFactory;
+
+    public function setUp() :void{
+        parent::setUp();
+        $this->useCaseFactory = new UseCaseFactoryMock;
+    }
+
     public function test_should_create_request_object()
     {
         $EditUnitRequest = RequestFactory::make("EditUnitRequest",["description"=>"Test 1", "id"=> 29]);
@@ -23,7 +30,7 @@ class EditUnitTest extends TestCase
     public function test_should_edit_unit(){
         $EditUnitRequest = RequestFactory::make("EditUnitRequest",["description"=>"Test 1", "id"=> 29]);
         $dependencies = ["unitRepository"=>new UnitRepositoryMock];
-        $useCase = UseCaseFactory::make("EditUnitUseCase",$dependencies); 
+        $useCase = $this->useCaseFactory->make("EditUnitUseCase",$dependencies); 
         $useCase->execute($EditUnitRequest,function($response){
           $this->assertEquals($response->unitDS->id,"29");
         });

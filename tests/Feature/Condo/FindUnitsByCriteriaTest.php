@@ -7,11 +7,17 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 use App\Domains\Shared\Boundary\RequestFactory;
-use App\Domains\Shared\UseCase\UseCaseFactory;
+use Tests\Feature\Shared\Factory\UseCaseFactoryMock;
 use Tests\Feature\Condo\Repository\UnitRepositoryMock;
 
 class FindUnitsByCriteriaTest extends TestCase
 {
+    private $useCaseFactory;
+
+    public function setUp() :void{
+        parent::setUp();
+        $this->useCaseFactory = new UseCaseFactoryMock;
+    }
 
     public function test_should_create_request_object()
     {
@@ -22,7 +28,8 @@ class FindUnitsByCriteriaTest extends TestCase
     public function test_should_list_all_units(){
       $findUnitsByCriteriaRequest = RequestFactory::make("FindUnitsByCriteriaRequest",["description"=>"test"]);
       $dependecies = ["unitRepository" => new UnitRepositoryMock];
-      $useCase = UseCaseFactory::make("FindUnitsByCriteriaUseCase", $dependecies);
+      $useCaseFactory = new UseCaseFactoryMock;
+      $useCase = $this->useCaseFactory->make("FindUnitsByCriteriaUseCase", $dependecies);
       $useCase->execute($findUnitsByCriteriaRequest, function($response){
         $this->assertNotEmpty($response->unitsDS);
       });
@@ -31,7 +38,8 @@ class FindUnitsByCriteriaTest extends TestCase
     public function test_should_list_all_units_given_desc(){
       $findUnitsByCriteriaRequest = RequestFactory::make("FindUnitsByCriteriaRequest",["description"=>"test"]);
       $dependecies = ["unitRepository" => new UnitRepositoryMock];
-      $useCase = UseCaseFactory::make("FindUnitsByCriteriaUseCase", $dependecies);
+      $useCaseFactory = new UseCaseFactoryMock;
+      $useCase = $this->useCaseFactory->make("FindUnitsByCriteriaUseCase", $dependecies);
       $useCase->execute($findUnitsByCriteriaRequest, function($response){
         //el mock crea exactamente 5 con la palabra "test"
         $this->assertCount(5, $response->unitsDS);
@@ -41,7 +49,8 @@ class FindUnitsByCriteriaTest extends TestCase
     public function test_for_each_response_element_be_unitds_object(){
       $findUnitsByCriteriaRequest = RequestFactory::make("FindUnitsByCriteriaRequest",["description"=>"test"]);
       $dependecies = ["unitRepository" => new UnitRepositoryMock];
-      $useCase = UseCaseFactory::make("FindUnitsByCriteriaUseCase", $dependecies);
+      $useCaseFactory = new UseCaseFactoryMock;
+      $useCase = $this->useCaseFactory->make("FindUnitsByCriteriaUseCase", $dependecies);
       $useCase->execute($findUnitsByCriteriaRequest, function($response){
         foreach($response->unitsDS as $unit){
           $this->assertTrue(
@@ -55,7 +64,8 @@ class FindUnitsByCriteriaTest extends TestCase
     {
       $findUnitsByCriteriaRequest = RequestFactory::make("FindUnitsByCriteriaRequest",["description"=>"noexiste"]);
       $dependecies = ["unitRepository" => new UnitRepositoryMock];
-      $useCase = UseCaseFactory::make("FindUnitsByCriteriaUseCase", $dependecies);
+      $useCaseFactory = new UseCaseFactoryMock;
+      $useCase = $this->useCaseFactory->make("FindUnitsByCriteriaUseCase", $dependecies);
       $useCase->execute($findUnitsByCriteriaRequest, function($response){
         $this->assertEmpty($response->unitsDS);
       });

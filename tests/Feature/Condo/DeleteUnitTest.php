@@ -7,10 +7,18 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 use App\Domains\Shared\Boundary\RequestFactory;
-use App\Domains\Shared\UseCase\UseCaseFactory;
+use Tests\Feature\Shared\Factory\UseCaseFactoryMock;
 use Tests\Feature\Condo\Repository\UnitRepositoryMock;
 
 class DeleteUnitTest extends TestCase{
+  
+  private $useCaseFactory;
+
+    public function setUp() :void{
+        parent::setUp();
+        $this->useCaseFactory = new UseCaseFactoryMock;
+    }
+
   public function test_should_create_request_object(){
     $deleteUnitRequest = RequestFactory::make("DeleteUnitRequest", ["id" => 1]);
     $this->assertTrue(
@@ -21,7 +29,7 @@ class DeleteUnitTest extends TestCase{
   public function test_should_delete_unit(){
     $deleteUnitRequest = RequestFactory::make("DeleteUnitRequest", ["id" => 1]);
     $dependencies = ["unitRepository" => new UnitRepositoryMock];
-    $useCase = UseCaseFactory::make("DeleteUnitUseCase", $dependencies);
+    $useCase = $this->useCaseFactory->make("DeleteUnitUseCase", $dependencies);
     $useCase->execute($deleteUnitRequest, function($response){
       $this->assertNotEmpty($response->unitDS);
     });

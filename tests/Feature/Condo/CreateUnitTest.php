@@ -7,11 +7,17 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 use App\Domains\Shared\Boundary\RequestFactory;
-use App\Domains\Shared\UseCase\UseCaseFactory;
+use Tests\Feature\Shared\Factory\UseCaseFactoryMock;
 use Tests\Feature\Condo\Repository\UnitRepositoryMock;
 
 class CreateUnitTest extends TestCase
 {
+    private $useCaseFactory;
+
+    public function setUp() :void{
+        parent::setUp();
+        $this->useCaseFactory = new UseCaseFactoryMock;
+    }
 
     public function test_should_create_request_object()
     {
@@ -28,7 +34,7 @@ class CreateUnitTest extends TestCase
     public function test_should_create_unit(){
         $createUnitRequest = RequestFactory::make("CreateUnitRequest",["description"=>"Test 1"]);
         $dependencies = ["unitRepository"=>new UnitRepositoryMock];
-        $useCase = UseCaseFactory::make("CreateUnitUseCase",$dependencies);
+        $useCase = $this->useCaseFactory->make("CreateUnitUseCase",$dependencies);
         $useCase->execute($createUnitRequest,function($response){
             $this->assertNotEmpty($response->unitDS->id);
         });
@@ -38,7 +44,7 @@ class CreateUnitTest extends TestCase
     public function test_should_show_too_short(){
         $createUnitRequest = RequestFactory::make("CreateUnitRequest",["description"=>""]);
         $dependencies = ["unitRepository"=>new UnitRepositoryMock];
-        $useCase = UseCaseFactory::make("CreateUnitUseCase",$dependencies);
+        $useCase = $this->useCaseFactory->make("CreateUnitUseCase",$dependencies);
         $useCase->execute($createUnitRequest,function($response){
             $this->assertEquals($response->errors[0]["description"],"MSG_ERR_TOO_SHORT");
         });
@@ -48,7 +54,7 @@ class CreateUnitTest extends TestCase
         $createUnitRequest = RequestFactory::make("CreateUnitRequest",["description"=>"012345677898282"]);
         
         $dependencies = ["unitRepository"=>new UnitRepositoryMock];
-        $useCase = UseCaseFactory::make("CreateUnitUseCase",$dependencies);
+        $useCase = $this->useCaseFactory->make("CreateUnitUseCase",$dependencies);
         $useCase->execute($createUnitRequest,function($response){
             $this->assertEquals($response->errors[0]["description"],"MSG_ERR_TOO_LARGE");
         });
