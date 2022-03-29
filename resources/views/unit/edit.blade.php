@@ -13,5 +13,10 @@
         <input value = "{{$unit->description}} "type="text" name="description">
         <button type="submit">editar</button>
     </form>
+
+    <br>
+    <div>
+        <a href="{{route('unit.index')}}">Back</a>
+    </div>
 </body>
 </html>

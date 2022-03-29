@@ -13,5 +13,10 @@
         <input type="textfield" name="description" id="description"/>
         <button type="submit">Guardar</button>
     </form>
+
+    <br>
+    <div>
+        <a href="{{route('unit.index')}}">Back</a>
+    </div>
 </body>
 </html>

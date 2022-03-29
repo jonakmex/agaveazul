@@ -6,15 +6,25 @@ use Illuminate\Http\Request;
 use App\Domains\Shared\Boundary\RequestFactory;
 use App\Domains\Shared\UseCase\UseCaseFactory;
 use App\Domains\Condo\Repository\UnitEloquentRepository;
-use App\Models\UnitEloquent;
 
 class UnitWebController extends Controller
 {
     private $returnView;
 
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $this->returnView = view('unit.failure');
+        $findUnitsByCriteriaRequest = RequestFactory::make("FindUnitsByCriteriaRequest", ["description" => $request->description]);
+        $dependencies = ["unitRepository"=>new UnitEloquentRepository()];
+        $useCase = UseCaseFactory::make("FindUnitsByCriteriaUseCase", $dependencies);
+        $useCase->execute($findUnitsByCriteriaRequest, function($response){
+            if($response->errors) 
+                $this->returnView = view('unit.failure')->with("error", $response->errors[0]["description"]);
+            else
+                $this->returnView = view('unit.index', ["units"=> $response->unitsDS]); 
+        });
+
+        return $this->returnView;
     }
 
     public function create()
@@ -29,7 +39,7 @@ class UnitWebController extends Controller
         $dependencies = ["unitRepository"=>new UnitEloquentRepository()];
         $useCase = UseCaseFactory::make("CreateUnitUseCase",$dependencies);
         $useCase->execute($createUnitRequest,function($response){
-            $this->returnView = view('unit.success');
+            $this->returnView = redirect()->route('unit.index')->with('success', 'Unit succesfully created');
         });
 
         return $this->returnView;
@@ -86,6 +96,15 @@ class UnitWebController extends Controller
 
     public function destroy($id)
     {
-        //
+        $deleteUnitRequest = RequestFactory::make("DeleteUnitRequest", ["id"=> $id]);
+        $dependencies = ["unitRepository"=>new UnitEloquentRepository()];
+        $useCase = UseCaseFactory::make("DeleteUnitUseCase",$dependencies);
+        $useCase->execute($deleteUnitRequest,function($response){
+            if($response->errors) 
+                $this->returnView = view('unit.failure')->with("error", $response->errors[0]["id"]);
+            else 
+                $this->returnView = redirect()->route('unit.index')->with('success','unit succesfully removed');
+        });
+        return $this->returnView;
     }
 }

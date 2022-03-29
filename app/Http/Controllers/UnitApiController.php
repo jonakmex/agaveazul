@@ -62,4 +62,37 @@ class UnitApiController extends Controller
 
         return $this->responseJson;
     }
+
+    public function index(Request $request){
+    
+        $findUnitsByCriteriaRequest = RequestFactory::make("FindUnitsByCriteriaRequest", ["description" => $request->description]);
+        $dependencies = ["unitRepository"=>new UnitEloquentRepository()];
+        $useCase = UseCaseFactory::make("FindUnitsByCriteriaUseCase", $dependencies);
+        $useCase->execute($findUnitsByCriteriaRequest, function($response){
+            if($response->errors != null && count($response->errors) > 0){
+                $this->responseJson = response()->json($response->errors);
+            }
+            else {
+                $this->responseJson = response()->json($response->unitsDS);
+            }
+        });
+
+        return $this->responseJson;
+    }
+
+    public function destroy($id){
+        $deleteUnitRequest = RequestFactory::make("DeleteUnitRequest", ["id"=> $id]);
+        $dependencies = ["unitRepository"=>new UnitEloquentRepository()];
+        $useCase = UseCaseFactory::make("DeleteUnitUseCase",$dependencies);
+        $useCase->execute($deleteUnitRequest,function($response){
+            if($response->errors != null && count($response->errors) > 0){
+                $this->responseJson = response()->json($response->errors);
+            }
+            else {
+                $this->responseJson = response()->json($response->unitDS);
+            }
+        });
+
+        return $this->responseJson;
+    }
 }

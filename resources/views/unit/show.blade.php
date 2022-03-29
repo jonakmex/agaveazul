@@ -12,5 +12,10 @@
     <li><b>Id: </b> {{$unit->id}}</li>
     <li><b>Description: </b> {{$unit->description}}</li>
     </ul>
+
+    <br>
+    <div>
+        <a href="{{route('unit.index')}}">Back</a>
+    </div>
 </body>
 </html>

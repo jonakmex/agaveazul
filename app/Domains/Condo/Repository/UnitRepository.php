@@ -6,4 +6,6 @@ interface UnitRepository {
     public function save(Unit $unit);
     public function update(Unit $unit);
     public function findById($id);
+    public function findUnitsByCriteria($description);
+    public function delete($id);
 }

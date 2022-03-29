@@ -5,6 +5,8 @@ namespace App\Domains\Shared\UseCase;
 use App\Domains\Condo\UseCase\CreateUnitUseCase;
 use App\Domains\Condo\UseCase\EditUnitUseCase;
 use App\Domains\Condo\UseCase\FindUnitByIdUseCase;
+use App\Domains\Condo\UseCase\FindUnitsByCriteriaUseCase;
+use App\Domains\Condo\UseCase\DeleteUnitUseCase;
 
 
 class UseCaseFactory {
@@ -15,7 +17,11 @@ class UseCaseFactory {
             return UseCaseFactory::makeFindUnitByIdUseCase($dependencies);
         if("EditUnitUseCase" === $useCaseName)
             return UseCaseFActory::makeEditUnitUseCase($dependencies);
-        }
+        if("FindUnitsByCriteriaUseCase" === $useCaseName)
+            return UseCaseFactory::makeFindUnitsByCriteriaUseCase($dependencies);
+        if("DeleteUnitUseCase" === $useCaseName)
+            return UseCaseFactory::makeDeleteUnitUseCase($dependencies);
+    }
 
     private static function makeCreateUnitUseCase($dependencies){
         return new CreateUnitUseCase($dependencies["unitRepository"]);
@@ -27,5 +33,13 @@ class UseCaseFactory {
 
     private static function makeEditUnitUseCase($dependencies){
         return new EditUnitUseCase($dependencies["unitRepository"]);
+    }
+
+    private static function makeFindUnitsByCriteriaUseCase($dependencies){
+        return new FindUnitsByCriteriaUseCase($dependencies["unitRepository"]);
+    }
+
+    private static function makeDeleteUnitUseCase($dependencies){
+        return new DeleteUnitUseCase($dependencies["unitRepository"]);
     }
 }

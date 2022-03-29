@@ -30,4 +30,29 @@ class UnitRepositoryMock implements UnitRepository{
 
         return $unit;
     }
+
+  
+    public function findUnitsByCriteria($description){
+        $all = [];
+
+        if($description == "noexiste") return $all;
+        
+        for ($i=0; $i < 5; $i++) { 
+            $unit = new Unit;
+            $unit->setId($i);
+            $unit->setDescription("test  ".$i);
+            array_push($all, $unit);
+        }
+
+        return $all;
+    }
+
+    public function delete($id){
+        $unitMock = new Unit;
+        $unitMock->setId($id);
+        $unitMock->setDescription("test");
+        echo "removing unit";
+
+        return $unitMock;
+    }
 }
