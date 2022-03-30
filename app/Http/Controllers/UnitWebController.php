@@ -14,6 +14,7 @@ class UnitWebController extends Controller
     private $editUnitUseCase;
     private $findUnitByIdUseCase;
     private $findUnitsByCriteriaUseCase;
+    private $deleteUnitUseCase;
 
     public function __construct()
     {
@@ -22,6 +23,7 @@ class UnitWebController extends Controller
         $this->editUnitUseCase = $useCaseFactory->make('App\Domains\Condo\UseCase\EditUnitUseCase');
         $this->findUnitByIdUseCase = $useCaseFactory->make('App\Domains\Condo\UseCase\FindUnitByIdUseCase');
         $this->findUnitsByCriteriaUseCase = $useCaseFactory->make('App\Domains\Condo\UseCase\FindUnitsByCriteriaUseCase');
+        $this->deleteUnitUseCase = $useCaseFactory->make('App\Domains\Condo\UseCase\DeleteUnitUseCase');
     }
 
     public function index(Request $request)
