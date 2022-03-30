@@ -18,11 +18,10 @@ class UnitWebController extends Controller
     public function __construct()
     {
         $useCaseFactory = app(UseCaseFactory::class);
-        $this->createUnitUseCase = $useCaseFactory->make('CreateUnitUseCase');
-        $this->editUnitUseCase = $useCaseFactory->make('EditUnitUseCase');
-        $this->findUnitByIdUseCase = $useCaseFactory->make('FindUnitByIdUseCase');
-        $this->findUnitByIdUseCase = $useCaseFactory->make('FindUnitByIdUseCase');
-        $this->findUnitsByCriteriaUseCase = $useCaseFactory->make('FindUnitsByCriteriaUseCase');
+        $this->createUnitUseCase = $useCaseFactory->make('App\Domains\Condo\UseCase\CreateUnitUseCase');
+        $this->editUnitUseCase = $useCaseFactory->make('App\Domains\Condo\UseCase\EditUnitUseCase');
+        $this->findUnitByIdUseCase = $useCaseFactory->make('App\Domains\Condo\UseCase\FindUnitByIdUseCase');
+        $this->findUnitsByCriteriaUseCase = $useCaseFactory->make('App\Domains\Condo\UseCase\FindUnitsByCriteriaUseCase');
     }
 
     public function index(Request $request)
