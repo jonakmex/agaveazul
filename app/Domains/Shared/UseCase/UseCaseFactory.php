@@ -2,5 +2,5 @@
 namespace App\Domains\Shared\UseCase;
 
 interface UseCaseFactory {
-    public function make($useCaseName,$dependencies);
+    public function make($useCaseName,$dependencies = []);
 }

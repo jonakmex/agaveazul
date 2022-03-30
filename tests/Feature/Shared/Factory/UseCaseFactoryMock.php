@@ -11,7 +11,7 @@ use App\Domains\Condo\UseCase\DeleteUnitUseCase;
 
 class UseCaseFactoryMock implements UseCaseFactory {
 
-    public function make($useCaseName,$dependencies){
+    public function make($useCaseName,$dependencies = []){
         if("CreateUnitUseCase" === $useCaseName)
             return $this->makeCreateUnitUseCase($dependencies);
         if("FindUnitByIdUseCase" === $useCaseName)
