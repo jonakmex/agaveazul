@@ -18,16 +18,18 @@ class UnitApiController extends Controller
     public function __construct()
     {
         $useCaseFactory = app(UseCaseFactory::class);
-        $this->createUnitUseCase = $useCaseFactory->make('CreateUnitUseCase');
-        $this->editUnitUseCase = $useCaseFactory->make('EditUnitUseCase');
-        $this->findUnitByIdUseCase = $useCaseFactory->make('FindUnitByIdUseCase');
-        $this->findUnitsByCriteriaUseCase = $useCaseFactory->make('FindUnitsByCriteriaUseCase');
+        $this->requestFactory = app(RequestFactory::class);
+        $this->createUnitUseCase = $useCaseFactory->make('App\Domains\Condo\UseCase\CreateUnitUseCase');
+        $this->editUnitUseCase = $useCaseFactory->make('App\Domains\Condo\UseCase\EditUnitUseCase');
+        $this->findUnitByIdUseCase = $useCaseFactory->make('App\Domains\Condo\UseCase\FindUnitByIdUseCase');
+        $this->findUnitsByCriteriaUseCase = $useCaseFactory->make('App\Domains\Condo\UseCase\FindUnitsByCriteriaUseCase');
+        $this->deleteUnitUseCase = $useCaseFactory->make('App\Domains\Condo\UseCase\DeleteUnitUseCase');
     }
 
     public function store(Request $request)
     {
         $this->returnView = "";
-        $createUnitRequest = RequestFactory::make("CreateUnitRequest",["description"=>$request->description]);
+        $createUnitRequest = $this->requestFactory->make("App\Domains\Condo\Boundary\Input\CreateUnitRequest",["description"=>$request->description]);
 
         $this->createUnitUseCase->execute($createUnitRequest,function($response){
             if($response->errors != null && count($response->errors) > 0){
@@ -42,7 +44,7 @@ class UnitApiController extends Controller
     }
 
     public function show($id){
-        $findUnitByIdRequest = RequestFactory::make("FindUnitByIdRequest",["id"=>$id]);
+        $findUnitByIdRequest = $this->requestFactory->make("App\Domains\Condo\Boundary\Input\FindUnitByIdRequest",["id"=>$id]);
 
         $this->findUnitByIdRequest->execute($findUnitByIdRequest,function($response){
             if($response->errors != null && count($response->errors) > 0){
@@ -57,7 +59,7 @@ class UnitApiController extends Controller
     }
 
     public function update(Request $request, $id){
-        $editUnitRequest = RequestFactory::make(
+        $editUnitRequest = $this->requestFactory->make(
             "EditUnitRequest",["description" => $request->description, "id"=>$id]
         );
 
@@ -75,7 +77,7 @@ class UnitApiController extends Controller
 
     public function index(Request $request){
     
-        $findUnitsByCriteriaRequest = RequestFactory::make("FindUnitsByCriteriaRequest", ["description" => $request->input('description')]);
+        $findUnitsByCriteriaRequest = $this->requestFactory->make("App\Domains\Condo\Boundary\Input\FindUnitsByCriteriaRequest", ["description" => $request->input('description')]);
         $this->findUnitsByCriteriaUseCase->execute($findUnitsByCriteriaRequest, function($response){
             if($response->errors != null && count($response->errors) > 0){
                 $this->responseJson = response()->json($response->errors);
@@ -89,7 +91,7 @@ class UnitApiController extends Controller
     }
 
     public function destroy($id){
-        $deleteUnitRequest = RequestFactory::make("DeleteUnitRequest", ["id"=> $id]);
+        $deleteUnitRequest = $this->requestFactory->make("App\Domains\Condo\Boundary\Input\DeleteUnitRequest", ["id"=> $id]);
         $this->deleteUnitUseCase->execute($deleteUnitRequest,function($response){
             if($response->errors != null && count($response->errors) > 0){
                 $this->responseJson = response()->json($response->errors);

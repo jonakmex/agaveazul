@@ -10,6 +10,7 @@ use App\Domains\Shared\UseCase\UseCaseFactory;
 class UnitWebController extends Controller
 {
     private $returnView;
+    private $requestFactory;
     private $createUnitUseCase;
     private $editUnitUseCase;
     private $findUnitByIdUseCase;
@@ -19,6 +20,7 @@ class UnitWebController extends Controller
     public function __construct()
     {
         $useCaseFactory = app(UseCaseFactory::class);
+        $this->requestFactory = app(RequestFactory::class);
         $this->createUnitUseCase = $useCaseFactory->make('App\Domains\Condo\UseCase\CreateUnitUseCase');
         $this->editUnitUseCase = $useCaseFactory->make('App\Domains\Condo\UseCase\EditUnitUseCase');
         $this->findUnitByIdUseCase = $useCaseFactory->make('App\Domains\Condo\UseCase\FindUnitByIdUseCase');
@@ -29,7 +31,7 @@ class UnitWebController extends Controller
     public function index(Request $request)
     {
         $this->returnView = view('unit.failure');
-        $findUnitsByCriteriaRequest = RequestFactory::make("FindUnitsByCriteriaRequest", 
+        $findUnitsByCriteriaRequest = $this->requestFactory->make("App\Domains\Condo\Boundary\Input\FindUnitsByCriteriaRequest", 
                             ["description" => $request->description]);
         
         $this->findUnitsByCriteriaUseCase->execute($findUnitsByCriteriaRequest, function($response){
@@ -50,7 +52,7 @@ class UnitWebController extends Controller
     public function store(Request $request)
     {
         $this->returnView = view('unit.failure');
-        $createUnitRequest = RequestFactory::make("CreateUnitRequest",
+        $createUnitRequest = $this->requestFactory->make("App\Domains\Condo\Boundary\Input\CreateUnitRequest",
                             ["description"=>$request->description]);
         $this->createUnitUseCase->execute($createUnitRequest,function($response){
             $this->returnView = redirect()->route('unit.index')->with('success', 'Unit succesfully created');
@@ -62,7 +64,7 @@ class UnitWebController extends Controller
     public function show($id)
     {
         $this->returnView = view('unit.failure');
-        $findUnitByIdRequest = RequestFactory::make("FindUnitByIdRequest",
+        $findUnitByIdRequest = $this->requestFactory->make("App\Domains\Condo\Boundary\Input\FindUnitByIdRequest",
                                     ["id"=>$id]);
         
         $this->findUnitByIdUseCase->execute($findUnitByIdRequest,function($response){
@@ -79,7 +81,7 @@ class UnitWebController extends Controller
     public function edit($id)
     {
          $this->returnView = view('unit.failure');
-        $findUnitByIdRequest = RequestFactory::make("FindUnitByIdRequest",
+        $findUnitByIdRequest = $this->requestFactory->make("App\Domains\Condo\Boundary\Input\FindUnitByIdRequest",
                                 ["id"=>$id]);
         
         $this->findUnitByIdUseCase->execute($findUnitByIdRequest,function($response){
@@ -95,7 +97,7 @@ class UnitWebController extends Controller
 
     public function update(Request $request, $id)
     {
-        $editUnitRequest = RequestFactory::make("EditUnitRequest",
+        $editUnitRequest = $this->requestFactory->make("App\Domains\Condo\Boundary\Input\EditUnitRequest",
                         ["description"=>$request->description, "id"=> $id]);
         
         $this->editUnitUseCase->execute($editUnitRequest,function($response){
@@ -110,7 +112,7 @@ class UnitWebController extends Controller
 
     public function destroy($id)
     {
-        $deleteUnitRequest = RequestFactory::make("DeleteUnitRequest", 
+        $deleteUnitRequest = $this->requestFactory->make("App\Domains\Condo\Boundary\Input\DeleteUnitRequest", 
                                 ["id"=> $id]);
         
         $this->deleteUnitUseCase->execute($deleteUnitRequest,function($response){
