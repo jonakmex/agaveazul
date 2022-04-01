@@ -110,6 +110,7 @@
    <!-- /.content -->
 
    @include('movimientos.modal.add',['name'=>'addMovModal','cuenta'=>$selected])
+   @include('cuentas.modal.export',['name'=>'exportModal'])
    @include('movimientos.modal.search',['name'=>'searchMovModal'])
   </div>
   <!-- /.content-wrapper -->
