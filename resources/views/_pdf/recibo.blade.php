@@ -104,8 +104,8 @@
     <td colspan="3"><p>CTA: 25600009260
       <p>CLABE: 044685256000092609
     </td>
-    <td colspan="3">Guillermo Rivera González</td>
-    <td colspan="4">José Alvarado Pérez</td>
+    <td colspan="3">Jonathan Josue Gomez Bustamante</td>
+    <td colspan="4">Alma Rosa Villarreal Luján</td>
     <td rowspan="2" colspan="2">{{$recibo->folio()}}</td>
   </tr>
   <tr>
