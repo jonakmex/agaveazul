@@ -114,7 +114,13 @@
                       <td><a href="#">{{$recibo->descripcion}}</a></td>
                       <td>{{$recibo->fecLimite}}</td>
                       <td>{{$recibo->fecPago}}</td>
-                      <td>${{$recibo->importe}}</td>
+                      <td>
+                        @if($recibo->estado == 2)
+                          ${{$recibo->saldo}}
+                        @else
+                          ${{$recibo->importe}}
+                        @endif
+                      </td>
                       <td>
                       @if($recibo->estado == 1)
                         <ion-icon name="calendar" title="Pendiente"></ion-icon>
