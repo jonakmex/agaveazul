@@ -23,7 +23,7 @@ class CuotasController extends Controller
     public function index(Request $request)
     {
       Auth::user()->authorizeRoles(['Administrador','Residente']);
-      $cuotas = Cuota::where('estado',1)->where('descripcion','like','%'.$request['descripcion'].'%')->paginate(10);
+      $cuotas = Cuota::where('estado',1)->where('periodicidad','!=',null)->where('descripcion','like','%'.$request['descripcion'].'%')->paginate(10);
       switch(Auth::user()->profile->descripcion){
         case 'Administrador':
           return view('cuotas.index')->with('cuotas',$cuotas);
