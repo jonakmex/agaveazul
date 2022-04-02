@@ -21,7 +21,7 @@ class DocumentoController extends Controller
     public function index()
     {
         Auth::user()->authorizeRoles(['Administrador','Residente','Operador']);
-        $documentos = Documento::where('estado',1)->paginate(10);
+        $documentos = Documento::where('estado',1)->orderBy('updated_at','DESC')->paginate(10);
         if(Auth::user()->profile->descripcion ==='Administrador'){
           return view('documento.index')->with('documentos',$documentos);
         }
