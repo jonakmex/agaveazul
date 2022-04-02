@@ -87,6 +87,7 @@
             <ul class="nav nav-tabs">
               <li class="active"><a href="#activity" data-toggle="tab">Recibos</a></li>
               <li><a href="#timeline" data-toggle="tab">Contactos</a></li>
+              <li><a href="#budget" data-toggle="tab">Presupuesto</a></li>
             </ul>
             <div class="tab-content">
               <div class="active tab-pane table-responsive" id="activity">
@@ -173,7 +174,36 @@
                 @include('contacto.modal.add',['name'=>'addModal'])
               </div>
               <!-- /.tab-pane -->
-
+              <div class="tab-pane table-responsive" id="budget">
+                  <table class="table table-striped table-hover">
+                    <thead>
+                      <tr>
+                        <th colspan="7">Gastos Fijos ABR 2022</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th>Egreso</th>
+                        <th>Fundamento</th>
+                        <th>Importe</th>
+                        <th>IVA</th>
+                        <th>Fecha</th>
+                        <th>Proveedor</th>
+                        <th>Estatus</th>
+                      </tr>
+                      <tr>
+                        <td>Seguro de Camaras</td>
+                        <td>Asamblea 03 Marzo 2022</td>
+                        <td>$1,520.00</td>
+                        <td>$0.00</td>
+                        <td>1 al 5 de Abril</td>
+                        <td>AUTOTECSOL</td>
+                        <td>Programado</td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+              <!-- /.tab-pane -->
 
             </div>
             <!-- /.tab-content -->
