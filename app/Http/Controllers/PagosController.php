@@ -56,7 +56,7 @@ class PagosController extends Controller
         'rec_id' => 'required',
         'cuenta_id' => 'required',
         'tipo_pago' => 'required',
-        'comprobante' => 'mimes:jpg,bmp,png,pdf,zip',
+        'comprobante' => 'mimes:jpg,jpeg,bmp,png,pdf,zip',
       ]);
 
       $pagarReciboIn = ReciboMapper::getPagarReciboIn($request);
