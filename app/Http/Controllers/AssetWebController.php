@@ -110,7 +110,7 @@ class AssetWebController extends Controller
         $deleteAssetRequest = $this->requestFactory->make(
             "App\Domains\Condo\Boundary\Input\DeleteAssetRequest",["id"=>$id]);
         $this->deleteAssetUseCase->execute($deleteAssetRequest, function($response){
-            $this->returnView = redirect()->route('asset.index')->with('success','unit succesfully removed');
+            $this->returnView = redirect()->route('asset.index',['unitId'=>$response->assetDS->unitId])->with('success','unit succesfully removed');
         });
         return $this->returnView;
     }
