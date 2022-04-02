@@ -20,3 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::resource('unit',App\Http\Controllers\UnitApiController::class);
+Route::resource('asset',App\Http\Controllers\AssetApiController::class);

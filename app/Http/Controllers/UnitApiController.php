@@ -13,7 +13,7 @@ class UnitApiController extends Controller
     private $editUnitUseCase;
     private $findUnitByIdUseCase;
     private $findUnitsByCriteriaUseCase;
-
+    private $deleteUnitUseCase;
 
     public function __construct()
     {
@@ -46,7 +46,7 @@ class UnitApiController extends Controller
     public function show($id){
         $findUnitByIdRequest = $this->requestFactory->make("App\Domains\Condo\Boundary\Input\FindUnitByIdRequest",["id"=>$id]);
 
-        $this->findUnitByIdRequest->execute($findUnitByIdRequest,function($response){
+        $this->findUnitByIdUseCase->execute($findUnitByIdRequest,function($response){
             if($response->errors != null && count($response->errors) > 0){
                 $this->responseJson = response()->json($response->errors);
             }
@@ -60,7 +60,7 @@ class UnitApiController extends Controller
 
     public function update(Request $request, $id){
         $editUnitRequest = $this->requestFactory->make(
-            "EditUnitRequest",["description" => $request->description, "id"=>$id]
+            "App\Domains\Condo\Boundary\Input\EditUnitRequest",["description" => $request->description, "id"=>$id]
         );
 
         $this->editUnitUseCase->execute($editUnitRequest,function($response){

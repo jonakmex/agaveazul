@@ -3,6 +3,8 @@
 namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 
+use App\Domains\Condo\Repository\AssetEloquentRepository;
+use App\Domains\Condo\Repository\AssetRepository;
 use App\Domains\Condo\Repository\UnitEloquentRepository;
 use App\Domains\Condo\Repository\UnitRepository;
 use App\Domains\Shared\UseCase\UseCaseFactory;
@@ -15,6 +17,12 @@ use App\Domains\Condo\UseCase\EditUnitUseCase;
 use App\Domains\Condo\UseCase\FindUnitByIdUseCase;
 use App\Domains\Condo\UseCase\FindUnitsByCriteriaUseCase;
 use App\Domains\Condo\UseCase\DeleteUnitUseCase;
+
+use App\Domains\Condo\UseCase\CreateAssetUseCase;
+use App\Domains\Condo\UseCase\EditAssetUseCase;
+use App\Domains\Condo\UseCase\FindAssetByIdUseCase;
+use App\Domains\Condo\UseCase\FindAssetsByCriteriaUseCase;
+use App\Domains\Condo\UseCase\DeleteAssetUseCase;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -40,6 +48,10 @@ class AppServiceProvider extends ServiceProvider
             return new UnitEloquentRepository;
         });
 
+        $this->app->singleton(AssetRepository::class, function() {
+            return new AssetEloquentRepository;
+        });
+
         // Use Cases
         $this->app->singleton(CreateUnitUseCase::class, function() {
             return new CreateUnitUseCase(app(UnitRepository::class));
@@ -59,6 +71,26 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton(DeleteUnitUseCase::class, function() {
             return new DeleteUnitUseCase(app(UnitRepository::class));
+        });
+        // asset use cases
+        $this->app->singleton(CreateAssetUseCase::class, function() {
+            return new CreateAssetUseCase(app(AssetRepository::class));
+        });
+
+        $this->app->singleton(FindAssetByIdUseCase::class, function() {
+            return new FindAssetByIdUseCase(app(AssetRepository::class));
+        });
+
+        $this->app->singleton(EditAssetUseCase::class, function() {
+            return new EditAssetUseCase(app(AssetRepository::class));
+        });
+
+        $this->app->singleton(FindAssetsByCriteriaUseCase::class, function() {
+            return new FindAssetsByCriteriaUseCase(app(AssetRepository::class));
+        });
+
+        $this->app->singleton(DeleteAssetUseCase::class, function() {
+            return new DeleteAssetUseCase(app(AssetRepository::class));
         });
         
     }

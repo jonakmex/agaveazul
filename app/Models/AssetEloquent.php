@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UnitEloquent extends Model
+class AssetEloquent extends Model
 {
-    protected $table = "unit";
     use HasFactory;
+    protected $table = "asset";
 
-    public function assets(){
-        return $this->hasMany('App\Models\AssetEloquent');
+    public function unit(){
+        return $this->belongsTo('App\Models\UnitEloquent');
     }
 }

@@ -8,6 +8,11 @@ use App\Domains\Condo\UseCase\FindUnitByIdUseCase;
 use App\Domains\Condo\UseCase\FindUnitsByCriteriaUseCase;
 use App\Domains\Condo\UseCase\DeleteUnitUseCase;
 
+use App\Domains\Condo\UseCase\CreateAssetUseCase;
+use App\Domains\Condo\UseCase\EditAssetUseCase;
+use App\Domains\Condo\UseCase\FindAssetByIdUseCase;
+use App\Domains\Condo\UseCase\FindAssetsByCriteriaUseCase;
+use App\Domains\Condo\UseCase\DeleteAssetUseCase;
 
 class UseCaseFactoryMock implements UseCaseFactory {
 
@@ -22,6 +27,17 @@ class UseCaseFactoryMock implements UseCaseFactory {
             return $this->makeFindUnitsByCriteriaUseCase($dependencies);
         if("DeleteUnitUseCase" === $useCaseName)
             return $this->makeDeleteUnitUseCase($dependencies);
+
+        if("CreateAssetUseCase" === $useCaseName)
+            return $this->makeCreateAssetUseCase($dependencies);
+        if("FindAssetByIdUseCase" === $useCaseName)
+            return $this->makeFindAssetByIdUseCase($dependencies);
+        if("EditAssetUseCase" === $useCaseName)
+            return $this->makeEditAssetUseCase($dependencies);
+        if("FindAssetsByCriteriaUseCase" === $useCaseName)
+            return $this->makeFindAssetsByCriteriaUseCase($dependencies);
+        if("DeleteAssetUseCase" === $useCaseName)
+            return $this->makeDeleteAssetUseCase($dependencies);
     }
 
     private function makeCreateUnitUseCase($dependencies){
@@ -42,5 +58,25 @@ class UseCaseFactoryMock implements UseCaseFactory {
 
     private static function makeDeleteUnitUseCase($dependencies){
         return new DeleteUnitUseCase($dependencies["unitRepository"]);
+    }
+
+    private function makeCreateAssetUseCase($dependencies){
+        return new CreateAssetUseCase($dependencies["assetRepository"]);
+    }
+
+    private function makeFindAssetByIdUseCase($dependencies){
+        return new FindAssetByIdUseCase($dependencies["assetRepository"]);
+    }
+
+    private function makeEditAssetUseCase($dependencies){
+        return new EditAssetUseCase($dependencies["assetRepository"]);
+    }
+
+    private function makeFindAssetsByCriteriaUseCase($dependencies){
+        return new FindAssetsByCriteriaUseCase($dependencies["assetRepository"]);
+    }
+
+    private function makeDeleteAssetUseCase($dependencies){
+        return new DeleteAssetUseCase($dependencies["assetRepository"]);
     }
 }
