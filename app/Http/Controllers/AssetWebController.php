@@ -23,7 +23,6 @@ class AssetWebController extends Controller
         $this->createAssetUseCase = $useCaseFactory->make('App\Domains\Condo\UseCase\CreateAssetUseCase');
         $this->editAssetUseCase = $useCaseFactory->make('App\Domains\Condo\UseCase\EditAssetUseCase');
         $this->findAssetByIdUseCase = $useCaseFactory->make('App\Domains\Condo\UseCase\FindAssetByIdUseCase');
-        $this->findAssetByIdUseCase = $useCaseFactory->make('App\Domains\Condo\UseCase\FindAssetByIdUseCase');
         $this->findAssetsByCriteriaUseCase = $useCaseFactory->make('App\Domains\Condo\UseCase\FindAssetsByCriteriaUseCase');
         $this->deleteAssetUseCase = $useCaseFactory->make('App\Domains\Condo\UseCase\DeleteAssetUseCase');
     }

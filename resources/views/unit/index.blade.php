@@ -10,7 +10,7 @@
     td, th {
       padding: 0.5rem 1rem 0 0;
     }
-  </style>
+  </style> 
 </head>
 
 <body>

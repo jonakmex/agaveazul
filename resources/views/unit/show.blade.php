@@ -28,6 +28,15 @@
     </div>
     <br>
 
+    <form action="{{route('contact.index')}}">
+        <input type="hidden" name="unit_id" value="{{$unit->id}}">
+        <input type="submit" value="Contacts">
+    </form>
+    <form action="{{route('contact.create')}}">
+        <input type="hidden" name="unit_id" value="{{$unit->id}}">
+        <input type="submit" value="Add Contact">
+    </form>
+    
     <div>
         <a href="{{route('unit.index')}}">Back</a>
     </div>

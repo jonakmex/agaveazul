@@ -13,4 +13,9 @@ class UnitEloquent extends Model
     public function assets(){
         return $this->hasMany('App\Models\AssetEloquent');
     }
+
+    public function ContactEloquent()
+    {
+        return $this->hasMany(ContactEloquent::class);
+    }
 }

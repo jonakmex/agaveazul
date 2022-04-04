@@ -7,6 +7,12 @@ use App\Domains\Condo\UseCase\EditUnitUseCase;
 use App\Domains\Condo\UseCase\FindUnitByIdUseCase;
 use App\Domains\Condo\UseCase\FindUnitsByCriteriaUseCase;
 use App\Domains\Condo\UseCase\DeleteUnitUseCase;
+use App\Domains\Condo\UseCase\CreateContactUseCase;
+use App\Domains\Condo\UseCase\EditContactUseCase;
+use App\Domains\Condo\UseCase\DeleteContactUseCase;
+use App\Domains\Condo\UseCase\FindContactByIdUseCase;
+use App\Domains\Condo\UseCase\FindContactsByCriteriaUseCase;
+
 
 use App\Domains\Condo\UseCase\CreateAssetUseCase;
 use App\Domains\Condo\UseCase\EditAssetUseCase;
@@ -38,6 +44,17 @@ class UseCaseFactoryMock implements UseCaseFactory {
             return $this->makeFindAssetsByCriteriaUseCase($dependencies);
         if("DeleteAssetUseCase" === $useCaseName)
             return $this->makeDeleteAssetUseCase($dependencies);
+        
+        if("CreateContactUseCase" === $useCaseName)
+            return $this->makeCreateContactUseCase($dependencies);
+        if("EditContactUseCase" === $useCaseName)
+            return $this->makeEditContactUseCase($dependencies);
+        if("DeleteContactUseCase" === $useCaseName)
+            return $this->makeDeleteContactUseCase($dependencies);
+        if("FindContactByIdUseCase" === $useCaseName)
+            return $this->makeFindContactByIdUseCase($dependencies);
+        if("FindContactsByCriteriaUseCase" === $useCaseName)
+            return $this->makeFindContactsByCriteriaUseCase($dependencies);
     }
 
     private function makeCreateUnitUseCase($dependencies){
@@ -77,6 +94,22 @@ class UseCaseFactoryMock implements UseCaseFactory {
     }
 
     private function makeDeleteAssetUseCase($dependencies){
-        return new DeleteAssetUseCase($dependencies["assetRepository"]);
+        return new DeleteAssetUseCase($dependencies["assetRepository"]);}
+
+    private static function makeCreateContactUseCase($dependencies){
+        return new CreateContactUseCase($dependencies["contactRepository"]);
+    }
+    private static function makeEditContactUseCase($dependencies){
+        return new EditContactUseCase($dependencies["contactRepository"]);
+    }
+
+    private static function makeDeleteContactUseCase($dependencies){
+        return new DeleteContactUseCase($dependencies["contactRepository"]);
+    }
+    private static function makeFindContactByIdUseCase($dependencies){
+        return new FindContactByIdUseCase($dependencies["contactRepository"]);
+    }
+    private static function makeFindContactsByCriteriaUseCase($dependencies){
+        return new FindContactsByCriteriaUseCase($dependencies["contactRepository"]);
     }
 }

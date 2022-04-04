@@ -20,6 +20,8 @@ Route::get('/', function () {
 
 Route::resource('unit',App\Http\Controllers\UnitWebController::class);
 Route::resource('asset',App\Http\Controllers\AssetWebController::class);
+Route::resource('contact',App\Http\Controllers\ContactWebController::class);
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -29,3 +31,5 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+

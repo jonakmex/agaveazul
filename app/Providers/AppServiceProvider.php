@@ -24,6 +24,14 @@ use App\Domains\Condo\UseCase\FindAssetByIdUseCase;
 use App\Domains\Condo\UseCase\FindAssetsByCriteriaUseCase;
 use App\Domains\Condo\UseCase\DeleteAssetUseCase;
 
+use App\Domains\Condo\Repository\ContactEloquentRepository;
+use App\Domains\Condo\Repository\ContactRepository;
+
+use App\Domains\Condo\UseCase\CreateContactUseCase;
+use App\Domains\Condo\UseCase\EditContactUseCase;
+use App\Domains\Condo\UseCase\FindContactByIdUseCase;
+use App\Domains\Condo\UseCase\FindContactsByCriteriaUseCase;
+use App\Domains\Condo\UseCase\DeleteContactUseCase;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -50,6 +58,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton(AssetRepository::class, function() {
             return new AssetEloquentRepository;
+        });
+        
+        $this->app->singleton(ContactRepository::class, function() {
+            return new ContactEloquentRepository;
         });
 
         // Use Cases
@@ -93,6 +105,28 @@ class AppServiceProvider extends ServiceProvider
             return new DeleteAssetUseCase(app(AssetRepository::class));
         });
         
+
+
+
+        $this->app->singleton(CreateContactUseCase::class, function() {
+            return new CreateContactUseCase(app(ContactRepository::class));
+        });
+
+        $this->app->singleton(EditContactUseCase::class, function() {
+            return new EditContactUseCase(app(ContactRepository::class));
+        });
+
+        $this->app->singleton(FindContactByIdUseCase::class, function() {
+            return new FindContactByIdUseCase(app(ContactRepository::class));
+        });
+
+        $this->app->singleton(FindContactsByCriteriaUseCase::class, function() {
+            return new FindContactsByCriteriaUseCase(app(ContactRepository::class));
+        });
+
+        $this->app->singleton(DeleteContactUseCase::class, function() {
+            return new DeleteContactUseCase(app(ContactRepository::class));
+        });
     }
 
     /**
