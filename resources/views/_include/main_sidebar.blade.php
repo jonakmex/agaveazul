@@ -39,7 +39,7 @@
         <ul class="treeview-menu">
           <li><a href="{{route('cuentas.index')}}">Cuentas</a></li>
           <li><a href="{{route('cuotas.index')}}">Cuotas</a></li>
-          <li><a href="{{route('diariobanco.index')}}">Aplicar Pagos</a></li>
+          <li><a href="{{route('diariobanco.index')}}">Importar Pagos Banco</a></li>
         </ul>
       </li>
       <li class="treeview">

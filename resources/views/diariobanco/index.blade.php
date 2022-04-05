@@ -11,7 +11,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Diario de Bancos
+        Importar Diario de Bancos
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
@@ -39,7 +39,7 @@
                         <br/>
                         <br/>
                         <br/>
-                        <button type="submit">Extraer</button>
+                        <button type="submit">Importar</button>
                     </form>
 
                 <!-- /.box-body -->
