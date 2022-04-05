@@ -1,68 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('adminlte::page')
+@php
+$heads = [
+    'ID',
+    'Description',
+    ['label' => 'Actions', 'no-export' => true, 'width' => 5,],
+    ['label' => 'Actions', 'no-export' => true, 'width' => 5,],
+];
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
-  <style> 
-    td, th {
-      padding: 0.5rem 1rem 0 0;
-    }
-  </style> 
-</head>
 
-<body>
-  <h1>All units</h1>
+$btnDetails = '<button class="btn btn-xs btn-default text-teal mx-1 shadow" title="Details">
+                   <i class="fa fa-lg fa-fw fa-eye"></i>
+               </button>';
 
-  @if(session('success'))
-  <div>{{ session("success") }}</div>
-  @endif
-  <div>
-    <form id="filterForm" action="{{ route('unit.index') }}" style="display: inline;">
-      @if ($errors->any())
-      <p>{{$errors->description}}</p>
-      @endif
-      <input type="text" placeholder="Search" name="description" value="{{old('description')}}"/>
-      <input type="submit" value="Filter" />
-      <form action="{{ route('unit.index') }}" style="display: inline;">
-        <input type="submit" value="Clear" />
-      </form>
-    </form>
-  </div>
-  <br><br>
-  <table>
-    <thead>
+$config = [
+    'data' => $unitIndexVm->unitsVm,
+    'order' => [[1, 'asc']],
+    'columns' => [null],
+];
+@endphp
+
+@section('title', 'Unit')
+
+@section('content_header')
+    <h1>Units</h1>
+@stop
+
+@section('content')
+<x-adminlte-datatable id="table1" :heads="$heads" head-theme="dark" striped hoverable bordered compressed>
+  @foreach($config['data'] as $row)
       <tr>
-        <th>Description</th>
-        <th>Actions</th>
+          @foreach($row as $cell)
+              <td>{!! $cell !!}</td>
+          @endforeach
       </tr>
-    </thead>
-    <tbody>
-      @forelse($units as $unit)
-      <tr>
-        <td><a href="{{route('unit.show',[$unit->id])}}">{{$unit->description}}</a></td>
-        <td>
-          <a href="{{route('unit.edit',[$unit->id])}}"><button>Edit</button></a>
-          <form method="POST" action="{{route('unit.destroy',[$unit->id])}}" style="display: inline;">
-            @csrf
-            @method('delete')
-            <input type="submit" value="Delete">
-          </form>
-        </td>
-      </tr>
-      @empty
-      <p>There are no matches</p>
-      @endforelse
-    </tbody>
-  </table>
+  @endforeach
+</x-adminlte-datatable>
 
-  <br><br>
 
-  <div>
-    <a href="{{ route('unit.create') }}"><button>Add</button></a>
-  </div>
-</body>
+@stop
 
-</html>
+@section('css')
+    <link rel="stylesheet" href="/css/admin_custom.css">
+@stop
+
+@section('js')
+    <script> console.log('Hi!'); </script>
+@stop

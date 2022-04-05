@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Domains\Shared\Boundary\RequestFactory;
 use App\Domains\Shared\UseCase\UseCaseFactory;
-
+use App\Http\Controllers\ViewModel\UnitIndexVm;
+use App\Http\Controllers\ViewModel\UnitVm;
 
 class UnitWebController extends Controller
 {
@@ -38,7 +39,7 @@ class UnitWebController extends Controller
             if($response->errors) 
                 $this->returnView = view('unit.failure')->with("error", $response->errors[0]["description"]);
             else
-                $this->returnView = view('unit.index', ["units"=> $response->unitsDS]); 
+                $this->returnView = view('unit.index', ["unitIndexVm"=> UnitWebController::createUnitIndexVm($response->unitsDS)]); 
         });
 
         return $this->returnView;
@@ -122,5 +123,27 @@ class UnitWebController extends Controller
                 $this->returnView = redirect()->route('unit.index')->with('success','unit succesfully removed');
         });
         return $this->returnView;
+    }
+
+    public static function createUnitIndexVm($unitsDS){
+        $unitIndexVm = new UnitIndexVm;
+        $unitsVm = [];
+        foreach($unitsDS as $unitDS){
+            $unitVm = new UnitVm;
+            $unitVm->id = $unitDS->id;
+            $unitVm->description = $unitDS->description;
+            $editRoute = route('unit.edit',$unitDS->id);
+            $deleteRoute = route('unit.destroy',$unitDS->id);
+            $unitVm->btnEdit = '<a href="'.$editRoute.'" class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
+            <i class="fa fa-lg fa-fw fa-pen"></i>
+            </a>';
+            $unitVm->btnDelete = '<button href="'.$editRoute.'"class="btn btn-xs btn-default text-danger mx-1 shadow" title="Delete">
+            <i class="fa fa-lg fa-fw fa-trash"></i>
+            </button>';
+
+            array_push($unitsVm,$unitVm);
+        }
+        $unitIndexVm->unitsVm = $unitsVm;
+        return $unitIndexVm;
     }
 }

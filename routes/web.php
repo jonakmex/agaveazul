@@ -18,7 +18,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('unit',App\Http\Controllers\UnitWebController::class);
+
 Route::resource('asset',App\Http\Controllers\AssetWebController::class);
 Route::resource('contact',App\Http\Controllers\ContactWebController::class);
 
