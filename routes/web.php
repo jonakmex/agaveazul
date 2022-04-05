@@ -56,4 +56,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('/vivienda/generarRecibo', ['uses' =>'ViviendaController@generarRecibo'])->name('vivienda.generarRecibo');
     Route::post('/recibos/cancelar', ['uses' =>'RecibosController@cancelar'])->name('recibos.cancelar');
     Route::post('/recibos/eliminar', ['uses' =>'RecibosController@eliminar'])->name('recibos.eliminar');
+    Route::get('/diariobanco/index',['uses' =>'RegistroBancoController@index'])->name('diariobanco.index');
+    Route::post('/diariobanco/store',['uses' =>'RegistroBancoController@store'])->name('diariobanco.store');
+    Route::post('/diariobanco/apply',['uses' =>'RegistroBancoController@applyTransaction'])->name('diariobanco.apply');
 });
