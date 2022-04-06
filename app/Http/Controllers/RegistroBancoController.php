@@ -85,7 +85,7 @@ private static function saveFile($file){
                 ->get();
         $vivienda = null;
         foreach($recs as $rec){
-            if($rec->estado == 0){
+            
                 //attempt 1 by reference
                 
                 if('Abono' == $rec->tipo_transaccion)
@@ -109,7 +109,7 @@ private static function saveFile($file){
                         $vivienda = RegistroBancoController::findViviendaByDescripcion($casa);
                     }     
                 }
-            }
+            
             $checked = $rec->estado != 0 ? "checked" : "";
             array_push($records,["diario"=>$rec,"vivienda"=>$vivienda,"checked"=>$checked]);
         }
