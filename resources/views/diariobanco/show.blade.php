@@ -38,7 +38,8 @@
    <section class="content">
      <form action="{{route('diariobanco.apply')}}" method="POST" enctype="multipart/form-data">
        {{ csrf_field () }}
-       <input type="hidden" id="fecha" value="{{$fecha}}" name="fecha">
+       <input type="hidden" id="fechaInicio" value="{{$fechaInicio}}" name="fechaInicio">
+       <input type="hidden" id="fechaFin" value="{{$fechaFin}}" name="fechaFin">
         <table class="table table-bordered table-stripped table-hover">
             <tr>
                 <thead>

@@ -13,7 +13,7 @@ class RegistroBancoController extends Controller
     public function index(){
         Auth::user()->authorizeRoles(['Administrador']);
         $today = new \DateTime('now');
-        return view('diariobanco.index',["fecha"=>$today->format('Y-m-d')]);
+        return view('diariobanco.index',["fechaInicio"=>$today->format('Y-m-d'),"fechaFin"=>$today->format('Y-m-d')]);
     }
 
     public function store(Request $request)
@@ -26,7 +26,7 @@ class RegistroBancoController extends Controller
             RegistroBancoController::saveFile($request->file('diariobanco'));
 
         $records = RegistroBancoController::diarioBancos($request);
-        return view('diariobanco.show',["records"=>$records,"fecha"=>$request->fecha]);
+        return view('diariobanco.show',["records"=>$records,"fechaInicio"=>$request->fechaInicio,"fechaFin"=>$request->fechaFin]);
     }
 
     public function applyTransaction(Request $request){
@@ -38,7 +38,7 @@ class RegistroBancoController extends Controller
         }
 
         $records = RegistroBancoController::diarioBancos($request);
-        return view('diariobanco.show',["records"=>$records,"fecha"=>$request->fecha]); 
+        return view('diariobanco.show',["records"=>$records,"fechaInicio"=>$request->fechaInicio,"fechaFin"=>$request->fechaFin]);
     }
 
 
@@ -80,7 +80,9 @@ private static function saveFile($file){
 
     private static function diarioBancos($request){
         $records = [];
-        $recs = RegistroBanco::whereDate('fecha','=',Carbon::parse($request->fecha)->toDateString())->get();
+        $recs = RegistroBanco::whereDate('fecha','>=',Carbon::parse($request->fechaInicio)->toDateString())
+                ->whereDate('fecha','<=',Carbon::parse($request->fechaFin)->toDateString())
+                ->get();
         $vivienda = null;
         foreach($recs as $rec){
             if($rec->estado == 0){

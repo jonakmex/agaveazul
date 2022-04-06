@@ -35,7 +35,8 @@
                         {{ csrf_field () }}
                         <input type="file" id="diariobanco" name="diariobanco">
                         <label for="fecha">Fecha</label><br/>
-                        <input type="text" id="fecha" value="{{$fecha}}" name="fecha">
+                        <input type="text" id="fechaInicio" value="{{$fechaInicio}}" name="fechaInicio">
+                        <input type="text" id="fechaFin" value="{{$fechaFin}}" name="fechaFin">
                         <br/>
                         <br/>
                         <br/>
