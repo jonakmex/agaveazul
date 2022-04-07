@@ -1,69 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('adminlte::page')
+@php
+$heads = [
+    'ID',
+    'Name',
+    'Last Name',  
+    'Type',
+    ['label' => 'Actions', 'no-export' => true, 'width'=> '20']
+];
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contacts</title>
-  <style> 
-   
-  </style>
-</head>
+$config = [
+    'columns' => [null, null, null, null, ['orderable' => false]],
+    'paging' => false
+];
+@endphp
 
-<body>
-  <h1>All contacts</h1>
+@section('title', 'Contacts')
 
-  <div>
-    <form action="{{ route('contact.index') }}" style="display: inline;">
-      <input type="text" placeholder="Name" name="name"/>
-      <input type="text" placeholder="Last Name" name="lastName"/>
-      <select name="type">
-        <option  value="">Todos</option>
-        <option  value="PROPIETARIO">Propietario</option>
-        <option  value="ARRENDATARIO">Arrendatario</option>
-        <option  value="REP_LEGAL">Rep. Legal</option>
-      </select>
-      <input type="hidden" name="unit_id" value="{{$unit_id}}">
-      <input type="submit" value="Filter" />
-    </form>
-    <form action="{{ route('contact.index') }}" style="display: inline;">
-        <input type="hidden" name="unit_id" value="{{$unit_id}}">
-        <input type="submit" value="Clear" />
-    </form>
-  </div>
+@section('content_header')
+  <h1>Unit {{$contactIndexVm->unit_id}}: Contacts</h1>
+@stop
 
-  <br><br>
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Type</th>
-      </tr>
-    </thead>
-    <tbody>
-      @forelse($contacts as $contact)
-      <tr>
-        <td><a href="{{route('contact.show',[$contact->id])}}">{{$contact->name}} {{$contact->lastName}}</a></td>
-        <td>{{$contact->type}}</td>
-        <td>
-          <a href="{{route('contact.edit',[$contact->id])}}"><button>Edit</button></a>
-          <form method="POST" action="{{route('contact.destroy',[$contact->id])}}" style="display: inline;">
-            @csrf
-            @method('delete')
-            <input type="submit" value="Delete">
-          </form>
-        </td>
-      </tr>
-      @empty
-      <p>There are no matches</p>
-      @endforelse
-    </tbody>
-  </table>
-  <div>
-        <a href="{{route('unit.show', [$unit_id])}}">Back</a>
-  </div>
-  
-</body>
+@section('content')
 
-</html>
+<div class="my-3">
+    <a href="{{route('unit.show',$contactIndexVm->unit_id)}}">
+        <x-adminlte-button label="View unit"/>
+    </a>
+    <a href="{{route('contact.create',['unit_id'=> $contactIndexVm->unit_id])}}" class="ml-2"> 
+        <x-adminlte-button label="Add" theme="primary" icon="fa fa-plus-circle"/>
+    </a>
+</div>
+
+<x-adminlte-datatable id="table2" :heads="$heads" :config="$config" head-theme="dark" striped bordered hoverable>
+    @foreach($contactIndexVm->contactsVm as $row)
+        <tr>
+          @foreach($row as $cell)
+             <td>{!! $cell !!}</td>
+          @endforeach
+        </tr>
+    @endforeach
+</x-adminlte-datatable>
+<br>
+<a href="{{route('unit.show', $contactIndexVm->unit_id)}}">
+  <x-adminlte-button  theme="secondary" label="Back"/>
+</a>
+
+@stop

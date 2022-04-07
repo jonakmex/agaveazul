@@ -1,32 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Contact</title>
-</head>
-<body>
-    <form action="{{ route('contact.store') }}" method="POST">
-        {{ csrf_field () }}
-        <input type="hidden" name="unit_id" value="{{$unit_id}}"/>
-        <label for="name">Name</label>
-        <input type="text" name="name" id="name"/>
-        <label for="lastName">Last Name</label>
-        <input type="text" name="lastName" id="lastName"/>
+@extends('adminlte::page')
 
-        <p>Type:<br>
-        <input type="radio" name="type" value="PROPIETARIO"> Propietario<br>
-        <input type="radio" name="type" value="ARRENDATARIO"> Arrendatario<br>
-        <input type="radio" name="type" value="REP_LEGAL"> Rep. Legal
-        </p>
+@section('title', 'Create Contact')
 
-        <button type="submit">Guardar</button>
-    </form>
+@section('content_header')
+  <h1>Create Contact</h1>
+@stop
 
-    <div>
-        <a href="{{route('unit.show', [$unit_id])}}">Back</a>
-  </div>
+@section('content')
+<form action="{{ route('contact.store') }}" method="POST">
+    @csrf
+    <input type="hidden" name="unit_id" id="unit_id" value="{{$contactCreateVm->unit_id}}">
+    <div class="card">
 
-</body>
-</html>
+        <div class="card-body">
+           <div class="row">
+                <x-adminlte-input name="name" label="Name" fgroup-class="col-md-6">
+                </x-adminlte-input>
+                <x-adminlte-input name="lastName" label="Last name" fgroup-class="col-md-6">
+                </x-adminlte-input>
+                <x-adminlte-select name="type" label="Type" fgroup-class="col-md-6">
+                <option value="" hidden selected></option>
+                    @foreach ($contactCreateVm->types as $type)
+                        <option value="{{$type['key']}}">{{$type['label']}}</option>
+                    @endforeach
+                </x-adminlte-select>
+            </div>
+        </div>
+   
+        <div class="card-footer">
+            <a  href="{{route('contact.index',['unit_id'=>$contactCreateVm->unit_id])}}">
+                <x-adminlte-button label="Cancel"/>
+            </a>
+            <x-adminlte-button class="btn ml-2" type="submit" label="Create" theme="primary"/>
+        </div>
+
+    </div>
+</form>
+@stop

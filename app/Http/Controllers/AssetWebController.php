@@ -149,8 +149,7 @@ class AssetWebController extends Controller
                 <i class="fa fa-lg fa-fw fa-pen"></i>
             </a>
             <form action="'.route('asset.destroy', $assetVm->id).'" method="POST" class="d-inline">
-                <input type="hidden" name="_token" value="'.csrf_token().'">
-                <input type="hidden" name="_method" value="delete">
+               '.csrf_field().method_field('DELETE').'
                 <button type="submit" class="btn btn-xs text-danger mx-1" title="Delete">
                     <i class="fa fa-lg fa-fw fa-trash"></i>
                 </button>

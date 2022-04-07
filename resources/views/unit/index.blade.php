@@ -14,11 +14,17 @@ $config = [
 @section('title', 'Unit')
 
 @section('content_header')
-    <h1>Units</h1>
+    <div class="my-3">
+        <h1>Units</h1>
+        <a href="{{route('unit.create')}}" class="ml-2"> 
+            <x-adminlte-button style="height: 40px; display:flex; align-items:center;" label=" Add unit" theme="info" icon="fa fa-plus-circle"/>
+        </a>
+    </div>
+    
 @stop
 
 @section('content')
-<x-adminlte-datatable id="table1" :heads="$heads" :config="$config" head-theme="dark" striped bordered hoverable>
+<x-adminlte-datatable id="table1" :heads="$heads" :config="$config" head-theme="dark"  striped bordered hoverable>
     @foreach($unitIndexVm->unitsVm as $row)
         <tr>
           @foreach($row as $cell)

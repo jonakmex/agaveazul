@@ -1,27 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Contact</title>
-</head>
-<body>
-    <h1>Contact</h1>
-    <ul>
-    <li><b>Id: </b> {{$contact->id}}</li>
-    <li><b>Name: </b> {{$contact->name}}</li>
-    <li><b>Last Name: </b> {{$contact->lastName}}</li>
-    <li><b>Type: </b> {{$contact->type}}</li>
-    <li><b>Unit Id: </b> {{$contact->unit_id}}</li>
-    </ul>
+@extends('adminlte::page')
 
-    <br>
-    <div>
-        <form action="{{route('contact.index')}}">
-            <input type="hidden" value="{{$contact->unit_id}}" name="unit_id">
-            <input type="submit" value="Back">
-        </form>
+@section('title', 'Asset')
+
+@section('content_header')
+  <h1>Asset {{$contactShowVm->id}}</h1>
+@stop
+
+@section('content')
+
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                <p><b>Id</b></p>
+                <p><b>Unit id</b></p>
+                <p><b>Name</b></p>
+                <p><b>Last Name</b></p>
+                <p><b>Type</b></p>
+            </div>
+            <div class="col">
+                <p>{{$contactShowVm->id}}</p>
+                <p>{{$contactShowVm->unit_id}}</p>
+                <p>{{$contactShowVm->name}}</p>
+                <p>{{$contactShowVm->lastName}}</p>
+                <p>{{$contactShowVm->type}}</p>
+            </div>
+        </div>
     </div>
-</body>
-</html>
+    <div class="card-footer">
+        <a href="{{route('contact.index',['unit_id'=>$contactShowVm->unit_id])}}">
+            <x-adminlte-button label="Back"/>
+        </a>
+        <a href="{{route('contact.edit',$contactShowVm->id)}}" class="ml-2"> 
+            <x-adminlte-button label="Edit" theme="primary"/>
+        </a>
+    </div>
+</div>
+@stop
+
+@section('css')
+    <link rel="stylesheet" href="/css/admin_custom.css"> 
+@stop
+
+@section('js')
+    <script> console.log('Hi!'); </script>
+@stop

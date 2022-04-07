@@ -1,26 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit</title>
-</head>
-<body>
-    <form action="{{route('contact.update',[$contact->id])}}" method="POST">
-        @csrf
-        @method('PUT')
-        <input value = "{{$contact->name}} "type="text" name="name">
-        <input value = "{{$contact->lastName}} "type="text" name="lastName">
-        <p>Type:<br>
-        <input type="radio" name="type" value="PROPIETARIO"> Propietario<br>
-        <input type="radio" name="type" value="ARRENDATARIO"> Arrendatario<br>
-        <input type="radio" name="type" value="REP_LEGAL"> Rep. Legal
-        </p>
-        <button type="submit">editar</button>
-    </form>
+@extends('adminlte::page')
 
-    <br>
-    
-</body>
-</html>
+@section('title', 'Edit Contact')
+
+@section('content_header')
+  <h1>Edit Contact</h1>
+@stop
+
+@section('content')
+<form action="{{ route('contact.update', $contactEditVm->id) }}" method="POST">
+    @csrf
+    @method('PUT')
+    <input type="hidden" name="unit_id" id="unit_id" value="{{$contactEditVm->unit_id}}">
+    <div class="card">
+
+        <div class="card-body">
+           <div class="row">
+                <x-adminlte-input name="name" label="Name" fgroup-class="col-md-6" value="{{$contactEditVm->name}}">
+                </x-adminlte-input>
+                <x-adminlte-input name="lastName" label="Last Name" fgroup-class="col-md-6" value="{{$contactEditVm->lastName}}">
+                </x-adminlte-input>
+                <x-adminlte-select name="type" label="Type" fgroup-class="col-md-6">
+                <option value="{{$contactEditVm->type['key']}}" hidden selected>
+                    {{$contactEditVm->type['value']}}
+                </option>
+                    @foreach ($contactEditVm->types as $type)
+                        <option value="{{$type['key']}}">{{$type['label']}}</option>
+                    @endforeach
+                </x-adminlte-select>
+            </div>
+        </div>
+   
+        <div class="card-footer">
+            <a  href="{{route('contact.index',['unit_id'=>$contactEditVm->unit_id])}}">
+                <x-adminlte-button label="Cancel"/>
+            </a>
+            <x-adminlte-button class="btn ml-2" type="submit" label="Edit" theme="primary"/>
+        </div>
+
+    </div>
+</form>
+@stop

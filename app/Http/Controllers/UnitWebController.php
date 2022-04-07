@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Domains\Shared\Boundary\RequestFactory;
 use App\Domains\Shared\UseCase\UseCaseFactory;
 use App\Http\Controllers\ViewModel\UnitIndexVm;
+use App\Http\Controllers\ViewModel\UnitShowVm;
+use App\Http\Controllers\ViewModel\UnitEditVm;
 use App\Http\Controllers\ViewModel\UnitVm;
 
 class UnitWebController extends Controller
@@ -73,7 +75,7 @@ class UnitWebController extends Controller
             if($response->errors) 
                 $this->returnView = view('unit.failure')->with("error", $response->errors[0]["id"]);
             else 
-                $this->returnView = view('unit.show',['unit' => $response->unitDS]);
+                $this->returnView = view('unit.show',["unitShowVm"=> UnitWebController::makeUnitShowVm($response->unitDS)]);
         });
 
         return $this->returnView;
@@ -90,7 +92,7 @@ class UnitWebController extends Controller
             if($response->errors) 
                 $this->returnView = view('unit.failure')->with("error", $response->errors[0]["id"]);
             else 
-                $this->returnView = view('unit.edit',['unit' => $response->unitDS]);
+                $this->returnView = view('unit.edit',["unitEditVm"=> UnitWebController::makeUnitEditVm($response->unitDS)]);
         });
 
         return $this->returnView;
@@ -106,7 +108,7 @@ class UnitWebController extends Controller
             if($response->errors) 
                 $this->returnView = view('unit.failure')->with("error", $response->errors[0]["id"]);
             else 
-                $this->returnView = view('unit.show',['unit' => $response->unitDS]);
+                $this->returnView = view('unit.show',["unitShowVm"=> UnitWebController::makeUnitShowVm($response->unitDS)]);
         });
         return $this->returnView;
     }
@@ -156,4 +158,28 @@ class UnitWebController extends Controller
         $unitIndexVm->unitsVm = $unitsVm;
         return $unitIndexVm;
     }
+
+    public static function makeUnitShowVm($unitDS){
+        $unitShowVm = new UnitShowVm;
+        $unitVm = new UnitVm;
+        $unitVm->id = $unitDS->id;
+        $unitVm->description = $unitDS->description;
+
+        $unitShowVm->unitsVm = $unitVm;
+        return  $unitShowVm;
+
+    }
+
+    public static function makeUnitEditVm($unitDS){
+        $unitEditVm = new UnitEditVm;
+        $unitVm = new UnitVm;
+        $unitVm->id = $unitDS->id;
+        $unitVm->description = $unitDS->description;
+
+        $unitEditVm->unitsVm = $unitVm;
+        return  $unitEditVm;
+
+    }
+
+    
 }

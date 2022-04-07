@@ -1,22 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    <form action="{{ route('unit.store') }}" method="POST">
-        {{ csrf_field () }}
-        <label for="descripcion">Descripcion</label>
-        <input type="textfield" name="description" id="description"/>
-        <button type="submit">Guardar</button>
-    </form>
+@extends('adminlte::page')
 
-    <br>
-    <div>
-        <a href="{{route('unit.index')}}">Back</a>
+@section('title', 'Create Asset')
+
+@section('content_header')
+  <h1>Create Unit</h1>
+@stop
+
+@section('content')
+<form action="{{ route('unit.store') }}" method="POST">
+    @csrf
+    <div class="card">
+
+        <div class="card-body">
+           <div class="row" style="display: inline;">
+                <x-adminlte-input name="description" label="Description" fgroup-class="col-md-6">
+                </x-adminlte-input>
+            </div>
+            <x-adminlte-button class="btn ml-2" type="submit" label="Create" theme="success"/>
+        </div>
+
     </div>
-</body>
-</html>
+</form>
+<a href="{{route('unit.index')}}">
+  <x-adminlte-button  theme="secondary" label="Back"/>
+</a>
+@stop
