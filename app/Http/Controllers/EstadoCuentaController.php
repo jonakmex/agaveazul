@@ -38,8 +38,8 @@ class EstadoCuentaController extends Controller
         $data = array('nombre'=>$vivienda->contactoPrincipal()->email);
         $pdf = PDF::loadView('_pdf.edocta', compact("recibos","total","fecha"));
 
-        \Storage::disk('public')->put("estadocuenta_".$recibo->fecLimite.'.pdf', $pdf->output());
-        $file = storage_path('app/public/'."estadocuenta_".$recibo->fecLimite.'.pdf');
+        \Storage::disk('public')->put("estadocuenta_".$request->fecha.'.pdf', $pdf->output());
+        $file = storage_path('app/public/'."estadocuenta_".$request->fecha.'.pdf');
 
         Mail::to($vivienda->contactoPrincipal()->email)
         ->queue(AvisoMail::newAvisoEstadoDeCuenta($data,$file));
