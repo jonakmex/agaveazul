@@ -57,6 +57,9 @@
         <ul class="treeview-menu">
           <li><a href="{{route('comunicacion.index')}}">Enviar Aviso</a></li>
         </ul>
+        <ul class="treeview-menu">
+          <li><a href="{{route('estadocuenta.index')}}">Enviar Estados de Cuenta</a></li>
+        </ul>
       </li>
       <li class="treeview">
         <a href="#"><ion-icon class="fa fa-calendar" name="settings"></ion-icon> <span>Reportes</span>

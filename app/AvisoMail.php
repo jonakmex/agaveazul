@@ -46,6 +46,12 @@ class AvisoMail extends Mailable implements ShouldQueue
         return $obj;
     }
 
+    public static function newAvisoEstadoDeCuenta($data,$file) {
+      $obj = new AvisoMail($data,$file,5);
+      // other initialization
+      return $obj;
+    }
+
 
 
 
@@ -97,6 +103,15 @@ class AvisoMail extends Mailable implements ShouldQueue
              }
 
              break;
+             case 5: //Estado de Cuenta
+              $subject = 'Estado de Cuenta';
+              $template = '_emails.edocta';
+              $this->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'))
+              ->subject($subject)
+              ->view($template)
+              ->with(['data'=>$this->data])
+              ->attach($this->file);
+              break;
      }
 
 

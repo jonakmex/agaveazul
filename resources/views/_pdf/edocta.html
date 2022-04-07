@@ -1,0 +1,62 @@
+<html>
+<head>
+  <style>
+    table{
+      border-collapse: collapse;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    th {
+      text-align: center;
+    }
+    td {
+      text-align: center;
+    }
+    table span.main{
+      color:#000080;
+      font-size:150%;
+    }
+
+    tr:nth-child(even) {
+    background-color: #dfe7eb;
+    }
+    
+  </style>
+</head>
+<body>
+  {{date_default_timezone_set('America/Mexico_City') ? "":""}}  
+<table border="1" width="90%">
+  <tr>
+    <td  colspan="1"><img height="100" src="{{public_path('img/recibo/header.png')}}" /></td>
+    <td  colspan="3"><span class="main"><strong>ESTADO DE CUENTA</strong></span></td>
+  </tr>
+    <tr>
+        <th>Cuota</th>
+        <th>Recibo</th>
+        <th>Fecha limite</th>
+        <th>Importe</th>
+    </tr>
+    <tr>
+        <td>Cuota 1</td>
+        <td>Recibo</td>
+        <td>01/ENE/2020</td>
+        <td>$30.0</td>
+    </tr>
+    <tr>
+        <td>Cuota 2</td>
+        <td>Recibo</td>
+        <td>01/ENE/2020</td>
+        <td>$30.0</td>
+    </tr>
+    <tr>
+        <td>Cuota 3</td>
+        <td>Recibo</td>
+        <td>01/ENE/2020</td>
+        <td>$30.0</td>
+    </tr>
+    <tr>
+        <td colspan="3" style="text-align: right;"><h3>Total</h3></td>
+        <td><h3>$30.0</h3></td>
+    </tr>
+</table>
+</body>
+<html>

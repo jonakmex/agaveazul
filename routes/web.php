@@ -59,4 +59,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/diariobanco/index',['uses' =>'RegistroBancoController@index'])->name('diariobanco.index');
     Route::post('/diariobanco/store',['uses' =>'RegistroBancoController@store'])->name('diariobanco.store');
     Route::post('/diariobanco/apply',['uses' =>'RegistroBancoController@applyTransaction'])->name('diariobanco.apply');
+    Route::get('/vivienda/edocta/{vivienda_id}',['uses'=>'ViviendaController@edocta'])->name('vivienda.edocta');
+    Route::post('/vivienda/edocta',['uses'=>'ViviendaController@enviarEstadosCuenta'])->name('vivienda.enviarEstadosCuenta');
+    Route::get('/estadocuenta/', ['uses' =>'EstadoCuentaController@index'])->name('estadocuenta.index');
+    Route::post('/estadocuenta/send', ['uses' =>'EstadoCuentaController@send'])->name('estadocuenta.send');
 });

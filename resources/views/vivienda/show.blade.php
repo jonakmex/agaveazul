@@ -50,7 +50,7 @@
                   <b>Saldo</b> <a class="pull-right">${{number_format($vivienda->saldo(), 2, '.', ',')}}</a>
                 </li>
                 <li class="list-group-item">
-                  <b>Estatus</b> <a class="pull-right"><span class="label label-{{$vivienda->estado() == 1 ? 'success':'danger' }}">{{$vivienda->estado() == 1 ? 'Corriente':'Mora' }}</span></a>
+                  <b>Estatus</b> <a href="{{route('vivienda.edocta',['id'=>$vivienda->id])}}" class="pull-right"><span class="label label-{{$vivienda->estado() == 1 ? 'success':'danger' }}">{{$vivienda->estado() == 1 ? 'Corriente':'Mora' }}</span></a>
                 </li>
                 <li class="list-group-item">
                   <b>Referencia</b> <a class="pull-right">{{$vivienda->referencia}}</a>

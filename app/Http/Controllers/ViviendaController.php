@@ -11,6 +11,9 @@ use App\Service\ViviendaService;
 use App\Service\Mapper\ViviendaMapper;
 use App\Exception\BusinessException;
 use Illuminate\Support\Facades\Auth;
+use PDF;
+use Mail;
+use App\AvisoMail;
 
 class ViviendaController extends Controller
 {
@@ -182,4 +185,23 @@ class ViviendaController extends Controller
       return redirect()->route('vivienda.show',$vivienda->id);
     }
 
+    public function edocta($id){
+      $vivienda = Vivienda::findOrFail($id);
+      $recibos = Recibos::where('vivienda_id',$id)->where('estado','=',1)->orderBy('fecLimite','desc')->get();
+      $total = 0;
+      foreach($recibos as $recibo){
+        $total += $recibo->importe;
+      }
+
+      switch(Auth::user()->profile->descripcion){
+        case 'Administrador':
+          return view('vivienda.edocta',['vivienda'=>$vivienda,'recibos'=>$recibos,'total'=>$total]);
+        break;
+        case 'Residente':
+          return view('profiles.residente.vivienda.edocta',['vivienda'=>$vivienda,'recibos'=>$recibos,'total'=>$total]);
+        break;
+      }
+
+      return view('vivienda.edocta',['vivienda'=>$vivienda,'recibos'=>$recibos,'total'=>$total]);
+    }
 }
