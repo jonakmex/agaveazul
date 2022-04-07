@@ -19,7 +19,6 @@ Route::get('/', function () {
 });
 
 
-Route::resource('asset',App\Http\Controllers\AssetWebController::class);
 Route::resource('contact',App\Http\Controllers\ContactWebController::class);
 
 Route::middleware([

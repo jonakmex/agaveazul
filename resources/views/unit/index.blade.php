@@ -3,19 +3,11 @@
 $heads = [
     'ID',
     'Description',
-    ['label' => 'Actions', 'no-export' => true, 'width' => 5,],
-    ['label' => 'Actions', 'no-export' => true, 'width' => 5,],
+    ['label' => 'Actions', 'no-export' => true, 'width'=> '20']
 ];
 
-
-$btnDetails = '<button class="btn btn-xs btn-default text-teal mx-1 shadow" title="Details">
-                   <i class="fa fa-lg fa-fw fa-eye"></i>
-               </button>';
-
 $config = [
-    'data' => $unitIndexVm->unitsVm,
-    'order' => [[1, 'asc']],
-    'columns' => [null],
+    'columns' => [null, null, ['orderable' => false]],
 ];
 @endphp
 
@@ -26,21 +18,23 @@ $config = [
 @stop
 
 @section('content')
-<x-adminlte-datatable id="table1" :heads="$heads" head-theme="dark" striped hoverable bordered compressed>
-  @foreach($config['data'] as $row)
-      <tr>
+<x-adminlte-datatable id="table1" :heads="$heads" :config="$config" head-theme="dark" striped bordered hoverable>
+    @foreach($unitIndexVm->unitsVm as $row)
+        <tr>
           @foreach($row as $cell)
-              <td>{!! $cell !!}</td>
+             <td>{!! $cell !!}</td>
           @endforeach
-      </tr>
-  @endforeach
+        </tr>
+    @endforeach
 </x-adminlte-datatable>
 
-
+<br>
+<br>
+<br>
 @stop
 
 @section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
+    <link rel="stylesheet" href="/css/admin_custom.css"> 
 @stop
 
 @section('js')

@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Domains\Shared\Boundary\RequestFactory;
 use App\Domains\Shared\UseCase\UseCaseFactory;
+use App\Http\Controllers\ViewModel\AssetCreateVm;
+use App\Http\Controllers\ViewModel\AssetIndexVm;
+use App\Http\Controllers\ViewModel\AssetEditVm;
+use App\Http\Controllers\ViewModel\AssetShowVm;
+use App\Http\Controllers\ViewModel\AssetVm;
 
 class AssetWebController extends Controller
 {
@@ -36,8 +41,11 @@ class AssetWebController extends Controller
                 "unitId"=>$request->unitId
         ]);
         $this->findAssetsByCriteriaUseCase->execute($findAssetsByCriteriaRequest, function($response) use($request){
-            if(property_exists($response, 'assetsDS'))
-                $this->returnView = view('asset.index', ["assets"=>$response->assetsDS, "unitId"=>$request->unitId]);
+            if(property_exists($response, 'assetsDS')){
+                $this->returnView = view('asset.index', [
+                    "assetIndexVm"=>AssetWebController::makeAssetIndexVm($response->assetsDS, $request->unitId)
+                ]);
+            }
             else 
                 $this->returnView = view('asset.failure', ["errors"=>$response->errors[0]]);
         });
@@ -47,7 +55,9 @@ class AssetWebController extends Controller
 
     public function create(Request $request)
     {
-        return view('asset.create',["unitId"=>$request->unitId]);
+        return view('asset.create',[
+            "assetCreateVm"=>AssetWebController::makeAssetCreateVm($request->unitId)
+        ]);
     }
 
     public function store(Request $request)
@@ -61,7 +71,7 @@ class AssetWebController extends Controller
         ]);
         $this->createAssetUseCase->execute($createAssetRequest,function($response){
             if(property_exists($response, 'assetDS'))
-                $this->returnView = redirect()->route('unit.show',[$response->assetDS->unitId]);
+                $this->returnView = redirect()->route('asset.index',['unitId'=> $response->assetDS->unitId]);
             else 
                 $this->returnView = view('asset.failure',['errors'=>$response->errors]);
         });
@@ -69,48 +79,145 @@ class AssetWebController extends Controller
         return $this->returnView;
     }
 
-    public function show($id)
-    {
+    public function show($id){
         $this->returnView = view('asset.failure');
         $findAssetByIdRequest = $this->requestFactory->make(
             "App\Domains\Condo\Boundary\Input\FindAssetByIdRequest", ["id"=>$id]);
         $this->findAssetByIdUseCase->execute($findAssetByIdRequest, function($response){
-            $this->returnView = view('asset.show', ["asset"=> $response->assetDS]);
+            $this->returnView = view('asset.show', ["assetShowVm"=> AssetWebController::makeAssetShowVm($response->assetDS)]);
         });
         return $this->returnView;
     }
 
-    public function edit($id)
-    {
+    public function edit($id){
         $this->returnView = view('asset.failure');
         $findAssetByIdRequest = $this->requestFactory->make(
             "App\Domains\Condo\Boundary\Input\FindAssetByIdRequest", ["id"=>$id]);
         $this->findAssetByIdUseCase->execute($findAssetByIdRequest, function($response){
-            $this->returnView = view('asset.edit', ["asset"=> $response->assetDS]);
+            $this->returnView = view('asset.edit', ["assetEditVm"=>AssetWebController::makeAssetEditVm($response->assetDS)]);
         });
         return $this->returnView;
     }
 
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id){
         $this->returnView = view('asset.failure');
         $editAssetRequest = $this->requestFactory->make(
             "App\Domains\Condo\Boundary\Input\EditAssetRequest", ["id"=>$id, "description"=> $request->description, "type"=>$request->type]
         );
         $this->editAssetUseCase->execute($editAssetRequest, function($response){
-            $this->returnView = view('asset.show', ["asset"=> $response->assetDS]);
+            $this->returnView = redirect()->route('asset.index',['unitId'=>$response->assetDS->unitId]);
         });
         return $this->returnView;
     }
 
-    public function destroy($id)
-    {
+    public function destroy($id){
         $this->returnView = view('asset.failure');
         $deleteAssetRequest = $this->requestFactory->make(
             "App\Domains\Condo\Boundary\Input\DeleteAssetRequest",["id"=>$id]);
         $this->deleteAssetUseCase->execute($deleteAssetRequest, function($response){
-            $this->returnView = redirect()->route('asset.index',['unitId'=>$response->assetDS->unitId])->with('success','unit succesfully removed');
+            $this->returnView = redirect()->route('asset.index',['unitId'=>$response->assetDS->unitId]);
         });
         return $this->returnView;
+    }
+
+    public static function makeAssetIndexVm($assetsDS, $unitId){
+        $assetIndexVm = new AssetIndexVm;
+        $assetIndexVm->unitId = $unitId;
+        $assetsVm = [];
+
+        foreach($assetsDS as $assetDS){
+            $assetVm = new AssetVm;
+            $assetVm->id = $assetDS->id;
+            $assetVm->description = $assetDS->description;
+            switch($assetDS->type){
+                case "REF_BANCO":
+                    $assetVm->type = 'Referencia Bancaria';
+                    break;
+                case "AUTOMOVIL":
+                    $assetVm->type = 'Automovil';
+                    break;
+                case "TAG_ACCESO":
+                    $assetVm->type = 'Tag de acceso';
+                    break;
+            }
+        
+            $assetVm->buttons = '
+            <a href="'.route('asset.show', $assetVm->id).'" class="btn btn-xs text-teal mx-1" title="Show">
+                <i class="fa fa-lg fa-fw fa-eye"></i>
+            </a>
+            <a href="'.route('asset.edit', $assetVm->id).'" class="btn btn-xs text-primary mx-1" title="Edit">
+                <i class="fa fa-lg fa-fw fa-pen"></i>
+            </a>
+            <form action="'.route('asset.destroy', $assetVm->id).'" method="POST" class="d-inline">
+                <input type="hidden" name="_token" value="'.csrf_token().'">
+                <input type="hidden" name="_method" value="delete">
+                <button type="submit" class="btn btn-xs text-danger mx-1" title="Delete">
+                    <i class="fa fa-lg fa-fw fa-trash"></i>
+                </button>
+            </form>';
+            array_push($assetsVm, $assetVm);
+        }
+
+        $assetIndexVm->assetsVm = $assetsVm;
+        return $assetIndexVm;
+    }
+
+    public static function makeAssetShowVm($assetDS){
+        $assetShowVm = new AssetShowVm;
+        $assetShowVm->id = $assetDS->id;
+        $assetShowVm->unitId = $assetDS->unitId;
+        $assetShowVm->description = $assetDS->description;
+        switch($assetDS->type){
+            case "REF_BANCO":
+                $assetShowVm->type = 'Referencia Bancaria';
+                break;
+            case "AUTOMOVIL":
+                $assetShowVm->type = 'Automovil';
+                break;
+            case "TAG_ACCESO":
+                $assetShowVm->type = 'Tag de acceso';
+                break;
+        } 
+
+        return $assetShowVm;
+    }
+
+    public static function makeAssetCreateVm($unitId){
+        $assetCreateVm = new AssetCreateVm;
+        $assetCreateVm->unitId = $unitId;
+        $assetCreateVm->types = [
+            ['key'=>"REF_BANCO", 'label'=>'Referencia bancaria'],
+            ['key'=>"TAG_ACCESO", 'label'=>'Tag de acceso'],
+            ['key'=>'AUTOMOVIL', 'label'=>'Automovil']
+        ];
+
+        return $assetCreateVm;
+    }
+
+    public static function makeAssetEditVm($assetDS){
+        $assetEditVm = new AssetEditVm;
+        $assetEditVm->id = $assetDS->id;
+        $assetEditVm->unitId = $assetDS->unitId;
+        $assetEditVm->description = $assetDS->description;
+        $assetEditVm->type['key'] = $assetDS->type;
+        switch($assetDS->type){
+            case "REF_BANCO":
+                $assetEditVm->type['value'] = 'Referencia Bancaria';
+                break;
+            case "AUTOMOVIL":
+                $assetEditVm->type['value'] = 'Automovil';
+                break;
+            case "TAG_ACCESO":
+                $assetEditVm->type['value']= 'Tag de acceso';
+                break;
+            default: $assetEditVm->type['value'] = 'Desconocido';
+        }
+
+        $assetEditVm->types = [
+            ['key'=>"REF_BANCO", 'label'=>'Referencia bancaria'],
+            ['key'=>"TAG_ACCESO", 'label'=>'Tag de acceso'],
+            ['key'=>'AUTOMOVIL', 'label'=>'Automovil']
+        ];
+        return $assetEditVm;
     }
 }

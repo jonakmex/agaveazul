@@ -1,32 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit</title>
-</head>
-<body>
-    <form action="{{route('asset.update',[$asset->id])}}" method="POST">
-        @csrf 
-        @method('PUT')
-        <input value = "{{$asset->description}}" type="text" name="description">
-        <input type="hidden" name="unitId" value="{{$asset->unitId}}">
-        <select name="type" id="type">
-            <option value="{{$asset->type}}" selected hidden>Select to change type</option>
-            <option value="AUTOMOVIL">Automovil</option>
-            <option value="TAG_ACCESO">Tag de acceso</option>
-            <option value="REF_BANCO">Referencia de banco</option>
-        </select>
-        <button type="submit">edit</button>
-    </form>
+@extends('adminlte::page')
 
-    <br>
-    <div>
-        <form action="{{route('asset.index')}}">
-            <input type="hidden" name="unitId" value="{{$asset->unitId}}">
-            <input type="submit" value="Back">
-        </form>
+@section('title', 'Edit Asset')
+
+@section('content_header')
+  <h1>Edit Asset</h1>
+@stop
+
+@section('content')
+<form action="{{ route('asset.update', $assetEditVm->id) }}" method="POST">
+    @csrf
+    @method('PUT')
+    <input type="hidden" name="unitId" id="unitId" value="{{$assetEditVm->unitId}}">
+    <div class="card">
+
+        <div class="card-body">
+           <div class="row">
+                <x-adminlte-input name="description" label="Description" fgroup-class="col-md-6" value="{{$assetEditVm->description}}">
+                </x-adminlte-input>
+                <x-adminlte-select name="type" label="Type" fgroup-class="col-md-6">
+                <option value="{{$assetEditVm->type['key']}}" hidden selected>
+                    {{$assetEditVm->type['value']}}
+                </option>
+                    @foreach ($assetEditVm->types as $type)
+                        <option value="{{$type['key']}}">{{$type['label']}}</option>
+                    @endforeach
+                </x-adminlte-select>
+            </div>
+        </div>
+   
+        <div class="card-footer">
+            <a  href="{{route('asset.index',['unitId'=>$assetEditVm->unitId])}}">
+                <x-adminlte-button label="Cancel"/>
+            </a>
+            <x-adminlte-button class="btn ml-2" type="submit" label="Edit" theme="primary"/>
+        </div>
+
     </div>
-</body>
-</html>
+</form>
+@stop

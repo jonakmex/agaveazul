@@ -1,69 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('adminlte::page')
+@php
+$heads = [
+    'ID',
+    'Description',  
+    'Type',
+    ['label' => 'Actions', 'no-export' => true, 'width'=> '20']
+];
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
-</head>
+$config = [
+    'columns' => [null, null, null, ['orderable' => false]],
+    'paging' => false
+];
+@endphp
 
-<body>
-  <h1>Unit {{$unitId}} Assets</h1>
+@section('title', 'Assets')
 
-  <div>
-    <form action="{{ route('asset.index') }}" style="display: inline;">
-      <input type="text" placeholder="Description..." name="description"/>
-      <label for="type">Type</label>
-      <select name="type" id="type">
-        <option selected hidden value=""></option>
-        <option value="AUTOMOVIL">Automovil</option>
-        <option value="REF_BANCO">Referencia banco</option>
-        <option value="TAG_ACCESO">Tag de acceso</option>
-      </select>
-      <input type="hidden" name="unitId" value="{{$unitId}}"/>
-      <input type="submit" value="Filter" />
-    </form>
-    <form action="{{ route('asset.index') }}" style="display: inline;">
-      <input type="hidden" name="unitId" value="{{$unitId}}"/>
-      <input type="submit" value="clear"/>
-    </form>
-  </div>
-  <br><br>
-  <table>
-    <thead>
-      <tr>
-        <th>Unit</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      @forelse($assets as $asset)
-      <tr>
-        <td>{{$asset->unitId}}</td>
-        <td>{{$asset->type}}</td>
-        <td><a href="{{route('asset.show',[$asset->id])}}">{{$asset->description}}</a></td>
-        <td>
-          <a href="{{route('asset.edit',[$asset->id])}}"><button>Edit</button></a>
-          <form method="POST" action="{{route('asset.destroy',[$asset->id])}}" style="display: inline;">
-            @csrf
-            @method('delete')
-            <input type="submit" value="Delete">
-          </form>
-        </td>
-      </tr>
-      @empty
-      <p>Empty</p>
-      @endforelse
-    </tbody>
-  </table>
+@section('content_header')
+  <h1>Unit {{$assetIndexVm->unitId}} Assets</h1>
+@stop
 
-  <br><br>
-  <div>
-    <a href="{{route('unit.show',[$unitId])}}">Back</a>
-  </div>
-</body>
+@section('content')
 
-</html>
+<div class="my-3">
+    <a href="{{route('unit.show',$assetIndexVm->unitId)}}">
+        <x-adminlte-button label="View unit"/>
+    </a>
+    <a href="{{route('asset.create',['unitId'=> $assetIndexVm->unitId])}}" class="ml-2"> 
+        <x-adminlte-button label="Add" theme="success" icon="fa fa-plus-circle"/>
+    </a>
+</div>
+
+<x-adminlte-datatable id="table1" :heads="$heads" :config="$config" head-theme="dark" striped bordered hoverable>
+    @foreach($assetIndexVm->assetsVm as $row)
+        <tr>
+          @foreach($row as $cell)
+             <td>{!! $cell !!}</td>
+          @endforeach
+        </tr>
+    @endforeach
+</x-adminlte-datatable>
+
+<br>
+<br>
+<br>
+@stop

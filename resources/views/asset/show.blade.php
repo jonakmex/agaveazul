@@ -1,26 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Asset</title>
-</head>
-<body>
-    <h1>Asset</h1>
-    <ul>
-    <li><b>Id: </b> {{$asset->id}}</li>
-    <li><b>Unit Id: </b> {{$asset->unitId}}</li>
-    <li><b>Type: </b> {{$asset->type}}</li>
-    <li><b>Description: </b> {{$asset->description}}</li>
-    </ul>
+@extends('adminlte::page')
 
-    <br>
-    <div>
-        <form action="{{route('asset.index')}}">
-            <input type="hidden" name="unitId" value="{{$asset->unitId}}">
-            <input type="submit" value="Back">
-        </form>
+@section('title', 'Asset')
+
+@section('content_header')
+  <h1>Asset {{$assetShowVm->id}}</h1>
+@stop
+
+@section('content')
+
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                <p><b>Id</b></p>
+                <p><b>Unit id</b></p>
+                <p><b>Description</b></p>
+                <p><b>Type</b></p>
+            </div>
+            <div class="col">
+                <p>{{$assetShowVm->id}}</p>
+                <p>{{$assetShowVm->unitId}}</p>
+                <p>{{$assetShowVm->description}}</p>
+                <p>{{$assetShowVm->type}}</p>
+            </div>
+        </div>
     </div>
-</body>
-</html>
+    <div class="card-footer">
+        <a href="{{route('asset.index',['unitId'=>$assetShowVm->unitId])}}">
+            <x-adminlte-button label="Back"/>
+        </a>
+        <a href="{{route('asset.edit',$assetShowVm->id)}}" class="ml-2"> 
+            <x-adminlte-button label="Edit" theme="primary"/>
+        </a>
+    </div>
+</div>
+@stop
+
+@section('css')
+    <link rel="stylesheet" href="/css/admin_custom.css"> 
+@stop
+
+@section('js')
+    <script> console.log('Hi!'); </script>
+@stop

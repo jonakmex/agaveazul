@@ -42,6 +42,7 @@ class UnitWebController extends Controller
                 $this->returnView = view('unit.index', ["unitIndexVm"=> UnitWebController::createUnitIndexVm($response->unitsDS)]); 
         });
 
+        // dd($this->returnView);
         return $this->returnView;
     }
 
@@ -132,17 +133,26 @@ class UnitWebController extends Controller
             $unitVm = new UnitVm;
             $unitVm->id = $unitDS->id;
             $unitVm->description = $unitDS->description;
-            $editRoute = route('unit.edit',$unitDS->id);
-            $deleteRoute = route('unit.destroy',$unitDS->id);
-            $unitVm->btnEdit = '<a href="'.$editRoute.'" class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
-            <i class="fa fa-lg fa-fw fa-pen"></i>
+            $btnShow = '
+            <a href="'.route('unit.show', $unitVm->id).'" class="btn btn-xs text-teal mx-1" title="Show">
+                <i class="fa fa-lg fa-fw fa-eye"></i>
             </a>';
-            $unitVm->btnDelete = '<button href="'.$editRoute.'"class="btn btn-xs btn-default text-danger mx-1 shadow" title="Delete">
-            <i class="fa fa-lg fa-fw fa-trash"></i>
-            </button>';
-
+            $btnEdit = '
+            <a href="'.route('unit.edit', $unitVm->id).'" class="btn btn-xs text-primary mx-1" title="Edit">
+                <i class="fa fa-lg fa-fw fa-pen"></i>
+            </a>';
+            $btnDelete = '
+            <form action="'.route('unit.destroy', $unitVm->id).'" method="POST" class="d-inline">
+                <input type="hidden" name="_token" value="'.csrf_token().'">
+                <input type="hidden" name="_method" value="delete">
+                <button type="submit" class="btn btn-xs text-danger mx-1" title="Delete">
+                    <i class="fa fa-lg fa-fw fa-trash"></i>
+                </button>
+            </form>';
+            $unitVm->buttons = $btnShow.$btnEdit.$btnDelete;
             array_push($unitsVm,$unitVm);
         }
+
         $unitIndexVm->unitsVm = $unitsVm;
         return $unitIndexVm;
     }
