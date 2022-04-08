@@ -112,6 +112,7 @@ private static function saveFile($file){
             
             $checked = $rec->estado != 0 ? "checked" : "";
             array_push($records,["diario"=>$rec,"vivienda"=>$vivienda,"checked"=>$checked]);
+            $vivienda = "";
         }
         return $records;
     }
