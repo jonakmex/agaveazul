@@ -1,8 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Factory\UseCaseFactoryContainer;
-use App\Domains\Shared\Boundary\RequestFactory;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,3 +31,4 @@ Route::middleware([
 });
 
 
+Route::get('test',[App\Http\Controllers\TestController::class,'index']);
