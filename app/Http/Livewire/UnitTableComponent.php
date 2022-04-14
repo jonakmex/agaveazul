@@ -23,14 +23,14 @@ class UnitTableComponent extends Component
     public $data;
     public $heads;
     public $description;
-    // protected $listeners = ['refresh' => 'render'];
+   
     protected $queryString = ['description' => ['except' => '']];
+    protected $listeners = ['deleteUnit', 'refresh' => 'render'];
 
     private $requestFactory;
     private $useCaseFactory;
     private $findUnitsByCriteriaUseCase;
     private $deleteUnitUseCase;
-    protected $listeners = ['deleteUnit'=>'deleteUnit'];
 
     public function __construct()
     {
@@ -38,6 +38,7 @@ class UnitTableComponent extends Component
         $this->useCaseFactory = app(UseCaseFactory::class);
         $this->findUnitsByCriteriaUseCase = $this->useCaseFactory->make(self::FIND_UNITS_BY_CRITERIA_USE_CASE);
         $this->deleteUnitUseCase = $this->useCaseFactory->make(self::DELETE_UNIT_USE_CASE);
+
         $this->heads = [
             'ID',
             'Description',
@@ -55,7 +56,7 @@ class UnitTableComponent extends Component
 
     public function mount()
     {
-        $findUnitsByCriteriaRequest = $this->requestFactory->make(self::FIND_UNITS_BY_CRITERIA_REQUEST, ["description" => ""]);
+        $findUnitsByCriteriaRequest = $this->requestFactory->make(self::FIND_UNITS_BY_CRITERIA_REQUEST, ["description" => $this->description]);
         $this->findUnitsByCriteriaUseCase->execute($findUnitsByCriteriaRequest, function($response){
             if($response->errors) 
                 $this->data = [];
@@ -84,6 +85,10 @@ class UnitTableComponent extends Component
             $unitVm = new UnitVm;
             $unitVm->id = $unitDS->id;
             $unitVm->description = $unitDS->description;
+            $actionShow = '
+            <a href="'.route('unit.show',$unitDS->id).'" class="btn btn-xs text-teal mx-1" title="Show">
+                <i class="fa fa-lg fa-fw fa-eye"></i>
+            </a>';
             $actionEdit = '
             <a href="'.route('unit.edit',$unitDS->id).'" class="btn btn-xs text-primary mx-1" title="Edit">
                 <i class="fa fa-lg fa-fw fa-pen"></i>
@@ -92,10 +97,6 @@ class UnitTableComponent extends Component
             <button class="btn btn-xs text-danger mx-1" title="Delete"'."wire:click='confirmDeleteUnit($unitVm->id)'".' >
                 <i class="fa fa-lg fa-fw fa-trash"></i>
             </button>';
-            $actionShow = '
-            <a href="'.route('unit.show',$unitDS->id).'" class="btn btn-xs text-teal mx-1" title="Show">
-                <i class="fa fa-lg fa-fw fa-eye"></i>
-            </a>';
             $unitVm->buttons = $actionShow.$actionEdit.$actionDelete;
             array_push($unitsVm, $unitVm);
         }

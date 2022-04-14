@@ -19,12 +19,12 @@ class ConfirmationModalComponent extends Component
     }
 
     public function selectItem($unitId){
-        $this->unidId = $unitId;
+        $this->unitId = $unitId;
         $this->dispatchBrowserEvent('openConfirmationModal',['id'=>$unitId]);
     }
 
     public function confirm(){
-        $this->emitUp($this->action,$this->unidId);
+        $this->emitUp($this->action,$this->unitId);
     }
 
     public function actionCompleted(){

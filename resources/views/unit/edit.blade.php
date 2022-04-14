@@ -7,12 +7,7 @@
 @stop
 
 @section('content')
-@livewire('unit-form-edit-component', [
-    'unit' => [
-        'id' => $unitVm->id,
-        'description' => $unitVm->description
-    ]
-])
+@livewire('unit-form-edit-component', ['unitId' => $unitVm->id,'description' => $unitVm->description])
 
 <a href="{{route('unit.index')}}">
   <x-adminlte-button  theme="secondary" label="Back"/>

@@ -8,40 +8,44 @@ use App\Domains\Shared\Boundary\RequestFactory;
 
 class UnitFormEditComponent extends Component
 {
-    public $unit;
+    public $unitId;
     public $description;
-    public $updated;
+    public $success;
+    public $error;
 
-    public function mount($unit)
+    public function mount($unitId, $description)
     {
-        $this->unit = $unit;
-        $this->description = $unit['description'];
+        $this->unitId = $unitId;
+        $this->description = $description;
     }
-    
+
     public function render()
     {
         return view('livewire.unit-form-edit-component');
     }
 
-    public function update(){
+    public function update()
+    {
         $useCaseFactory = app(UseCaseFactory::class);
         $requestFactory = app(RequestFactory::class);
         $request = $requestFactory->make(
-            'App\Domains\Condo\Boundary\Input\EditUnitRequest', 
-            [ 'id'=>$this->unit['id'], 'description'=> $this->description]
+            'App\Domains\Condo\Boundary\Input\EditUnitRequest',
+            ['id' => $this->unitId, 'description' => $this->description]
         );
         $useCase = $useCaseFactory->make('App\Domains\Condo\UseCase\EditUnitUseCase');
-        $useCase->execute($request, function($response){
-            if(property_exists($response,'unitDS')){  
-                $this->resetValidation();
-                $this->emitTo('table-unit-component','refresh');
-                $this->updated = true;
-            } else{
-                $this->updated = false;
+        $useCase->execute($request, function ($response) {
+            if ($response->errors) {
+                $this->success = false;
+                $this->error = true;
                 $this->validate(
-                    ['description'=>'required|max:10'],
-                    ['required'=> $response->errors[0]['description'], 'max' => $response->errors[0]['description']]
+                    ['description' => 'required|max:10'],
+                    ['required' => $response->errors[0]['description'], 'max' => $response->errors[0]['description']]
                 );
+            } else {
+                $this->success = true;
+                $this->error = false;
+                $this->resetValidation();
+                $this->emitTo('table-unit-component', 'refresh');
             }
         });
     }

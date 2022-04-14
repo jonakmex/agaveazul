@@ -144,6 +144,6 @@ class UnitWebController extends Controller
         $unitVm = new UnitVm;
         $unitVm->id = $unitDS->id;
         $unitVm->description = $unitDS->description;
-        return  $unitVm;
+        return $unitVm;
     }    
 }
