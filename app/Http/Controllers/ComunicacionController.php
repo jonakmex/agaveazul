@@ -59,7 +59,7 @@ class ComunicacionController extends Controller
       });
       $morosos = DB::table('vivienda')
                 ->select('vivienda.id','vivienda.descripcion', DB::raw('count(recibos.id) as recs'),DB::raw('sum(recibos.importe) as total'))
-                ->havingRaw('count(recibos.id) > 5')
+                ->havingRaw('count(recibos.id) > 4')
                 ->join('recibos', 'recibos.vivienda_id', '=', 'vivienda.id')
                 ->join('reciboheader', 'reciboheader.id', '=', 'recibos.reciboheader_id')
                 ->join('cuotas', 'cuotas.id', '=', 'reciboheader.cuota_id')
@@ -68,6 +68,7 @@ class ComunicacionController extends Controller
                 ->where('recibos.fecLimite','<=',Carbon::today())
                 ->where('recibos.estado','!=',2)
                 ->groupBy('vivienda.id','vivienda.descripcion')
+                ->orderBy('total','DESC')
                 ->orderBy('vivienda.descripcion')
                 ->get();
       switch(Auth::user()->profile->descripcion){
