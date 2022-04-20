@@ -28,10 +28,13 @@ class CreateContactRequest extends Request
             array_push($errors,["name"=>"MSG_ERR_INVALID_CHRACTHER"]);
         
         if(!preg_match('^[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s]+$^', $this->lastName))
-            array_push($errors,["name"=>"MSG_ERR_INVALID_CHRACTHER"]);
+            array_push($errors,["lastName"=>"MSG_ERR_INVALID_CHRACTHER"]);
         
         if( $this->type != "PROPIETARIO" && $this->type != "ARRENDATARIO" && $this->type !="REP_LEGAL")
             array_push($errors,["type"=>"MSG_ERR_INVALID_TYPE"]);
+
+        if($this->unit_id < 0)
+            array_push($errors, ["unit_id"=>"MSG_ERR_MUST_BE_POSITIVE"]);
 
         return $errors;
     }

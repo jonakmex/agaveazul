@@ -25,42 +25,39 @@ class ContactWebController extends Controller
     {
         $useCaseFactory = app(UseCaseFactory::class);
         $this->requestFactory = app(RequestFactory::class);
-        $this->createContactUseCase = $useCaseFactory->make('App\Domains\Condo\UseCase\CreateContactUseCase');
-        $this->editContactUseCase = $useCaseFactory->make('App\Domains\Condo\UseCase\EditContactUseCase');
-        $this->findContactByIdUseCase = $useCaseFactory->make('App\Domains\Condo\UseCase\FindContactByIdUseCase');
-        $this->findContactsByCriteriaUseCase = $useCaseFactory->make('App\Domains\Condo\UseCase\FindContactsByCriteriaUseCase');
-        $this->deleteContactUseCase = $useCaseFactory->make('App\Domains\Condo\UseCase\deleteContactUseCase');
+        $this->createContactUseCase = $useCaseFactory->make(CREATE_CONTACT_USE_CASE);
+        $this->editContactUseCase = $useCaseFactory->make(EDIT_CONTACT_USE_CASE);
+        $this->findContactByIdUseCase = $useCaseFactory->make(FIND_CONTACT_BY_ID_USE_CASE);
+        $this->findContactsByCriteriaUseCase = $useCaseFactory->make(FIND_CONTACTS_BY_CRITERIA_USE_CASE);
+        $this->deleteContactUseCase = $useCaseFactory->make(DELETE_CONTACT_USE_CASE);
     }
 
     public function index(Request $request)
     {
-        $this->returnView = view('contact.failure');
-        $findContactsByCriteriaRequest =  $this->requestFactory->make(
-            "App\Domains\Condo\Boundary\Input\FindContactsByCriteriaRequest", [
-            "name" => $request->name, 
-            "lastName" => $request->lastName, 
-            "unit_id"=>$request->unit_id, 
-            "type"=>$request->type
-        ]);
-        $this->findContactsByCriteriaUseCase->execute($findContactsByCriteriaRequest, function($response) use ($request){
-            if($response->errors) 
-                $this->returnView = view('contact.failure')->with("error", $response->errors[0]["name"]);
-            else
-                $this->returnView = view('contact.index',
-                [
-                    "contactIndexVm"=>ContactWebController::makeContactIndexVm(
-                        $response->contactsDS, $request->unit_id)
-                ]); 
-        });
-        return $this->returnView;
+        // $this->returnView = view('contact.failure');
+        // $findContactsByCriteriaRequest =  $this->requestFactory->make(
+        //     "App\Domains\Condo\Boundary\Input\FindContactsByCriteriaRequest", [
+        //     "name" => $request->name, 
+        //     "lastName" => $request->lastName, 
+        //     "unit_id"=>$request->unit_id, 
+        //     "type"=>$request->type
+        // ]);
+        // $this->findContactsByCriteriaUseCase->execute($findContactsByCriteriaRequest, function($response) use ($request){
+        //     if($response->errors) 
+        //         $this->returnView = view('contact.failure')->with("error", $response->errors[0]["name"]);
+        //     else
+        //         $this->returnView = view('contact.index',
+        //         [
+        //             "contactIndexVm"=>ContactWebController::makeContactIndexVm(
+        //                 $response->contactsDS, $request->unit_id)
+        //         ]); 
+        // });
+        return $this->returnView = view('contact.index', ['unit_id' => $request->unit_id]);
     }
 
     public function create(Request $request)
     {
-        return view('contact.create',
-        [
-            "contactCreateVm"=>ContactWebController::makeContactCreateVm($request->unit_id)
-        ]
+        return view('contact.create', ['unit_id' => $request->unit_id]
        );
     }
 
@@ -68,7 +65,7 @@ class ContactWebController extends Controller
     {
         $this->returnView = view('contact.failure');
         $createContactRequest = $this->requestFactory->make( 
-            "App\Domains\Condo\Boundary\Input\CreateContactRequest",[
+            CREATE_CONTACT_REQUEST,[
             "name"=>$request->name, 
             "lastName"=>$request->lastName, 
             "type"=>$request->type,
@@ -86,7 +83,7 @@ class ContactWebController extends Controller
     {
         $this->returnView = view('unit.failure');
         $findContactByIdRequest = $this->requestFactory->make( 
-            "App\Domains\Condo\Boundary\Input\FindAssetByIdRequest", 
+            FIND_CONTACT_BY_ID_REQUEST, 
             ["id"=>$id] );
         $this->findContactByIdUseCase->execute($findContactByIdRequest,function($response) {
             if($response->errors) 
@@ -104,7 +101,7 @@ class ContactWebController extends Controller
     {
         $this->returnView = view('contact.failure');
         $findContactByIdRequest = $this->requestFactory->make( 
-            "App\Domains\Condo\Boundary\Input\FindContactByIdRequest",[
+            FIND_CONTACT_BY_ID_REQUEST,[
             "id"=>$id]); 
         $this->findContactByIdUseCase->execute($findContactByIdRequest,function($response){
             if($response->errors) 
@@ -120,7 +117,7 @@ class ContactWebController extends Controller
 
     public function update(Request $request, $id)
     {
-        $editContactRequest = $this->requestFactory->make( "App\Domains\Condo\Boundary\Input\EditContactRequest",[
+        $editContactRequest = $this->requestFactory->make(EDIT_CONTACT_REQUEST,[
             "name"=>$request->name, 
             "lastName"=>$request->lastName, 
             "type"=>$request->type, 
@@ -139,71 +136,71 @@ class ContactWebController extends Controller
 
     public function destroy($id)
     {
-       $deleteContactRequest = $this->requestFactory->make(
-           "App\Domains\Condo\Boundary\Input\DeleteContactRequest",[
-               "id"=> $id]);
+    //    $deleteContactRequest = $this->requestFactory->make(
+    //        "App\Domains\Condo\Boundary\Input\DeleteContactRequest",[
+    //            "id"=> $id]);
         
-        $this->deleteContactUseCase->execute($deleteContactRequest,function($response){
-            if($response->errors) 
-                $this->returnView = view('contact.failure')->with("error", $response->errors[0]["id"]);
-            else 
-                $this->returnView = redirect()->route('contact.index', ["unit_id"=>$response->contactDS->unit_id])->with('success','contact succesfully removed');
-        });
-        return $this->returnView;
+    //     $this->deleteContactUseCase->execute($deleteContactRequest,function($response){
+    //         if($response->errors) 
+    //             $this->returnView = view('contact.failure')->with("error", $response->errors[0]["id"]);
+    //         else 
+    //             $this->returnView = redirect()->route('contact.index', ["unit_id"=>$response->contactDS->unit_id])->with('success','contact succesfully removed');
+    //     });
+    //     return $this->returnView;
     }
 
     public static function makeContactIndexVm($contactsDS, $unit_id){
-        $contactIndexVm = new ContactIndexVm;
-        $contactIndexVm->unit_id = $unit_id;
-        $contactsVm = [];
+        // $contactIndexVm = new ContactIndexVm;
+        // $contactIndexVm->unit_id = $unit_id;
+        // $contactsVm = [];
 
-        foreach($contactsDS as $contactDS){
-            $contactVm = new ContactVm;
-            $contactVm->id = $contactDS->id;
-            $contactVm->name = $contactDS->name;
-            $contactVm->lastName = $contactDS->lastName;
-            switch($contactDS->type){
-                case "PROPIETARIO":
-                    $contactVm->type = 'Propietario';
-                    break;
-                case "ARRENDATARIO":
-                    $contactVm->type = 'Arrendatario';
-                    break;
-                case "REP_LEGAL":
-                    $contactVm->type = 'Representante legal';
-                    break;
-            }
-            $contactVm->buttons = '
-            <a href="'.route('contact.show', $contactVm->id).'" class="btn btn-xs text-teal mx-1" title="Show">
-                <i class="fa fa-lg fa-fw fa-eye"></i>
-            </a>
-            <a href="'.route('contact.edit', $contactVm->id).'" class="btn btn-xs text-primary mx-1" title="Edit">
-                <i class="fa fa-lg fa-fw fa-pen"></i>
-            </a>
-            <form action="'.route('contact.destroy', $contactVm->id).'" method="POST" class="d-inline">
-               '.csrf_field().method_field('DELETE').'
-                <button type="submit" class="btn btn-xs text-danger mx-1" title="Delete">
-                    <i class="fa fa-lg fa-fw fa-trash"></i>
-                </button>
-            </form>';
+        // foreach($contactsDS as $contactDS){
+        //     $contactVm = new ContactVm;
+        //     $contactVm->id = $contactDS->id;
+        //     $contactVm->name = $contactDS->name;
+        //     $contactVm->lastName = $contactDS->lastName;
+        //     switch($contactDS->type){
+        //         case "PROPIETARIO":
+        //             $contactVm->type = 'Propietario';
+        //             break;
+        //         case "ARRENDATARIO":
+        //             $contactVm->type = 'Arrendatario';
+        //             break;
+        //         case "REP_LEGAL":
+        //             $contactVm->type = 'Representante legal';
+        //             break;
+        //     }
+        //     $contactVm->buttons = '
+        //     <a href="'.route('contact.show', $contactVm->id).'" class="btn btn-xs text-teal mx-1" title="Show">
+        //         <i class="fa fa-lg fa-fw fa-eye"></i>
+        //     </a>
+        //     <a href="'.route('contact.edit', $contactVm->id).'" class="btn btn-xs text-primary mx-1" title="Edit">
+        //         <i class="fa fa-lg fa-fw fa-pen"></i>
+        //     </a>
+        //     <form action="'.route('contact.destroy', $contactVm->id).'" method="POST" class="d-inline">
+        //        '.csrf_field().method_field('DELETE').'
+        //         <button type="submit" class="btn btn-xs text-danger mx-1" title="Delete">
+        //             <i class="fa fa-lg fa-fw fa-trash"></i>
+        //         </button>
+        //     </form>';
             
-            array_push($contactsVm, $contactVm);
-        }
+        //     array_push($contactsVm, $contactVm);
+        // }
 
-        $contactIndexVm->contactsVm = $contactsVm;
-        return  $contactIndexVm;
+        // $contactIndexVm->contactsVm = $contactsVm;
+        // return  $contactIndexVm;
     }
 
     public static function makeContactCreateVm($unit_id){
-        $ContactCreateVm = new ContactCreateVm;
-        $ContactCreateVm->unit_id = $unit_id;
-        $ContactCreateVm->types = [
-            ['key'=>"PROPIETARIO", 'label'=>'Propietario'],
-            ['key'=>"ARRENDATARIO", 'label'=>'Arrendatario'],
-            ['key'=>'REP_LEGAL', 'label'=>'Representante Legal']
-        ];
+        // $ContactCreateVm = new ContactCreateVm;
+        // $ContactCreateVm->unit_id = $unit_id;
+        // $ContactCreateVm->types = [
+        //     ['key'=>"PROPIETARIO", 'label'=>'Propietario'],
+        //     ['key'=>"ARRENDATARIO", 'label'=>'Arrendatario'],
+        //     ['key'=>'REP_LEGAL', 'label'=>'Representante Legal']
+        // ];
 
-        return $ContactCreateVm;
+        // return $ContactCreateVm;
     }
 
     public static function makeContactShowVm($contactDS){
@@ -233,25 +230,25 @@ class ContactWebController extends Controller
         $contactEditVm->unit_id = $contactDS->unit_id;
         $contactEditVm->name = $contactDS->name;
         $contactEditVm->lastName = $contactDS->lastName;
-        $contactEditVm->type['key'] = $contactDS->type;
+        $contactEditVm->typeKey = $contactDS->type;
         switch($contactDS->type){
             case "PROPIETARIO":
-                $contactEditVm->type['value'] = 'Propietario';
+                $contactEditVm->type = 'Propietario';
                 break;
-            case "ARRENDATARIO":
-                $contactEditVm->type['value'] = 'Arrendatario';
+            case "PROPIETARIO":
+                $contactEditVm->type = 'Arrendatario';
                 break;
             case "REP_LEGAL":
-                $contactEditVm->type['value']= 'Representante legal';
+                $contactEditVm->type= 'Representante legal';
                 break;
-            default:  $contactEditVm->type['value'] = 'Desconocido';
+            default:  $contactEditVm->type = 'Desconocido';
         }
 
-        $contactEditVm->types = [
-            ['key'=>"PROPIETARIO", 'label'=>'Propietario'],
-            ['key'=>"ARRENDATARIO", 'label'=>'Arrendatario'],
-            ['key'=>"REP_LEGAL", 'label'=>'Representante legal']
-        ];
+        $contactEditVm->types ='
+        <option value="PROPIETARIO">Propietario</option>
+        <option value="PROPIETARIO">Arrendatario</option>
+        <option value="REP_LEGAL">Representante legal</option>
+        ';
         return  $contactEditVm;
     }
 

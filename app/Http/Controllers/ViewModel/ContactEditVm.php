@@ -8,5 +8,6 @@ class ContactEditVm {
     public $names;
     public $lastName;
     public $type;
+    public $typeKey;
     public $types;
 }

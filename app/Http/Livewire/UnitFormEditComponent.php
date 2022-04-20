@@ -37,8 +37,12 @@ class UnitFormEditComponent extends Component
             if ($response->errors) {
                 $this->success = false;
                 $this->error = true;
+                $messages = [];
+                foreach ($response->errors as $error){
+                    array_push($messages, $error);
+                }
                 $this->validate(
-                    ['description' => 'required|max:10'],
+                    ['description' => 'MSG_ERR_TOO_SHORT | MSG_ERR_TOO_LARGE'],
                     ['required' => $response->errors[0]['description'], 'max' => $response->errors[0]['description']]
                 );
             } else {

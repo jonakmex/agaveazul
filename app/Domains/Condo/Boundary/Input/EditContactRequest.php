@@ -32,7 +32,7 @@ class EditContactRequest extends Request
             array_push($errors,["name"=>"MSG_ERR_INVALID_CHRACTHER"]);
 
         if($this->lastName != null && !preg_match('^[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s]+$^', $this->lastName))
-            array_push($errors,["name"=>"MSG_ERR_INVALID_CHRACTHER"]);
+            array_push($errors,["lastName"=>"MSG_ERR_INVALID_CHRACTHER"]);
 
         if($this->type != null && $this->type != "PROPIETARIO" && $this->type != "ARRENDATARIO" && $this->type !="REP_LEGAL")
             array_push($errors,["type"=>"MSG_ERR_INVALID_TYPE"]);
