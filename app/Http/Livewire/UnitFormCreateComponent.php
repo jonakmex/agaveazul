@@ -33,7 +33,7 @@ class UnitFormCreateComponent extends Component
             else{
                 foreach($response->errors as $error){
                     foreach($error as $field => $message){
-                        $this->addError($field, $message);
+                        $this->addError($field, __("messages.$message"));
                     }
                 }
             }
