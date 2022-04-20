@@ -5,7 +5,7 @@
         <x-adminlte-input name="description" placeholder="Description" wire:model="description" class="{{$errors->first('description') ? 'border-danger' : ''}}"/>
         
         <x-slot name="footerSlot">
-            <x-adminlte-button class="d-flex ml-auto" theme="primary" label="Create" wire:click="store" />
+            <x-adminlte-button class="d-flex ml-auto" theme="primary" label="Create" wire:click="save" />
         </x-slot>
 
     </x-adminlte-card>
