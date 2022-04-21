@@ -7,11 +7,6 @@ use App\Domains\Shared\Boundary\RequestFactory;
 use App\Domains\Shared\UseCase\UseCaseFactory;
 use App\Http\Controllers\ViewModel\UnitVm;
 
-define("FIND_UNITS_BY_CRITERIA_USE_CASE","App\Domains\Condo\UseCase\FindUnitsByCriteriaUseCase");
-define("FIND_UNITS_BY_CRITERIA_REQUEST","App\Domains\Condo\Boundary\Input\FindUnitsByCriteriaRequest");
-
-define("DELETE_UNIT_USE_CASE","App\Domains\Condo\UseCase\DeleteUnitUseCase");
-define("DELETE_UNIT_REQUEST","App\Domains\Condo\Boundary\Input\DeleteUnitRequest");
 
 class TestComponent extends Component
 {

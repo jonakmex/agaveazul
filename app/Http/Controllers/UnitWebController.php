@@ -24,7 +24,7 @@ class UnitWebController extends Controller
         $this->requestFactory = app(RequestFactory::class);
     //     $this->createUnitUseCase = $useCaseFactory->make('App\Domains\Condo\UseCase\CreateUnitUseCase');
     //     $this->editUnitUseCase = $useCaseFactory->make('App\Domains\Condo\UseCase\EditUnitUseCase');
-        $this->findUnitByIdUseCase = $useCaseFactory->make('App\Domains\Condo\UseCase\FindUnitByIdUseCase');
+        $this->findUnitByIdUseCase = $useCaseFactory->make(FIND_UNIT_BY_ID_USE_CASE);
     //     $this->findUnitsByCriteriaUseCase = $useCaseFactory->make('App\Domains\Condo\UseCase\FindUnitsByCriteriaUseCase');
     //     $this->deleteUnitUseCase = $useCaseFactory->make('App\Domains\Condo\UseCase\DeleteUnitUseCase');
     }
@@ -66,12 +66,10 @@ class UnitWebController extends Controller
     public function show($id)
     {
         $this->returnView = view('unit.failure');
-        $findUnitByIdRequest = $this->requestFactory->make("App\Domains\Condo\Boundary\Input\FindUnitByIdRequest", ["id"=>$id]);
+        $findUnitByIdRequest = $this->requestFactory->make(FIND_UNIT_BY_ID_REQUEST, ["id"=>$id]);
         
         $this->findUnitByIdUseCase->execute($findUnitByIdRequest,function($response){
-            if($response->errors) 
-                $this->returnView = view('unit.failure')->with("error", $response->errors[0]["id"]);
-            else 
+            if(!$response->errors)  
                 $this->returnView = view('unit.show',["unitVm"=> UnitWebController::makeUnitVm($response->unitDS)]);
         });
 
@@ -82,12 +80,10 @@ class UnitWebController extends Controller
     public function edit($id)
     {
         $this->returnView = view('unit.failure');
-        $findUnitByIdRequest = $this->requestFactory->make("App\Domains\Condo\Boundary\Input\FindUnitByIdRequest", ["id"=>$id]);
+        $findUnitByIdRequest = $this->requestFactory->make(FIND_UNIT_BY_ID_REQUEST, ["id"=>$id]);
         
         $this->findUnitByIdUseCase->execute($findUnitByIdRequest,function($response){
-            if($response->errors) 
-                $this->returnView = view('unit.failure')->with("error", $response->errors[0]["id"]);
-            else 
+            if(!$response->errors) 
                 $this->returnView = view('unit.edit',["unitVm"=> UnitWebController::makeUnitVm($response->unitDS)]);
         });
 

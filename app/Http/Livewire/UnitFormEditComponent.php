@@ -10,15 +10,7 @@ class UnitFormEditComponent extends Component
 {
     public $unitId;
     public $description;
-    public $success;
-    public $error;
-
-    public function mount($unitId, $description)
-    {
-        $this->unitId = $unitId;
-        $this->description = $description;
-    }
-
+    
     public function render()
     {
         return view('livewire.unit-form-edit-component');
@@ -26,30 +18,21 @@ class UnitFormEditComponent extends Component
 
     public function update()
     {
+        $this->resetErrorBag();
         $useCaseFactory = app(UseCaseFactory::class);
         $requestFactory = app(RequestFactory::class);
-        $request = $requestFactory->make(
-            'App\Domains\Condo\Boundary\Input\EditUnitRequest',
-            ['id' => $this->unitId, 'description' => $this->description]
-        );
-        $useCase = $useCaseFactory->make('App\Domains\Condo\UseCase\EditUnitUseCase');
-        $useCase->execute($request, function ($response) {
-            if ($response->errors) {
-                $this->success = false;
-                $this->error = true;
-                $messages = [];
-                foreach ($response->errors as $error){
-                    array_push($messages, $error);
+        $request = $requestFactory->make(EDIT_UNIT_REQUEST, ['id'=>$this->unitId, 'description'=>$this->description]);
+        $useCase = $useCaseFactory->make(EDIT_UNIT_USE_CASE);
+        $useCase->execute($request, function($response){
+            if(!$response->errors){
+                return redirect()->route('unit.index'); 
+            }
+            else{
+                foreach($response->errors as $error){
+                    foreach($error as $field => $message){
+                        $this->addError($field, __("messages.$message"));
+                    }
                 }
-                $this->validate(
-                    ['description' => 'MSG_ERR_TOO_SHORT | MSG_ERR_TOO_LARGE'],
-                    ['required' => $response->errors[0]['description'], 'max' => $response->errors[0]['description']]
-                );
-            } else {
-                $this->success = true;
-                $this->error = false;
-                $this->resetValidation();
-                $this->emitTo('table-unit-component', 'refresh');
             }
         });
     }

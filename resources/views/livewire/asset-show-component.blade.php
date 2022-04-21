@@ -9,18 +9,18 @@
                     <p><b>Type</b></p>
                 </div>
                 <div class="col">
-                    <p>{{$asset['id']}}</p>
-                    <p>{{$asset['unitId']}}</p>
-                    <p>{{$asset['description']}}</p>
-                    <p>{{$asset['type']}}</p>
+                    <p>{{$assetId}}</p>
+                    <p>{{$unitId}}</p>
+                    <p>{{$description}}</p>
+                    <p>{{$type}}</p>
                 </div>
             </div>
         </div>
         <div class="card-footer">
-            <a href="{{route('asset.index',['unitId'=>$asset['unitId']])}}">
+            <a href="{{route('asset.index',['unitId'=>$unitId])}}">
                 <x-adminlte-button label="Back"/>
             </a>
-            <a href="{{route('asset.edit',$asset['id'])}}" class="ml-2"> 
+            <a href="{{route('asset.edit',$assetId)}}" class="ml-2"> 
                 <x-adminlte-button label="Edit" theme="primary"/>
             </a>
         </div>

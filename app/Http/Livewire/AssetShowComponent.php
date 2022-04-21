@@ -6,7 +6,10 @@ use Livewire\Component;
 
 class AssetShowComponent extends Component
 {
-    public $asset;
+    public $assetId;
+    public $description;
+    public $type;
+    public $unitId;
 
     public function render()
     {

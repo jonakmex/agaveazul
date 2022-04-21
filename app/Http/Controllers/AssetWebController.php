@@ -27,7 +27,7 @@ class AssetWebController extends Controller
         $this->requestFactory = app(RequestFactory::class);
         // $this->createAssetUseCase = $useCaseFactory->make('App\Domains\Condo\UseCase\CreateAssetUseCase');
         // $this->editAssetUseCase = $useCaseFactory->make('App\Domains\Condo\UseCase\EditAssetUseCase');
-        $this->findAssetByIdUseCase = $useCaseFactory->make('App\Domains\Condo\UseCase\FindAssetByIdUseCase');
+        $this->findAssetByIdUseCase = $useCaseFactory->make(FIND_ASSET_BY_ID_USE_CASE);
         // $this->findAssetsByCriteriaUseCase = $useCaseFactory->make('App\Domains\Condo\UseCase\FindAssetsByCriteriaUseCase');
         // $this->deleteAssetUseCase = $useCaseFactory->make('App\Domains\Condo\UseCase\DeleteAssetUseCase');
     }
@@ -82,7 +82,7 @@ class AssetWebController extends Controller
 
     public function show($id){
         $this->returnView = view('asset.failure');
-        $findAssetByIdRequest = $this->requestFactory->make("App\Domains\Condo\Boundary\Input\FindAssetByIdRequest", ["id"=>$id]);
+        $findAssetByIdRequest = $this->requestFactory->make(FIND_ASSET_BY_ID_REQUEST, ["id"=>$id]);
         $this->findAssetByIdUseCase->execute($findAssetByIdRequest, function($response){
             $this->returnView = view('asset.show', ["assetShowVm"=> AssetWebController::makeAssetShowVm($response->assetDS)]);
         });
@@ -91,7 +91,7 @@ class AssetWebController extends Controller
 
     public function edit($id){
         $this->returnView = view('asset.failure');
-        $findAssetByIdRequest = $this->requestFactory->make("App\Domains\Condo\Boundary\Input\FindAssetByIdRequest", ["id"=>$id]);
+        $findAssetByIdRequest = $this->requestFactory->make(FIND_ASSET_BY_ID_REQUEST, ["id"=>$id]);
         $this->findAssetByIdUseCase->execute($findAssetByIdRequest, function($response){
             $this->returnView = view('asset.edit', ["assetEditVm"=>AssetWebController::makeAssetEditVm($response->assetDS)]);
         });
@@ -196,19 +196,7 @@ class AssetWebController extends Controller
         $assetEditVm->id = $assetDS->id;
         $assetEditVm->unitId = $assetDS->unitId;
         $assetEditVm->description = $assetDS->description;
-        $assetEditVm->typeKey = $assetDS->type;
-        switch($assetDS->type){
-            case "REF_BANCO":
-                $assetEditVm->type = 'Referencia Bancaria';
-                break;
-            case "AUTOMOVIL":
-                $assetEditVm->type = 'Automovil';
-                break;
-            case "TAG_ACCESO":
-                $assetEditVm->type = 'Tag de acceso';
-                break;
-            default: $assetEditVm->type = 'Desconocido';
-        }
+        $assetEditVm->type = $assetDS->type;
 
         $assetEditVm->types = '
             <option value="REF_BANCO">Referencia bancaria</option>

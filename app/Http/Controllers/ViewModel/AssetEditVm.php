@@ -7,6 +7,5 @@ class AssetEditVm {
     public $unitId;
     public $description;
     public $type;
-    public $typeKey;
     public $types;
 }

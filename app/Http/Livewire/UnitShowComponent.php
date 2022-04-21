@@ -6,7 +6,8 @@ use Livewire\Component;
 
 class UnitShowComponent extends Component
 {
-    public $unit;
+    public $unitId;
+    public $description;
 
     public function render()
     {

@@ -8,13 +8,10 @@
 
 @section('content')
 @livewire('asset-form-edit-component', [
-    'asset' => [
-        'id' => $assetEditVm->id, 
-        'unitId'=>$assetEditVm->unitId, 
-        'description' => $assetEditVm->description, 
-        'type' => $assetEditVm->type,
-        'typeKey' => $assetEditVm->typeKey
-        ],
+    'assetId' => $assetEditVm->id, 
+    'unitId'=>$assetEditVm->unitId, 
+    'description' => $assetEditVm->description, 
+    'type' => $assetEditVm->type,
     'types'=> $assetEditVm->types
 ])
 @stop

@@ -11,7 +11,6 @@ class UnitFormCreateComponent extends Component
     public $description;
 
     public function mount(){
-
     }
 
     public function render()
@@ -31,11 +30,7 @@ class UnitFormCreateComponent extends Component
                 return redirect()->route('unit.index'); 
             }
             else{
-                foreach($response->errors as $error){
-                    foreach($error as $field => $message){
-                        $this->addError($field, __("messages.$message"));
-                    }
-                }
+                catchErrors($response->errors,$this->getErrorBag());
             }
         });
     }

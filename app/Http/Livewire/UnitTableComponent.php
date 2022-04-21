@@ -7,18 +7,9 @@ use App\Domains\Shared\Boundary\RequestFactory;
 use App\Domains\Shared\UseCase\UseCaseFactory;
 use App\Http\Controllers\ViewModel\UnitVm;
 
-// define("FIND_UNITS_BY_CRITERIA_USE_CASE","App\Domains\Condo\UseCase\FindUnitsByCriteriaUseCase");
-// define("FIND_UNITS_BY_CRITERIA_REQUEST","App\Domains\Condo\Boundary\Input\FindUnitsByCriteriaRequest");
-// define("DELETE_UNIT_USE_CASE","App\Domains\Condo\UseCase\DeleteUnitUseCase");
-// define("DELETE_UNIT_REQUEST","App\Domains\Condo\Boundary\Input\DeleteUnitRequest");
 
 class UnitTableComponent extends Component
 {
-    const FIND_UNITS_BY_CRITERIA_USE_CASE = "App\Domains\Condo\UseCase\FindUnitsByCriteriaUseCase";
-    const DELETE_UNIT_USE_CASE = "App\Domains\Condo\UseCase\DeleteUnitUseCase";
-    const DELETE_UNIT_REQUEST = "App\Domains\Condo\Boundary\Input\DeleteUnitRequest";
-    const FIND_UNITS_BY_CRITERIA_REQUEST = "App\Domains\Condo\Boundary\Input\FindUnitsByCriteriaRequest";
-
     public $config;
     public $data;
     public $heads;
@@ -36,8 +27,8 @@ class UnitTableComponent extends Component
     {
         $this->requestFactory = app(RequestFactory::class);
         $this->useCaseFactory = app(UseCaseFactory::class);
-        $this->findUnitsByCriteriaUseCase = $this->useCaseFactory->make(self::FIND_UNITS_BY_CRITERIA_USE_CASE);
-        $this->deleteUnitUseCase = $this->useCaseFactory->make(self::DELETE_UNIT_USE_CASE);
+        $this->findUnitsByCriteriaUseCase = $this->useCaseFactory->make(FIND_UNITS_BY_CRITERIA_USE_CASE);
+        $this->deleteUnitUseCase = $this->useCaseFactory->make(DELETE_UNIT_USE_CASE);
 
         $this->heads = [
             'ID',
@@ -56,7 +47,7 @@ class UnitTableComponent extends Component
 
     public function mount()
     {
-        $findUnitsByCriteriaRequest = $this->requestFactory->make(self::FIND_UNITS_BY_CRITERIA_REQUEST, ["description" => $this->description]);
+        $findUnitsByCriteriaRequest = $this->requestFactory->make(FIND_UNITS_BY_CRITERIA_REQUEST, ["description" => $this->description]);
         $this->findUnitsByCriteriaUseCase->execute($findUnitsByCriteriaRequest, function($response){
             if($response->errors) 
                 $this->data = [];
@@ -67,7 +58,7 @@ class UnitTableComponent extends Component
 
     public function render()
     {
-        $findUnitsByCriteriaRequest = $this->requestFactory->make(self::FIND_UNITS_BY_CRITERIA_REQUEST, ["description" => $this->description]);
+        $findUnitsByCriteriaRequest = $this->requestFactory->make(FIND_UNITS_BY_CRITERIA_REQUEST, ["description" => $this->description]);
 
         $this->findUnitsByCriteriaUseCase->execute($findUnitsByCriteriaRequest, function($response){
             if($response->errors) 
@@ -109,7 +100,7 @@ class UnitTableComponent extends Component
     }
 
     public function deleteUnit($unitId){
-        $deleteUnitRequest = $this->requestFactory->make(self::DELETE_UNIT_REQUEST,['id'=>$unitId]);
+        $deleteUnitRequest = $this->requestFactory->make(DELETE_UNIT_REQUEST,['id'=>$unitId]);
         $this->deleteUnitUseCase->execute($deleteUnitRequest,function($response){
             $this->emit('actionCompleted');
         });

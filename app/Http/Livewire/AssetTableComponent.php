@@ -9,11 +9,6 @@ use Livewire\Component;
 
 class AssetTableComponent extends Component
 {
-    const FIND_ASSETS_BY_CRITERIA_USE_CASE = "App\Domains\Condo\UseCase\FindAssetsByCriteriaUseCase";
-    const DELETE_ASSET_USE_CASE = "App\Domains\Condo\UseCase\DeleteAssetUseCase";
-    const DELETE_ASSET_REQUEST = "App\Domains\Condo\Boundary\Input\DeleteAssetRequest";
-    const FIND_ASSETS_BY_CRITERIA_REQUEST = "App\Domains\Condo\Boundary\Input\FindAssetsByCriteriaRequest";
-
     public $config;
     public $data;
     public $heads;
@@ -37,8 +32,9 @@ class AssetTableComponent extends Component
     {
         $this->requestFactory = app(RequestFactory::class);
         $this->useCaseFactory = app(UseCaseFactory::class);
-        $this->findAssetsByCriteriaUseCase = $this->useCaseFactory->make(self::FIND_ASSETS_BY_CRITERIA_USE_CASE);
-        $this->deleteAssetUseCase = $this->useCaseFactory->make(self::DELETE_ASSET_USE_CASE);
+        $this->findAssetsByCriteriaUseCase = $this->useCaseFactory->make(FIND_ASSETS_BY_CRITERIA_USE_CASE);
+        $this->deleteAssetUseCase = $this->useCaseFactory->make(DELETE_ASSET_USE_CASE);
+
         $this->heads = [
             'ID',
             'Description',
@@ -57,36 +53,34 @@ class AssetTableComponent extends Component
 
     public function mount()
     {
-        $findAssetsByCriteriaRequest = $this->requestFactory->make(self::FIND_ASSETS_BY_CRITERIA_REQUEST, [
+        $findAssetsByCriteriaRequest = $this->requestFactory->make(FIND_ASSETS_BY_CRITERIA_REQUEST, [
             "description" => $this->description,
             'unitId' => $this->unitId,
             'type' => $this->type
         ]);
         $this->findAssetsByCriteriaUseCase->execute($findAssetsByCriteriaRequest, function ($response) {
-            if ($response->errors)
-                $this->data = [];
-            else
+            if (!$response->errors)
                 $this->data = AssetTableComponent::makeAssetVm($response->assetsDS);
         });
+
         $this->types = '
             <option value="REF_BANCO">Referencia bancaria</option>
             <option value="TAG_ACCESO">Tag de acceso</option>
             <option value="AUTOMOVIL">Automovil</option>
+            
         ';
     }
 
     public function render()
     {
-        $findAssetsByCriteriaRequest = $this->requestFactory->make(self::FIND_ASSETS_BY_CRITERIA_REQUEST, [
+        $findAssetsByCriteriaRequest = $this->requestFactory->make(FIND_ASSETS_BY_CRITERIA_REQUEST, [
             "description" => $this->description,
             'unitId' => $this->unitId,
             'type' => $this->type
         ]);
 
         $this->findAssetsByCriteriaUseCase->execute($findAssetsByCriteriaRequest, function ($response) {
-            if ($response->errors)
-                $this->data = [];
-            else
+            if (!$response->errors)
                 $this->data = AssetTableComponent::makeAssetVm($response->assetsDS);
         });
 
@@ -137,7 +131,7 @@ class AssetTableComponent extends Component
 
     public function deleteAsset($assetId)
     {
-        $deleteAssetRequest = $this->requestFactory->make(self::DELETE_ASSET_REQUEST, ['id' => $assetId]);
+        $deleteAssetRequest = $this->requestFactory->make(DELETE_ASSET_REQUEST, ['id' => $assetId]);
         $this->deleteAssetUseCase->execute($deleteAssetRequest, function ($response) {
             $this->emit('actionCompleted');
         });

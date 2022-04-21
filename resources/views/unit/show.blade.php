@@ -9,7 +9,7 @@
 @section('content')
 
 @livewire('unit-show-component',[
-    'unit' => ['id' => $unitVm->id, 'description' => $unitVm->description]
+    'unitId' => $unitVm->id, 'description' => $unitVm->description
 ])
 
 <a href="{{route('unit.index')}}">

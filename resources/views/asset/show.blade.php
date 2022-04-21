@@ -8,11 +8,9 @@
 
 @section('content')
     @livewire('asset-show-component', [
-        'asset' => [
-            'id' => $assetShowVm->id,
-            'unitId' => $assetShowVm->unitId,
-            'description' => $assetShowVm->description,
-            'type' => $assetShowVm->type,
-        ]
+        'assetId' => $assetShowVm->id,
+        'unitId' => $assetShowVm->unitId,
+        'description' => $assetShowVm->description,
+        'type' => $assetShowVm->type,
     ])
 @stop
