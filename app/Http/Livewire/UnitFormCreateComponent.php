@@ -26,12 +26,10 @@ class UnitFormCreateComponent extends Component
         $useCase = $useCaseFactory->make(CREATE_UNIT_USE_CASE);
         $useCase->execute($request, function($response){
 
-            if(!$response->errors){
+            if(!$response->errors)
                 return redirect()->route('unit.index'); 
-            }
-            else{
-                catchErrors($response->errors,$this->getErrorBag());
-            }
+            
+            catchErrors($response->errors,$this->getErrorBag());
         });
     }
 }
