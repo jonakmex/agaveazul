@@ -22,11 +22,18 @@ class FindUnitsByCriteriaUseCase implements UseCase{
         $errors = $request->validate();
         if(!empty($errors))
             return $callback(Response::makeFailResponse($errors));
-            
-        //si es espacio en blanco retornamos todos de lo contrario aplicamos un filtro
-        $units = $this->unitRepository->findUnitsByCriteria($request->description);
-
         
+        $paginate = null;
+        if($request->paginateDS != null)
+            $paginate = $this->makePaginate($request->paginate);
+
+        $order = null;
+        if($request->orderDS != null)
+            $order = $this->makeOrder($request->order);
+
+        //si es espacio en blanco retornamos todos de lo contrario aplicamos un filtro
+        $units = $this->unitRepository->findUnitsByCriteria($request->description,$paginate,$order);
+
 
         if($callback != null)
             return $callback($this->makeResponse($units));
@@ -47,5 +54,12 @@ class FindUnitsByCriteriaUseCase implements UseCase{
         }
 
         return $response;
+    }
+
+    private function makePaginate($paginateDS){
+        $paginate = new Paginate;
+        
+        return $paginate;
+
     }
 }

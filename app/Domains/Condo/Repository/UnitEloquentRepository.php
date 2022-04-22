@@ -2,6 +2,8 @@
 namespace App\Domains\Condo\Repository;
 use App\Domains\Condo\Entities\Unit;
 use App\Models\UnitEloquent;
+use App\Domains\Shared\Entities\Order;
+use App\Domains\Shared\Entities\Pagination;
 
 class UnitEloquentRepository implements UnitRepository {
 
@@ -27,8 +29,15 @@ class UnitEloquentRepository implements UnitRepository {
         return $unit;
     }
 
-    public function findUnitsByCriteria($description){
-        $unitsEloquent = UnitEloquent::where('description','like','%'.$description.'%')->get();
+    public function findUnitsByCriteria($description,Pagination $pagination = null, Order $order = null){
+        $query = UnitEloquent::where('description','like','%'.$description.'%');
+        if($pagination != null)
+            $query->paginate($pagination->getNumRecordsPerPage, ['*'], 'page',$pagination->getPageNumber);
+        
+        if($order != null)
+            $query->orderBy($order->orderBy,$order->orderDirection);
+
+        $unitsEloquent = $query->get();
         $units = [];
 
         foreach($unitsEloquent as $unitEloquent) {

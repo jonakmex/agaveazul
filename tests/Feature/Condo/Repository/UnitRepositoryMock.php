@@ -3,8 +3,10 @@
 namespace Tests\Feature\Condo\Repository;
 use App\Domains\Condo\Repository\UnitRepository;
 use App\Domains\Condo\Entities\Unit;
+use App\Domains\Shared\Entities\Order;
+use App\Domains\Shared\Entities\Pagination;
 
-class UnitRepositoryMock implements UnitRepository{
+class UnitRepositoryMock implements UnitRepository {
     public function save(Unit $unit){
         echo "Saving mock";
         $random_base64 = base64_encode(random_bytes(18));
@@ -32,7 +34,7 @@ class UnitRepositoryMock implements UnitRepository{
     }
 
   
-    public function findUnitsByCriteria($description){
+    public function findUnitsByCriteria($description, Pagination $pagination = null, Order $order = null){
         $all = [];
 
         if($description == "noexiste") return $all;
