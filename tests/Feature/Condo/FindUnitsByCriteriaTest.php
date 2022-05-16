@@ -12,6 +12,7 @@ class FindUnitsByCriteriaTest extends TestCase
 {
     private $useCaseFactory;
     private $requestFactory;
+     
 
     public function setUp() :void{
         parent::setUp();
@@ -26,7 +27,8 @@ class FindUnitsByCriteriaTest extends TestCase
     }
 
     public function test_should_list_all_units(){
-      $findUnitsByCriteriaRequest = $this->requestFactory->make("App\Domains\Condo\Boundary\Input\FindUnitsByCriteriaRequest",["description"=>"test"]);
+      $findUnitsByCriteriaRequest = $this->requestFactory->make("App\Domains\Condo\Boundary\Input\FindUnitsByCriteriaRequest",
+      ["description"=>"test" ]);
       $dependecies = ["unitRepository" => new UnitRepositoryMock];
       $useCaseFactory = new UseCaseFactoryMock;
       $useCase = $this->useCaseFactory->make("FindUnitsByCriteriaUseCase", $dependecies);

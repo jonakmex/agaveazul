@@ -6,6 +6,10 @@ use Livewire\Component;
 use App\Domains\Shared\Boundary\RequestFactory;
 use App\Domains\Shared\UseCase\UseCaseFactory;
 use App\Http\Controllers\ViewModel\UnitVm;
+use App\Domains\Shared\Boundary\DS\PaginationDS;
+use App\Domains\Shared\Boundary\DS\OrderDS;
+
+
 
 
 class UnitTableComponent extends Component
@@ -14,6 +18,13 @@ class UnitTableComponent extends Component
     public $data;
     public $heads;
     public $description;
+    public $numRecordsPerPage = 10;
+    public $pageNumber = 1; 
+    public $orderBy = "id";
+    public $orderDirection = "asc";
+    public $numberOfPages;
+   
+    
    
     protected $queryString = ['description' => ['except' => '']];
     protected $listeners = ['deleteUnit', 'refresh' => 'render'];
@@ -22,6 +33,9 @@ class UnitTableComponent extends Component
     private $useCaseFactory;
     private $findUnitsByCriteriaUseCase;
     private $deleteUnitUseCase;
+    private $paginateDS;
+    private $orderDS;
+   
 
     public function __construct()
     {
@@ -43,28 +57,51 @@ class UnitTableComponent extends Component
             'info'=> false,
             'searching' => false,
         ];
+
+        $this->paginateDS = new PaginationDS; 
+        $this->orderDS = new OrderDS; 
+       
     }
 
-    public function mount()
-    {
-        $findUnitsByCriteriaRequest = $this->requestFactory->make(FIND_UNITS_BY_CRITERIA_REQUEST, ["description" => $this->description]);
-        $this->findUnitsByCriteriaUseCase->execute($findUnitsByCriteriaRequest, function($response){
-            if($response->errors) 
-                $this->data = [];
-            else
-                $this->data = UnitTableComponent::makeUnitVm($response->unitsDS);
-        });
-    }
+    // public function mount()
+    // {
+        
+    //     $this->paginateDS->numRecordsPerPage = $this->numRecordsPerPage;
+    //     $this->paginateDS->pageNumber = $this->pageNumber;
+    //     $this->orderDS->orderBy = $this->orderBy;
+    //     $this->orderDS->orderDirection = $this->orderDirection;
+    //     $findUnitsByCriteriaRequest = $this->requestFactory->make(FIND_UNITS_BY_CRITERIA_REQUEST, [
+    //         "description" => $this->description,
+    //         "pagination" => $this->paginateDS,
+    //         "order" => $this->orderDS 
+    //          ]);
+    //     $this->findUnitsByCriteriaUseCase->execute($findUnitsByCriteriaRequest, function($response){
+    //         if($response->errors) 
+    //             $this->data = [];
+    //         else
+    //             $this->data = UnitTableComponent::makeUnitVm($response->unitsDS);
+               
+    //     });
+    // }
 
     public function render()
     {
-        $findUnitsByCriteriaRequest = $this->requestFactory->make(FIND_UNITS_BY_CRITERIA_REQUEST, ["description" => $this->description]);
+        $this->paginateDS->numRecordsPerPage = $this->numRecordsPerPage;
+        $this->paginateDS->pageNumber = $this->pageNumber;
+        $this->orderDS->orderBy = $this->orderBy;
+        $this->orderDS->orderDirection = $this->orderDirection;
+        $findUnitsByCriteriaRequest = $this->requestFactory->make(FIND_UNITS_BY_CRITERIA_REQUEST, [
+            "description" => $this->description,
+            "pagination" => $this->paginateDS,
+            "order" => $this->orderDS]);
 
         $this->findUnitsByCriteriaUseCase->execute($findUnitsByCriteriaRequest, function($response){
             if($response->errors) 
                 $this->data = [];
             else
                 $this->data = UnitTableComponent::makeUnitVm($response->unitsDS);
+                $this->numberOfPages = $response->numberOfPages;  
+                
         });  
 
         return view('livewire.unit-table-component');
@@ -105,4 +142,11 @@ class UnitTableComponent extends Component
             $this->emit('actionCompleted');
         });
     }
+
+    public function setPageNumber($pageNumber){
+        $this->pageNumber = $pageNumber;
+        $this->render();
+    }
+
+ 
 }

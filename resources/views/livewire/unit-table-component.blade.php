@@ -4,6 +4,21 @@
         wire:input="$refresh" 
         autocomplete="off"/>
     </div>
+    <div class="row">
+      <x-adminlte-select name="selBasic" wire:input="$refresh" wire:model="numRecordsPerPage">
+          <option value="">Num registros</option>
+          <option value= 3 >3</option>
+          <option value= 5 >5</option>   
+      </x-adminlte-select>
+      <x-adminlte-select name="selBasic" wire:input="$refresh" wire:model="pageNumber">
+          <option value= 1 >1 </option>  
+          <option value= 2 > 2</option>
+      </x-adminlte-select>
+      <x-adminlte-select name="selBasic" wire:input="$refresh" wire:model="orderDirection">
+          <option value= "asc" >Ascendente</option>  
+          <option value= "desc" >Descendente</option>
+      </x-adminlte-select>
+    </div>
     <div>
         <x-adminlte-datatable id="unit-table" class="elevation-1" :config="$config" :heads="$heads"
             head-theme="dark" striped bordered hoverable>
@@ -20,6 +35,9 @@
             @endforelse
         </x-adminlte-datatable>
     </div>
+   @for ($i = 1;$i<=$numberOfPages;$i++)
+       <button wire:click="setPageNumber({{$i}})"> {{$i}}</button>
+   @endfor
      @livewire('confirmation-modal-component',['modalId'=>'deleteUnitConfirmationModal','action'=>'deleteUnit'])
     <br><br>
 </div>

@@ -8,8 +8,8 @@ use App\Domains\Shared\Boundary\DS\OrderDS;
 class FindUnitsByCriteriaRequest extends Request {
   public $description;
 
-  public PaginationDS $pagination;
-  public OrderDS $order;
+  public  ?PaginationDS $pagination = null;
+  public ?OrderDS $order = null;
 
   public function validate(){
     $errors = [];

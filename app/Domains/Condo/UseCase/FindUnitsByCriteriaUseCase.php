@@ -9,6 +9,8 @@ use App\Domains\Shared\Boundary\Response;
 use App\Domains\Condo\Repository\UnitRepository;
 use App\Domains\Condo\Boundary\Output\FindUnitsByCriteriaResponse;
 use App\Domains\Condo\Boundary\DataStructure\UnitDS;
+use App\Domains\Shared\Entities\Pagination;
+use App\Domains\Shared\Entities\Order;
 
 class FindUnitsByCriteriaUseCase implements UseCase{
 
@@ -24,25 +26,26 @@ class FindUnitsByCriteriaUseCase implements UseCase{
             return $callback(Response::makeFailResponse($errors));
         
         $paginate = null;
-        if($request->paginateDS != null)
-            $paginate = $this->makePaginate($request->paginate);
+        if($request->pagination != null)
+            $paginate = $this->makePaginate($request->pagination);
 
         $order = null;
-        if($request->orderDS != null)
+        if($request->order != null)
             $order = $this->makeOrder($request->order);
 
         //si es espacio en blanco retornamos todos de lo contrario aplicamos un filtro
-        $units = $this->unitRepository->findUnitsByCriteria($request->description,$paginate,$order);
+        $units = $this->unitRepository->findUnitsByCriteria($request->description, $paginate, $order);
+       
 
 
         if($callback != null)
-            return $callback($this->makeResponse($units));
+            return $callback($this->makeResponse($units, $paginate));
     }
 
     /**
      * @param $units Unit[]
      */
-    private function makeResponse($units){
+    private function makeResponse($units, Pagination $paginate = null){
         $response = new FindUnitsByCriteriaResponse;
         $response->unitsDS = [];
 
@@ -52,14 +55,29 @@ class FindUnitsByCriteriaUseCase implements UseCase{
             $unitDS->description = $unit->getDescription();
             array_push($response->unitsDS,$unitDS);
         }
+        if($paginate != null){
+            $totalRecords = $this->unitRepository->getPages();
+            $numRecordsPerPage = $paginate->getNumRecordsPerPage();
+            $response->numberOfPages = ceil($totalRecords/$numRecordsPerPage);
+        }
 
         return $response;
     }
 
     private function makePaginate($paginateDS){
-        $paginate = new Paginate;
+        $paginate = new Pagination;
+        $paginate->setNumRecordsPerPage($paginateDS->numRecordsPerPage);
+        $paginate->setPageNumber($paginateDS->pageNumber);
         
         return $paginate;
+
+    }
+    private function makeOrder($orderDS){
+        $order = new Order;
+        $order->setOrderBy($orderDS->orderBy);
+        $order->setOrderDirection($orderDS->orderDirection);
+
+        return $order;
 
     }
 }

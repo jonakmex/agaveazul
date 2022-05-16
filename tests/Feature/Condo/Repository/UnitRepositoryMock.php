@@ -57,4 +57,8 @@ class UnitRepositoryMock implements UnitRepository {
 
         return $unitMock;
     }
+
+    public function getPages(){
+        
+    }
 }

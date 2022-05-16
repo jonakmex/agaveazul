@@ -6,7 +6,7 @@ class Pagination {
     public $pageNumber;
 
     public function getNumRecordsPerPage(){
-        return $this->orderBy;
+        return $this->numRecordsPerPage;
     }
     public function setNumRecordsPerPage($numRecordsPerPage){
         $this->numRecordsPerPage = $numRecordsPerPage;

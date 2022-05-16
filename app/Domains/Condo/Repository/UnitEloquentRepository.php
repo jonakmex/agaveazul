@@ -29,13 +29,14 @@ class UnitEloquentRepository implements UnitRepository {
         return $unit;
     }
 
-    public function findUnitsByCriteria($description,Pagination $pagination = null, Order $order = null){
+    public function findUnitsByCriteria($description,Pagination $paginate = null, Order $order = null){
         $query = UnitEloquent::where('description','like','%'.$description.'%');
-        if($pagination != null)
-            $query->paginate($pagination->getNumRecordsPerPage, ['*'], 'page',$pagination->getPageNumber);
+        if($paginate != null)
+            $query->paginate($paginate->getNumRecordsPerPage(), ['*'], 'page',$paginate->getPageNumber());
         
         if($order != null)
-            $query->orderBy($order->orderBy,$order->orderDirection);
+            $query->orderBy($order->getOrderBy(),$order->getOrderDirection());
+
 
         $unitsEloquent = $query->get();
         $units = [];
@@ -46,6 +47,7 @@ class UnitEloquentRepository implements UnitRepository {
             $unit->setDescription($unitEloquent->description);
             array_push($units, $unit);
         }
+
 
         return $units;
     }
@@ -59,5 +61,10 @@ class UnitEloquentRepository implements UnitRepository {
         $unitEloquent->delete();
 
         return $unit;
+    }
+
+    public function getPages(){
+        $totalRecords = UnitEloquent::all()->count();
+        return $totalRecords;
     }
 }
