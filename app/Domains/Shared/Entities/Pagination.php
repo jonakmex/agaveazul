@@ -1,21 +1,35 @@
 <?php
+
 namespace App\Domains\Shared\Entities;
 
-class Pagination {
-    public $numRecordsPerPage;
+class Pagination
+{
+    public $perPage;
     public $pageNumber;
 
-    public function getNumRecordsPerPage(){
-        return $this->numRecordsPerPage;
+    public function __construct($perPage, $pageNumber)
+    {
+        $this->perPage = $perPage;
+        $this->pageNumber = $pageNumber;
     }
-    public function setNumRecordsPerPage($numRecordsPerPage){
-        $this->numRecordsPerPage = $numRecordsPerPage;
+
+    public function getPerPage()
+    {
+        return $this->perPage;
     }
-    
-    public function getPageNumber(){
-        return $this->getPageNumber;
+
+    public function setPerPage($perPage)
+    {
+        $this->perPage = $perPage;
     }
-    public function setPageNumber($getPageNumber){
-        $this->getPageNumber = $getPageNumber;
+
+    public function getPageNumber()
+    {
+        return $this->pageNumber;
+    }
+
+    public function setPageNumber($pageNumber)
+    {
+        $this->pageNumber = $pageNumber;
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Domains\Condo\UseCase;
 
-
 use App\Domains\Shared\UseCase\UseCase;
 use App\Domains\Shared\Boundary\Request;
 use App\Domains\Shared\Boundary\Response;
@@ -12,72 +11,63 @@ use App\Domains\Condo\Boundary\DataStructure\UnitDS;
 use App\Domains\Shared\Entities\Pagination;
 use App\Domains\Shared\Entities\Order;
 
-class FindUnitsByCriteriaUseCase implements UseCase{
-
+class FindUnitsByCriteriaUseCase implements UseCase
+{
     private UnitRepository $unitRepository;
 
-    public function __construct(UnitRepository $unitRepository){
+    public function __construct(UnitRepository $unitRepository)
+    {
         $this->unitRepository = $unitRepository;
     }
 
-    public function execute(Request $request,$callback){
+    public function execute(Request $request, $callback)
+    {
         $errors = $request->validate();
-        if(!empty($errors))
+        if (!empty($errors))
             return $callback(Response::makeFailResponse($errors));
-        
-        $paginate = null;
-        if($request->pagination != null)
-            $paginate = $this->makePaginate($request->pagination);
+
+        $pagination = null;
+        if($request->pagination !== null)
+            $pagination = $this->makePagination($request->pagination);
 
         $order = null;
-        if($request->order != null)
+        if($request->order !== null)
             $order = $this->makeOrder($request->order);
 
-        //si es espacio en blanco retornamos todos de lo contrario aplicamos un filtro
-        $units = $this->unitRepository->findUnitsByCriteria($request->description, $paginate, $order);
-       
+        $units = $this->unitRepository->findByCriteria($request->description, $pagination, $order);
 
-
-        if($callback != null)
-            return $callback($this->makeResponse($units, $paginate));
+        if ($callback != null)
+            return $callback($this->makeResponse($units, $pagination));
     }
 
-    /**
-     * @param $units Unit[]
-     */
-    private function makeResponse($units, Pagination $paginate = null){
+    private function makeResponse($units, Pagination $pagination = null)
+    {
         $response = new FindUnitsByCriteriaResponse;
-        $response->unitsDS = [];
 
-        foreach($units as $unit) {
-            $unitDS = new UnitDS;
+        $response->unitsDS = array_map(function($unit){
+            $unitDS = new UnitDS();
             $unitDS->id = $unit->getId();
             $unitDS->description = $unit->getDescription();
-            array_push($response->unitsDS,$unitDS);
-        }
-        if($paginate != null){
-            $totalRecords = $this->unitRepository->getPages();
-            $numRecordsPerPage = $paginate->getNumRecordsPerPage();
-            $response->numberOfPages = ceil($totalRecords/$numRecordsPerPage);
+            return $unitDS;
+        },$units);
+
+        if ($pagination !== null) {
+            $response->totalUnits = $this->unitRepository->count();
+            $response->totalPages = (int) ceil($response->totalUnits / $pagination->getPerPage());
+            $response->nextPage = ($pagination->getPageNumber() + 1 <= $response->totalPages) ? $pagination->getPageNumber() + 1 : null;
+            $response->prevPage = ($pagination->getPageNumber() == 0) ? null : $pagination->getPageNumber() - 1;
         }
 
         return $response;
     }
 
-    private function makePaginate($paginateDS){
-        $paginate = new Pagination;
-        $paginate->setNumRecordsPerPage($paginateDS->numRecordsPerPage);
-        $paginate->setPageNumber($paginateDS->pageNumber);
-        
-        return $paginate;
-
+    private function makePagination($paginationDS): Pagination
+    {
+        return new Pagination($paginationDS->perPage, $paginationDS->pageNumber);
     }
-    private function makeOrder($orderDS){
-        $order = new Order;
-        $order->setOrderBy($orderDS->orderBy);
-        $order->setOrderDirection($orderDS->orderDirection);
 
-        return $order;
-
+    private function makeOrder($orderDS): Order
+    {
+        return new Order($orderDS->orderBy, $orderDS->orderDirection);
     }
 }

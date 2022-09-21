@@ -1,21 +1,35 @@
 <?php
+
 namespace App\Domains\Shared\Entities;
 
-class Order {
+class Order
+{
     private $orderBy;
     private $orderDirection;
 
-    public function getOrderBy(){
+    public function __construct($orderBy, $orderDirection)
+    {
+        $this->orderBy = $orderBy;
+        $this->orderDirection = $orderDirection;
+    }
+
+    public function getOrderBy()
+    {
         return $this->orderBy;
     }
-    public function setOrderBy($orderBy){
+
+    public function setOrderBy($orderBy)
+    {
         $this->orderBy = $orderBy;
     }
-    
-    public function getOrderDirection(){
+
+    public function getOrderDirection()
+    {
         return $this->orderDirection;
     }
-    public function setOrderDirection($orderDirection){
+
+    public function setOrderDirection($orderDirection)
+    {
         $this->orderDirection = $orderDirection;
     }
 }

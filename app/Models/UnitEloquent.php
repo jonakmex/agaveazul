@@ -7,14 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class UnitEloquent extends Model
 {
-    protected $table = "unit";
     use HasFactory;
+    protected $table = "unit";
 
     public function assets(){
-        return $this->hasMany('App\Models\AssetEloquent');
+        return $this->hasMany(AssetEloquent::class);
     }
 
-    public function ContactEloquent()
+    public function contacts()
     {
         return $this->hasMany(ContactEloquent::class);
     }

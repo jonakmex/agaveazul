@@ -8,7 +8,7 @@ interface UnitRepository {
     public function save(Unit $unit);
     public function update(Unit $unit);
     public function findById($id);
-    public function findUnitsByCriteria($description, Pagination $pagination = null, Order $order = null);
+    public function findByCriteria($description, ?Pagination $pagination = null, ?Order $order = null);
     public function delete($id);
-    public function getPages();
+    public function count(): int;
 }

@@ -5,6 +5,9 @@ use App\Domains\Shared\Boundary\Response;
 use App\Domains\Condo\Boundary\DataStructure\UnitDS;
 
 class FindUnitsByCriteriaResponse extends Response {
-    public $unitsDS; // array de UnitDS
-    public $numberOfPages; 
+    public $unitsDS;
+    public $totalUnits;
+    public $totalPages;
+    public $nextPage;
+    public $prevPage;
 }
