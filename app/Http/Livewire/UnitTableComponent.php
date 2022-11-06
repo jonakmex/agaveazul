@@ -2,18 +2,18 @@
 
 namespace App\Http\Livewire;
 
-use App\Domains\Condo\Boundary\Output\FindUnitsByCriteriaResponse;
-use Livewire\Component;
+use App\Domains\Shared\Boundary\DS\OrderDS;
+use App\Domains\Shared\Boundary\DS\PaginationDS;
 use App\Domains\Shared\Boundary\RequestFactory;
 use App\Domains\Shared\UseCase\UseCaseFactory;
 use App\Http\Controllers\ViewModel\UnitVm;
-use App\Domains\Shared\Boundary\DS\PaginationDS;
-use App\Domains\Shared\Boundary\DS\OrderDS;
+use Livewire\Component;
 use Livewire\WithPagination;
 
 class UnitTableComponent extends Component
 {
     use WithPagination;
+
     public $config;
     public $data;
     public $heads;

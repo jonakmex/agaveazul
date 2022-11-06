@@ -14,7 +14,6 @@ class UnitRepositoryMock implements UnitRepository
         echo "Saving mock";
         $random_base64 = base64_encode(random_bytes(18));
         $unit->setId(serialize($random_base64));
-        return $unit;
     }
 
     public function findById($id)
@@ -29,24 +28,21 @@ class UnitRepositoryMock implements UnitRepository
 
     public function update(Unit $unit)
     {
-        echo "updating unit";
-
         $unitUpdated = new Unit;
         $unitUpdated->setId($unit->getId());
         $unitUpdated->setDescription($unit->getDescription());
-
-        return $unit;
     }
 
 
-    public function findByCriteria($description, ?Pagination $pagination = null, ?Order $order = null)
+    public function findByCriteria($description, ?Pagination $pagination = null, ?Order $order = null): array
     {
         $all = [];
+        $numModels = 5;
 
         if ($description == "noexiste") return $all;
 
-        for ($i = 0; $i < 5; $i++) {
-            $unit = new Unit();
+        for ($i = 0; $i < $numModels; $i++) {
+            $unit = new Unit;
             $unit->setId($i);
             $unit->setDescription("test  " . $i);
             $all[] = $unit;
@@ -55,12 +51,11 @@ class UnitRepositoryMock implements UnitRepository
         return $all;
     }
 
-    public function delete($id)
+    public function delete($id): Unit
     {
         $unitMock = new Unit;
         $unitMock->setId($id);
         $unitMock->setDescription("test");
-        echo "removing unit";
 
         return $unitMock;
     }
